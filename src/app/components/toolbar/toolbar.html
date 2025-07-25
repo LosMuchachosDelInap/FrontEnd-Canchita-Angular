@@ -1,1 +1,15 @@
-<p>toolbar works!</p>
+<mat-toolbar color="primary">
+ <button mat-icon-button (click)="drawer.toggle()" aria-label="Abrir menú">
+  <mat-icon>menu</mat-icon>
+</button>
+  <span class="spacer"></span>
+  <button mat-icon-button [routerLink]="['/home']" aria-label="Ir a Home" class="toolbar-logo-btn">
+    <img src="assets/logo.png" alt="Logo" class="toolbar-logo" />
+  </button>
+  <span class="spacer"></span>
+  <button>ingresar</button>
+  <button>registrarse</button>
+</mat-toolbar>
+
+
+
