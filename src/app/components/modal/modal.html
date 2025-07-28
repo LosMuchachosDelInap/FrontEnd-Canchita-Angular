@@ -1,1 +1,7 @@
-<p>modal works!</p>
+<div>
+  <ng-container [ngSwitch]="formType()">
+    <app-sign-in *ngSwitchCase="'login'"></app-sign-in>
+    <app-sign-up *ngSwitchCase="'register'"></app-sign-up>
+  </ng-container>
+</div>
+
