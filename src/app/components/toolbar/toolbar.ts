@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
-import { MatSidenav } from '@angular/material/sidenav';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { ModalComponent } from '../modal/modal';
 
@@ -15,20 +15,19 @@ import { ModalComponent } from '../modal/modal';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    RouterModule
+    RouterModule,
+    MatDialogModule ,
   ],
   templateUrl: './toolbar.html',
   styleUrls: ['./toolbar.scss'],
-  
 })
 export class Toolbar {
   @Input() drawer!: MatSidenav;
-  // readonly drawer = input.required<MatSidenav>();
 
   constructor(private dialog: MatDialog) {}
 
   openModal(type: 'login' | 'register') {
-    const dialogRef = this.dialog.open(ModalComponent);
-    dialogRef.componentInstance.formType.set(type);
+    const dialogRef = this.dialog.open(ModalComponent); // abre el modal
+    dialogRef.componentInstance.setFormType(type); // muestra el formulario correspondiente
   }
 }

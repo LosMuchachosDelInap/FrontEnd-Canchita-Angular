@@ -1,1 +1,26 @@
-<p>sign-up works!</p>
+<form (ngSubmit)="onSubmit()">
+  <h2>Registrarse</h2>
+  <mat-form-field>
+    <input matInput (input)="setSignal(nombre.set, $event)" placeholder="Nombre" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput (input)="setSignal(apellido.set, $event)" placeholder="Apellido" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="number" (input)="setSignal(edad.set, $event)" placeholder="Edad" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput (input)="setSignal(dni.set, $event)" placeholder="DNI" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput (input)="setSignal(telefono.set, $event)" placeholder="Teléfono" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="email" (input)="setSignal(email.set, $event)" placeholder="Email" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="password" (input)="setSignal(clave.set, $event)" placeholder="Contraseña" required>
+  </mat-form-field>
+  <button mat-raised-button color="accent" type="submit">Registrarse</button>
+  <div *ngIf="mensaje()">{{mensaje()}}</div>
+</form>

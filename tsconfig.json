@@ -10,6 +10,8 @@
       "@features/*": ["src/app/features/*"],
       "@assets/*": ["src/assets/*"],
       "@components/*": ["src/app/components/*"],
+      "@app/*": ["src/app/*"],
+      "@services/*": ["src/app/services/*"],
     
     },
     "strict": true,

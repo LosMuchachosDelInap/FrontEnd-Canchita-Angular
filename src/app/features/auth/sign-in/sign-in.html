@@ -1,1 +1,11 @@
-<p>sign-in works!</p>
+<form (ngSubmit)="onSubmit()">
+  <h2>Ingresar</h2>
+  <mat-form-field>
+    <input matInput type="email" [value]="email()" (input)="email.set($event.target.value)" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="password" [value]="clave()" (input)="clave.set($event.target.value)" required>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">Ingresar</button>
+  <div *ngIf="mensaje()">{{mensaje()}}</div>
+</form>

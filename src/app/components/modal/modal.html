@@ -1,4 +1,7 @@
 <div>
+  <div *ngIf="mensajeGlobal()" class="alert alert-info">
+    {{mensajeGlobal()}}
+  </div>
   <ng-container [ngSwitch]="formType()">
     <app-sign-in *ngSwitchCase="'login'"></app-sign-in>
     <app-sign-up *ngSwitchCase="'register'"></app-sign-up>
