@@ -7,13 +7,15 @@ import { environment } from '@envs/environment';
   standalone: true,
   imports: [HttpClientModule],
   templateUrl: './home.html',
-  styles: ``
+  styleUrls: ['./home.scss']
 })
 export class Home implements OnInit {
+  
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.http.get(`${environment.apiURL}/listarEmpleados.php`)
-      .subscribe(res => console.log(res));
+    console.log('Componente Home inicializado');
+    // Aquí puedes cargar datos generales para la página de inicio
+    // como estadísticas, canchas disponibles, etc.
   }
 }

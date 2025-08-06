@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { adminGuard, ownerGuard } from '@guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -21,10 +22,27 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/reservas/reservas.routes').then((m) => m.reservasRoutes),
   },
-    {
-    path: 'empleados',
-    loadChildren: () =>
-      import('./features/admin/empleados/empleados.routes').then((m) => m.empleadostRoutes),
+  {
+    path: 'admin',
+    canActivate: [adminGuard], // 🛡️ Protección para todas las rutas admin
+    children: [
+      {
+        path: 'empleados',
+        loadChildren: () =>
+          import('./features/admin/empleados/empleados.routes').then((m) => m.empleadostRoutes),
+      },
+      {
+        path: 'canchas',
+        // 🛡️ Administradores y dueños pueden gestionar canchas
+        loadChildren: () =>
+          import('./features/admin/canchas/canchas.routes').then((m) => m.canchasRoutes),
+      }
+    ]
+  },
+  {
+    path: 'unauthorized',
+    loadComponent: () => 
+      import('./features/shared/unauthorized/unauthorized').then(m => m.Unauthorized)
   },
   {
     path: '**',
