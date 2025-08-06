@@ -12,7 +12,7 @@
       "@services/*": ["src/app/shared/services/*"],
       "@features/*": ["src/app/features/*"],
       "@assets/*": ["src/assets/*"],
-      "@components/*": ["src/app/components/*"],
+      "@components/*": ["src/app/shared/components/*"],
       "@app/*": ["src/app/*"],
     
     },

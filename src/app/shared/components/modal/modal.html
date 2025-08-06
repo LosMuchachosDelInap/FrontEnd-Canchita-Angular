@@ -1,0 +1,26 @@
+<div class="modal-backdrop"></div>
+<div class="modal-content">
+  <ng-container [ngSwitch]="formType()">
+    <app-sign-in *ngSwitchCase="'login'"></app-sign-in>
+    <app-sign-up *ngSwitchCase="'register'"></app-sign-up>
+    <app-empleado-form
+      *ngSwitchCase="'editar'"
+      [empleado]="empleadoSeleccionado() || {}"
+      [soloLectura]="false"
+      modo="editar"
+      (guardar)="onGuardarEmpleado($event)">
+    </app-empleado-form>
+    <app-empleado-form
+      *ngSwitchCase="'detalle'"
+      [empleado]="empleadoSeleccionado() || {}"
+      [soloLectura]="true"
+      modo="detalle">
+    </app-empleado-form>
+  </ng-container>
+  <div *ngIf="mensajeGlobal()">{{ mensajeGlobal() }}</div>
+  <button mat-button (click)="setFormType('login')">Login</button>
+  <button mat-button (click)="setFormType('register')">Registro</button>
+  <button mat-button (click)="setFormType('editar', empleadoSeleccionado() || undefined)">Editar</button>
+  <button mat-button (click)="setFormType('detalle', empleadoSeleccionado() || undefined)">Detalle</button>
+</div>
+
