@@ -45,13 +45,25 @@ export class SignUp {
       clave: this.clave(),
       rol: 6
     };
-    this.auth.register(datos).subscribe({
+    // Ajustar el objeto datos para usar 'password' en lugar de 'clave'
+    const datosRegistro = {
+      nombre: this.nombre(),
+      apellido: this.apellido(),
+      edad: this.edad(),
+      dni: this.dni(),
+      telefono: this.telefono(),
+      email: this.email(),
+      password: this.clave(),
+      rol: 6
+    };
+
+    this.auth.register(datosRegistro).subscribe({
       next: (res: any) => {
-        if (res.success) {
-          this.mensaje.set('¡Registro exitoso!');
-        } else {
-          this.mensaje.set(res.message);
-        }
+      if (res.success) {
+        this.mensaje.set('¡Registro exitoso!');
+      } else {
+        this.mensaje.set(res.message);
+      }
       },
       error: () => this.mensaje.set('Error de conexión')
     });

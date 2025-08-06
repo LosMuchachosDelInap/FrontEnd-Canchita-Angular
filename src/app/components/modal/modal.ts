@@ -20,7 +20,7 @@ import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
   templateUrl: './modal.html'
 })
 export class ModalComponent {
-  formType = signal<'login' | 'register'>('login');
+  formType = signal<'login' | 'register' | 'editar' | 'detalle'>('login');
   mensajeGlobal = signal(''); // Ejemplo de mensaje global
 
   constructor(private cdr: ChangeDetectorRef) {

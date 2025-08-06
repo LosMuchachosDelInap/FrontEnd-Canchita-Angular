@@ -26,13 +26,13 @@ export class SignIn {
   constructor(private auth: AuthService) {}
 
   onSubmit() {
-    this.auth.login(this.email(), this.clave()).subscribe({
+    this.auth.login({ email: this.email(), password: this.clave() }).subscribe({
       next: (res) => {
-        if (res.success) {
-          this.mensaje.set('¡Login exitoso!');
-        } else {
-          this.mensaje.set(res.message);
-        }
+      if (res.success) {
+        this.mensaje.set('¡Login exitoso!');
+      } else {
+        this.mensaje.set(res.message ?? 'Ocurrió un error desconocido');
+      }
       },
       error: () => this.mensaje.set('Error de conexión')
     });
