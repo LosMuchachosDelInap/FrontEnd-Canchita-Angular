@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from '@envs/environment';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ export class Home implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.http.get('http://localhost:8000/BackEnd-Canchita/src/Api/listarEmpleados.php')
+    this.http.get(`${environment.apiURL}/listarEmpleados.php`)
       .subscribe(res => console.log(res));
   }
 }
