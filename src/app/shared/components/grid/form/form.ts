@@ -30,8 +30,8 @@ export class EmpleadoFormComponent {
   dni = signal(this.empleado.dni ?? '');
   telefono = signal(this.empleado.telefono ?? '');
   email = signal(this.empleado.email ?? '');
-  clave = signal(this.empleado.clave ?? ''); // <--- Cambiado de password a clave
-  rol = signal(this.empleado.rol ?? 6); // 6 = Cliente por defecto
+  clave = signal(this.empleado.clave ?? ''); 
+  rol = signal(this.empleado.rol ?? 6); 
 
   onSubmit() {
     if (!this.soloLectura) {
@@ -43,7 +43,7 @@ export class EmpleadoFormComponent {
         dni: this.dni(),
         telefono: this.telefono(),
         email: this.email(),
-        clave: this.clave(), // <--- Cambiado de password a clave
+        clave: this.clave(), 
         rol: this.rol()
       });
     }

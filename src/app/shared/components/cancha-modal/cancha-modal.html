@@ -1,0 +1,333 @@
+@if (isModalOpen()) {
+  <div class="modal-overlay" (click)="onBackdropClick($event)">
+    <div class="modal-container">
+      <!-- Header del Modal -->
+      <div class="modal-header">
+        <h2 class="modal-title">
+          @switch (currentAction().type) {
+            @case ('create') {
+              <i class="fas fa-plus-circle"></i>
+            }
+            @case ('edit') {
+              <i class="fas fa-edit"></i>
+            }
+            @case ('delete') {
+              <i class="fas fa-trash-alt"></i>
+            }
+            @case ('view') {
+              <i class="fas fa-eye"></i>
+            }
+          }
+          {{ modalTitle() }}
+        </h2>
+        
+        <button 
+          class="btn-close" 
+          (click)="closeModal()"
+          [disabled]="isLoading()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Contenido del Modal -->
+      <div class="modal-body">
+        @if (isDeleteAction()) {
+          <!-- Vista de Confirmación de Eliminación -->
+          <div class="delete-confirmation">
+            <div class="warning-icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>¿Estás seguro?</h3>
+            <p>
+              Esta acción eliminará permanentemente la cancha 
+              <strong>"{{ currentAction().cancha?.nombre }}"</strong> 
+              y no se puede deshacer.
+            </p>
+            
+            <div class="cancha-summary">
+              <div class="summary-item">
+                <span class="label">Tipo:</span>
+                <span class="value">{{ getTipoCanchaLabel(currentAction().cancha?.tipo_cancha || '') }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="label">Precio:</span>
+                <span class="value">${{ currentAction().cancha?.precio_por_hora | number:'1.0-0' }}/hora</span>
+              </div>
+            </div>
+          </div>
+        } @else {
+          <!-- Formulario -->
+          @if (canchaForm()) {
+            <form [formGroup]="canchaForm()!" (ngSubmit)="onSubmit()">
+              <div class="form-grid">
+                <!-- Información Básica -->
+                <div class="form-section">
+                  <h4 class="section-title">
+                    <i class="fas fa-info-circle"></i>
+                    Información Básica
+                  </h4>
+                  
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="nombre">Nombre *</label>
+                      <input
+                        id="nombre"
+                        type="text"
+                        formControlName="nombre"
+                        class="form-control"
+                        [class.error]="isFieldInvalid('nombre')"
+                        placeholder="Ej: Cancha Central">
+                      @if (isFieldInvalid('nombre')) {
+                        <span class="error-message">{{ getFieldError('nombre') }}</span>
+                      }
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="tipo_cancha">Tipo de Cancha *</label>
+                      <select
+                        id="tipo_cancha"
+                        formControlName="tipo_cancha"
+                        class="form-control"
+                        [class.error]="isFieldInvalid('tipo_cancha')">
+                        @for (tipo of tiposCanchaOptions; track tipo.value) {
+                          <option [value]="tipo.value">{{ tipo.label }}</option>
+                        }
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <textarea
+                      id="descripcion"
+                      formControlName="descripcion"
+                      class="form-control"
+                      rows="3"
+                      placeholder="Descripción opcional de la cancha..."></textarea>
+                  </div>
+                </div>
+
+                <!-- Configuración -->
+                <div class="form-section">
+                  <h4 class="section-title">
+                    <i class="fas fa-cogs"></i>
+                    Configuración
+                  </h4>
+                  
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="precio_por_hora">Precio por Hora *</label>
+                      <div class="input-group">
+                        <span class="input-prefix">$</span>
+                        <input
+                          id="precio_por_hora"
+                          type="number"
+                          formControlName="precio_por_hora"
+                          class="form-control"
+                          [class.error]="isFieldInvalid('precio_por_hora')"
+                          min="0"
+                          step="100">
+                      </div>
+                      @if (isFieldInvalid('precio_por_hora')) {
+                        <span class="error-message">{{ getFieldError('precio_por_hora') }}</span>
+                      }
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="estado">Estado *</label>
+                      <select
+                        id="estado"
+                        formControlName="estado"
+                        class="form-control">
+                        @for (estado of estadoOptions; track estado.value) {
+                          <option [value]="estado.value">{{ estado.label }}</option>
+                        }
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="capacidad_jugadores">Capacidad Jugadores *</label>
+                      <input
+                        id="capacidad_jugadores"
+                        type="number"
+                        formControlName="capacidad_jugadores"
+                        class="form-control"
+                        [class.error]="isFieldInvalid('capacidad_jugadores')"
+                        min="2"
+                        max="22">
+                      @if (isFieldInvalid('capacidad_jugadores')) {
+                        <span class="error-message">{{ getFieldError('capacidad_jugadores') }}</span>
+                      }
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="superficie">Superficie</label>
+                      <select
+                        id="superficie"
+                        formControlName="superficie"
+                        class="form-control">
+                        @for (superficie of superficieOptions; track superficie.value) {
+                          <option [value]="superficie.value">{{ superficie.label }}</option>
+                        }
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Características -->
+                <div class="form-section">
+                  <h4 class="section-title">
+                    <i class="fas fa-list-check"></i>
+                    Características
+                  </h4>
+                  
+                  <div class="checkbox-group">
+                    <label class="checkbox-label">
+                      <input
+                        type="checkbox"
+                        formControlName="tiene_iluminacion"
+                        class="checkbox">
+                      <span class="checkbox-text">
+                        <i class="fas fa-lightbulb"></i>
+                        Tiene Iluminación
+                      </span>
+                    </label>
+                    
+                    <label class="checkbox-label">
+                      <input
+                        type="checkbox"
+                        formControlName="tiene_vestuarios"
+                        class="checkbox">
+                      <span class="checkbox-text">
+                        <i class="fas fa-door-open"></i>
+                        Tiene Vestuarios
+                      </span>
+                    </label>
+                    
+                    <label class="checkbox-label">
+                      <input
+                        type="checkbox"
+                        formControlName="tiene_estacionamiento"
+                        class="checkbox">
+                      <span class="checkbox-text">
+                        <i class="fas fa-parking"></i>
+                        Tiene Estacionamiento
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Detalles Adicionales -->
+                <div class="form-section">
+                  <h4 class="section-title">
+                    <i class="fas fa-info"></i>
+                    Detalles Adicionales
+                  </h4>
+                  
+                  <div class="form-group">
+                    <label for="dimensiones">Dimensiones</label>
+                    <input
+                      id="dimensiones"
+                      type="text"
+                      formControlName="dimensiones"
+                      class="form-control"
+                      placeholder="Ej: 40x20 metros">
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="horario_apertura">Horario Apertura</label>
+                      <input
+                        id="horario_apertura"
+                        type="time"
+                        formControlName="horario_apertura"
+                        class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="horario_cierre">Horario Cierre</label>
+                      <input
+                        id="horario_cierre"
+                        type="time"
+                        formControlName="horario_cierre"
+                        class="form-control">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          }
+        }
+      </div>
+
+      <!-- Footer del Modal -->
+      <div class="modal-footer">
+        @if (isDeleteAction()) {
+          <button 
+            type="button" 
+            class="btn btn-secondary"
+            (click)="closeModal()"
+            [disabled]="isLoading()">
+            Cancelar
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-danger"
+            (click)="onSubmit()"
+            [disabled]="isLoading()">
+            @if (isLoading()) {
+              <i class="fas fa-spinner fa-spin"></i>
+              Eliminando...
+            } @else {
+              <i class="fas fa-trash"></i>
+              Eliminar Cancha
+            }
+          </button>
+        } @else if (currentAction().type === 'view') {
+          <button 
+            type="button" 
+            class="btn btn-secondary"
+            (click)="closeModal()">
+            <i class="fas fa-times"></i>
+            Cerrar
+          </button>
+        } @else {
+          <button 
+            type="button" 
+            class="btn btn-secondary"
+            (click)="closeModal()"
+            [disabled]="isLoading()">
+            <i class="fas fa-times"></i>
+            Cancelar
+          </button>
+          <button 
+            type="submit" 
+            class="btn btn-primary"
+            (click)="onSubmit()"
+            [disabled]="isLoading() || canchaForm()?.invalid">
+            @if (isLoading()) {
+              <i class="fas fa-spinner fa-spin"></i>
+              @switch (currentAction().type) {
+                @case ('create') { Creando... }
+                @case ('edit') { Guardando... }
+              }
+            } @else {
+              @switch (currentAction().type) {
+                @case ('create') {
+                  <i class="fas fa-plus"></i>
+                  Crear Cancha
+                }
+                @case ('edit') {
+                  <i class="fas fa-save"></i>
+                  Guardar Cambios
+                }
+              }
+            }
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+}

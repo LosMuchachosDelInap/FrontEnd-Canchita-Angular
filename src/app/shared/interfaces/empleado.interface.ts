@@ -3,12 +3,14 @@ export interface Empleado {
   id_persona?: number;
   id_usuario?: number;
   id_roles?: number;
+  // persona
   nombre: string;
   apellido: string;
   edad: string;
   dni: string;
   telefono: string;
+  // usuario
   email: string;
-  password?: string; // solo para registro/edición
+  clave?: string;
   rol: number;
 }
