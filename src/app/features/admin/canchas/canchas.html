@@ -1,1 +1,172 @@
-<p>canchas works!</p>
+<div class="canchas-container">
+  <!-- Header -->
+  <div class="header-section">
+    <div class="title-section">
+      <h1>
+        <i class="fas fa-futbol"></i>
+        Gestión de Canchas
+      </h1>
+      <p class="subtitle">Administra las canchas deportivas del complejo</p>
+    </div>
+    
+    @if (canEdit()) {
+      <button 
+        class="btn btn-primary btn-add"
+        (click)="agregarCancha()">
+        <i class="fas fa-plus"></i>
+        Nueva Cancha
+      </button>
+    }
+  </div>
+
+  <!-- Estados de carga -->
+  @if (loading()) {
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Cargando canchas...</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-container">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>{{ error() }}</p>
+      <button class="btn btn-secondary" (click)="cargarCanchas()">
+        <i class="fas fa-redo"></i>
+        Reintentar
+      </button>
+    </div>
+  } @else {
+    <!-- Tabla de canchas -->
+    <div class="table-container">
+      <div class="table-header">
+        <h3>
+          <i class="fas fa-list"></i>
+          Lista de Canchas ({{ filteredCanchas().length }})
+        </h3>
+      </div>
+
+      @if (filteredCanchas().length === 0) {
+        <div class="empty-state">
+          <i class="fas fa-clipboard-list"></i>
+          <h3>No hay canchas registradas</h3>
+          <p>Comienza agregando la primera cancha del complejo</p>
+          @if (canEdit()) {
+            <button class="btn btn-primary" (click)="agregarCancha()">
+              <i class="fas fa-plus"></i>
+              Agregar Primera Cancha
+            </button>
+          }
+        </div>
+      } @else {
+        <div class="table-responsive">
+          <table class="canchas-table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Precio/Hora</th>
+                <th>Estado</th>
+                <th>Características</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (cancha of filteredCanchas(); track cancha.id_cancha) {
+                <tr>
+                  <td class="cancha-name">
+                    <div class="name-cell">
+                      <strong>{{ cancha.nombre }}</strong>
+                      @if (cancha.descripcion) {
+                        <small>{{ cancha.descripcion }}</small>
+                      }
+                    </div>
+                  </td>
+                  
+                  <td>
+                    <span class="type-badge">
+                      {{ getTipoCanchaLabel(cancha.tipo_cancha) }}
+                    </span>
+                  </td>
+                  
+                  <td class="price-cell">
+                    <strong>${{ cancha.precio_por_hora | number:'1.0-0' }}</strong>
+                  </td>
+                  
+                  <td>
+                    <span class="badge" [class]="getEstadoClass(cancha.estado)">
+                      {{ getEstadoLabel(cancha.estado) }}
+                    </span>
+                  </td>
+                  
+                  <td class="features-cell">
+                    <div class="features">
+                      @if (cancha.tiene_iluminacion) {
+                        <span class="feature-tag">
+                          <i class="fas fa-lightbulb"></i>
+                          Iluminación
+                        </span>
+                      }
+                      @if (cancha.tiene_vestuarios) {
+                        <span class="feature-tag">
+                          <i class="fas fa-door-open"></i>
+                          Vestuarios
+                        </span>
+                      }
+                      @if (cancha.tiene_estacionamiento) {
+                        <span class="feature-tag">
+                          <i class="fas fa-parking"></i>
+                          Parking
+                        </span>
+                      }
+                    </div>
+                  </td>
+                  
+                  <td class="actions-cell">
+                    <div class="action-buttons">
+                      <!-- Detalle (siempre disponible) -->
+                      <button 
+                        class="btn btn-outline btn-sm"
+                        (click)="verDetalle(cancha)"
+                        title="Ver detalles">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                      
+                      <!-- Editar (admin y dueño) -->
+                      @if (canEdit()) {
+                        <button 
+                          class="btn btn-primary btn-sm"
+                          (click)="editarCancha(cancha)"
+                          title="Editar cancha">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                      }
+                      
+                      <!-- Eliminar (solo dueño) -->
+                      @if (canDelete()) {
+                        <button 
+                          class="btn btn-danger btn-sm"
+                          (click)="eliminarCancha(cancha)"
+                          title="Eliminar cancha">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      }
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<!-- Modal Reutilizable (será un componente separado) -->
+@if (showModal() && selectedAction()) {
+  <app-cancha-modal
+    [action]="selectedAction()!"
+    [isOpen]="showModal()"
+    (close)="cerrarModal()"
+    (actionComplete)="onModalAction($event)">
+  </app-cancha-modal>
+}
