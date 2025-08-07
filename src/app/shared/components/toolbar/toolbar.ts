@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
-import { ModalComponent } from '../modal/modal';
+import { UsuariosModalComponent } from '@shared/components/usuarios-modal/usuarios-modal';
 
 @Component({
   selector: 'app-toolbar',
@@ -16,7 +16,7 @@ import { ModalComponent } from '../modal/modal';
     MatButtonModule,
     MatIconModule,
     RouterModule,
-    MatDialogModule ,
+    MatDialogModule,
   ],
   templateUrl: './toolbar.html',
   styleUrls: ['./toolbar.scss'],
@@ -27,7 +27,7 @@ export class Toolbar {
   constructor(private dialog: MatDialog) {}
 
   openModal(type: 'login' | 'register') {
-    const dialogRef = this.dialog.open(ModalComponent); // abre el modal
+    const dialogRef = this.dialog.open(UsuariosModalComponent); // abre el modal
     dialogRef.componentInstance.setFormType(type); // muestra el formulario correspondiente
   }
 }

@@ -12,5 +12,5 @@ export interface Empleado {
   // usuario
   email: string;
   clave?: string;
-  rol: number;
+  rol: string;
 }

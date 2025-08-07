@@ -36,10 +36,10 @@ export class ToastService {
     this.toasts.update(toasts => [...toasts, toast]);
 
     // Auto-remover después del tiempo especificado
-    if (toast.duration > 0) {
+    if ((toast.duration ?? this.defaultDuration) > 0) {
       setTimeout(() => {
         this.removeToast(toast.id);
-      }, toast.duration);
+      }, toast.duration ?? this.defaultDuration);
     }
 
     return toast.id;

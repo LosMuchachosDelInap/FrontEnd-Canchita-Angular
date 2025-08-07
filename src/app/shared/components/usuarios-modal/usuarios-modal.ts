@@ -1,26 +1,22 @@
 import { Component, signal, ChangeDetectorRef, effect } from '@angular/core';
 import { SignIn } from '@features/auth/sign-in/sign-in';
 import { SignUp } from '@features/auth/sign-up/sign-up';
-import { EmpleadoFormComponent } from '@components/grid/form/form';
+import { UsuariosForm } from '@shared/components/grid/usuarios-form/usuarios-form';
 import { MatDialogModule } from '@angular/material/dialog';
-import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { Empleado } from '@shared/interfaces/empleado.interface';
 
 @Component({
-  selector: 'app-modal',
+  selector: 'app-usuarios-modal',
   standalone: true,
   imports: [
     MatDialogModule,
-    SignIn,
     SignUp,
-    EmpleadoFormComponent,
-    NgIf,
-    NgSwitch,
-    NgSwitchCase
+    SignIn,
+    UsuariosForm
   ],
-  templateUrl: './modal.html'
+  templateUrl: './usuarios-modal.html'
 })
-export class ModalComponent {
+export class UsuariosModalComponent {
   formType = signal<'login' | 'register' | 'editar' | 'detalle'>('login');
   mensajeGlobal = signal('');
   empleadoSeleccionado = signal<Empleado | null>(null);
@@ -28,7 +24,6 @@ export class ModalComponent {
   constructor(private cdr: ChangeDetectorRef) {
     effect(() => {
       this.mensajeGlobal.set('');
-      // Aquí podrías inicializar otros datos si lo necesitas
       console.log('Formulario cambiado a:', this.formType());
     });
   }
@@ -44,8 +39,6 @@ export class ModalComponent {
   }
 
   onGuardarEmpleado(empleado: Empleado) {
-    // Aquí va la lógica para guardar o actualizar el empleado
     this.mensajeGlobal.set('Empleado guardado correctamente');
-    // Puedes cerrar el modal o resetear el formulario si lo deseas
   }
 }

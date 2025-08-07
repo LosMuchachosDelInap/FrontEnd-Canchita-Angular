@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" *ngIf="!soloLectura || modo === 'detalle'">
+<form (ngSubmit)="onSubmit()" *if="!soloLectura || modo === 'detalle'">
   <mat-form-field>
     <input matInput placeholder="Nombre" [value]="nombre()" (input)="nombre.set($event.target.value)" [readonly]="soloLectura" required>
   </mat-form-field>
@@ -17,18 +17,17 @@
   <mat-form-field>
     <input matInput placeholder="Email" type="email" [value]="email()" (input)="email.set($event.target.value)" [readonly]="soloLectura" required>
   </mat-form-field>
-  <mat-form-field *ngIf="!soloLectura">
+  <mat-form-field *if="!soloLectura">
     <input matInput placeholder="Clave" type="password" [value]="clave()" (input)="clave.set($event.target.value)" required>
   </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="Rol" type="number" [value]="rol()" (input)="rol.set($event.target.value)" [readonly]="soloLectura" required>
   </mat-form-field>
-  <button mat-raised-button color="primary" type="submit" *ngIf="!soloLectura">
+  <button mat-raised-button color="primary" type="submit" *if="!soloLectura">
     {{ modo === 'registro' ? 'Registrar' : 'Guardar cambios' }}
   </button>
 </form>
-<!-- Si soloLectura, muestra los datos sin formulario -->
-<div *ngIf="soloLectura">
+<div *if="soloLectura">
   <p><strong>Nombre:</strong> {{ nombre() }}</p>
   <p><strong>Apellido:</strong> {{ apellido() }}</p>
   <p><strong>Edad:</strong> {{ edad() }}</p>

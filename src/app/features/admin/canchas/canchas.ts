@@ -13,7 +13,7 @@ import { CanchaModalComponent } from '../../../shared/components/cancha-modal/ca
   templateUrl: './canchas.html',
   styleUrl: './canchas.scss'
 })
-export class CanchasComponent implements OnInit {
+export class Canchas implements OnInit {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
