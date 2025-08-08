@@ -53,6 +53,3 @@ export const adminOrOwnerGuard: CanActivateFn = (route, state) => {
   return true;
 };
   
-  router.navigate(['/unauthorized']);
-  return false;
-};

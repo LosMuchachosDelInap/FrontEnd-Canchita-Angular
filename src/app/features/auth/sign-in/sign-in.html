@@ -7,5 +7,7 @@
     <input matInput type="password" [value]="clave()" (input)="clave.set($event.target.value)" required placeholder="Contraseña" title="Ingrese su contraseña">
   </mat-form-field>
   <button mat-raised-button color="primary" type="submit">Ingresar</button>
-  <div *ngIf="mensaje()">{{mensaje()}}</div>
+  @if (mensaje()) {
+    <div>{{mensaje()}}</div>
+  }
 </form>

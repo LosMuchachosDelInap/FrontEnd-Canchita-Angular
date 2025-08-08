@@ -10,7 +10,7 @@ import { ApiResponse } from '@interfaces/api-response.interface';
 })
 export class CanchaHttpService {
   private http = inject(HttpClient);
-  private readonly apiUrl = `${environment.apiUrl}/canchas`;
+  private readonly apiUrl = `${environment.apiURL}/canchas`;
 
   // Obtener todas las canchas
   getCanchas(): Observable<ApiResponse<Cancha[]>> {
