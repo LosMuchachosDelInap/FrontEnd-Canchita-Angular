@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, map, tap } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 import { environment } from '@envs/environment';
 import { 
   LoginRequest, 
@@ -32,9 +33,57 @@ export class AuthService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
     // Verificar si hay usuario guardado en localStorage al inicializar
     this.checkStoredUser();
+  }
+
+  /**
+   * Método seguro para obtener item del localStorage
+   */
+  private getFromStorage(key: string): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(key);
+    }
+    return null;
+  }
+
+  /**
+   * Método seguro para guardar item en localStorage
+   */
+  private setInStorage(key: string, value: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(key, value);
+    }
+  }
+
+  /**
+   * Método seguro para eliminar item del localStorage
+   */
+  private removeFromStorage(key: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(key);
+    }
+  }
+
+  /**
+   * Verificar usuario almacenado en localStorage
+   */
+  private checkStoredUser(): void {
+    const storedUser = this.getFromStorage('currentUser');
+    if (storedUser) {
+      try {
+        const user: CurrentUser = JSON.parse(storedUser);
+        this.currentUserSubject.next(user);
+        this.isAuthenticatedSubject.next(true);
+      } catch (error) {
+        console.error('Error parsing stored user:', error);
+        this.removeFromStorage('currentUser');
+      }
+    }
   }
 
   /**
@@ -142,7 +191,7 @@ export class AuthService {
    * Establecer usuario actual
    */
   private setCurrentUser(user: CurrentUser): void {
-    localStorage.setItem('currentUser', JSON.stringify(user));
+    this.setInStorage('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
     this.isAuthenticatedSubject.next(true);
   }
@@ -151,25 +200,9 @@ export class AuthService {
    * Limpiar usuario actual
    */
   private clearCurrentUser(): void {
-    localStorage.removeItem('currentUser');
+    this.removeFromStorage('currentUser');
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
   }
 
-  /**
-   * Verificar usuario almacenado en localStorage
-   */
-  private checkStoredUser(): void {
-    const storedUser = localStorage.getItem('currentUser');
-    if (storedUser) {
-      try {
-        const user: CurrentUser = JSON.parse(storedUser);
-        this.currentUserSubject.next(user);
-        this.isAuthenticatedSubject.next(true);
-      } catch (error) {
-        console.error('Error parsing stored user:', error);
-        this.clearCurrentUser();
-      }
-    }
-  }
 }

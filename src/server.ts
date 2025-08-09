@@ -4,7 +4,8 @@ import {
   isMainModule,
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
-import express from 'express';
+// @ts-ignore - Temporary ignore to avoid Express import issues
+const express = require('express');
 import { join } from 'node:path';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
@@ -38,7 +39,7 @@ app.use(
 /**
  * Handle all other requests by rendering the Angular application.
  */
-app.use((req, res, next) => {
+app.use((req: any, res: any, next: any) => {
   angularApp
     .handle(req)
     .then((response) =>
@@ -53,7 +54,7 @@ app.use((req, res, next) => {
  */
 if (isMainModule(import.meta.url)) {
   const port = process.env['PORT'] || 4000;
-  app.listen(port, (error) => {
+  app.listen(port, (error?: any) => {
     if (error) {
       throw error;
     }

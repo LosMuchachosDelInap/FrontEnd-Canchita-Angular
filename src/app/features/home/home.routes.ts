@@ -4,7 +4,7 @@ export const homeRoutes: Routes = [
   {
     path: '',
     loadComponent: () => import('./home').then(m => m.Home),
-  },
+  }
   /*{
     path: 'nosotros',
     loadComponent: () => import('./nosotros/nosotros').then(m => m.Nosotros)
@@ -12,9 +12,9 @@ export const homeRoutes: Routes = [
   {
     path: 'servicios',
     loadComponent: () => import('./servicios/servicios').then(m => m.Servicios)
-  },*/
+  },
   {
     path: 'contacto',
     loadComponent: () => import('./contacto/contacto').then(m => m.Contacto)
-  },
+  }*/
 ];
