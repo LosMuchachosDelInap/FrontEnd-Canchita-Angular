@@ -1,0 +1,22 @@
+mat-sidenav-container {
+  height: 100vh;
+  margin-top: 60px; /* Para no tapar el navbar horizontal */
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.sidebar-nav a {
+  width: 100%;
+  text-align: left;
+}
+
+.menu-btn {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}

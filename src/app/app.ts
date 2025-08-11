@@ -1,12 +1,22 @@
-import { Component, signal } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NavbarComponent } from '@layouts/navbar/navbar';
+import { SidenavComponent } from '@layouts/sidenav/sidenav';
+import { FooterComponent } from '@layouts/footer/footer';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [NavbarComponent, SidenavComponent, FooterComponent, RouterOutlet],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css'],
 })
-export class App {
-  protected readonly title = signal('FrontEnd-Canchita-Angular');
+export class AppComponent {
+  @ViewChild(SidenavComponent) sidenav!: SidenavComponent;
+
+  onAbrirSidenav() {
+    if (this.sidenav) {
+      this.sidenav.opened = true;
+    }
+  }
 }

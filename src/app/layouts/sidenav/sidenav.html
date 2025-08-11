@@ -1,0 +1,13 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav [(opened)]="opened" mode="side" (closedStart)="opened = false">
+    <nav class="sidebar-nav">
+      <a mat-button routerLink="/home" (click)="sidenav.close()">Inicio</a>
+      <a mat-button routerLink="/usuarios" (click)="sidenav.close()">Usuarios</a>
+      <a mat-button routerLink="/canchas" (click)="sidenav.close()">Canchas</a>
+      <!-- ...otros links... -->
+    </nav>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
