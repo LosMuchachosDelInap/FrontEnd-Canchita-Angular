@@ -1,0 +1,29 @@
+/* Estilo general de la tabla */
+.tabla-reutilizable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+}
+
+/* Encabezados y celdas */
+.tabla-reutilizable th, .tabla-reutilizable td {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+/* Contenedor de los botones de acción */
+.acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Color de los botones de acción */
+button[mat-icon-button] {
+  color: #1976d2;
+}
+
+/* Color especial para el botón de eliminar */
+button[mat-icon-button][color="warn"] {
+  color: #d32f2f;
+}

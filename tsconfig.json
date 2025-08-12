@@ -21,11 +21,11 @@
     "paths": {
       "@app/*": ["app/*"],
       "@features/*": ["app/features/*"],
-      "@shared/*": ["app/shared/components/*"],
+      "@shared/*": ["app/shared/*"],
       "@core/*": ["app/core/*"],
       "@layouts/*": ["app/layouts/*"],
       "@public/*": ["public/*"],
-      
+      "@interfaces/*": ["app/shared/interfaces/*"]
     }
   },
   "angularCompilerOptions": {

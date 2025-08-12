@@ -1,0 +1,37 @@
+<!-- Tabla reutilizable -->
+<table class="tabla-reutilizable">
+  <thead>
+    <tr>
+      <!-- Encabezados dinámicos -->
+      @for (header of headers; track header) {
+        <th>{{ header }}</th>
+      }
+      <!-- Columna de acciones si hay acciones definidas -->
+      @if (actions.length > 0) {
+        <th>Acciones</th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Filas dinámicas -->
+    @for (row of data; track row) {
+      <tr>
+        @for (header of headers; track header) {
+          <td>{{ row[header] }}</td>
+        }
+        @if (actions.length > 0) {
+          <td class="acciones">
+            @for (action of actions; track action) {
+              <button mat-icon-button
+                      [color]="action.color || null"
+                      [title]="action.tooltip"
+                      (click)="action.callback(row)">
+                <mat-icon>{{ action.icon }}</mat-icon>
+              </button>
+            }
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>
