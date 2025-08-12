@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # FrontEndCanchitaAngular
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.5.
@@ -57,3 +58,6 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+=======
+# FrontEnd-Canchita-Angular
+>>>>>>> 19bcdab8488723b08dfe79ed421e8825357b3d3f
