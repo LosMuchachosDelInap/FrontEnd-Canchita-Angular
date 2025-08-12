@@ -3,11 +3,12 @@ import { NavbarComponent } from '@layouts/navbar/navbar';
 import { SidenavComponent } from '@layouts/sidenav/sidenav';
 import { FooterComponent } from '@layouts/footer/footer';
 import { RouterOutlet } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NavbarComponent, SidenavComponent, FooterComponent, RouterOutlet],
+  imports: [NavbarComponent, SidenavComponent, FooterComponent, RouterOutlet, MatCardModule],
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
 })
