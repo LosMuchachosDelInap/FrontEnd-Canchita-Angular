@@ -1,0 +1,59 @@
+<div class="usuarios-modal">
+  <!-- Header del modal -->
+  <div mat-dialog-title class="modal-header">
+    <div class="header-content">
+      <mat-icon class="modal-icon">{{getModalIcon()}}</mat-icon>
+      <h2>{{getModalTitle()}}</h2>
+    </div>
+    <button mat-icon-button (click)="close()" class="close-button" [disabled]="loading">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Contenido del modal -->
+  <mat-dialog-content class="modal-content">
+    <!-- Estado de loading global -->
+    <div *ngIf="loading && (data.mode === 'create' || data.mode === 'edit')" class="loading-container">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>{{getLoadingMessage()}}</p>
+    </div>
+
+    <!-- Formulario de usuarios -->
+    <app-usuarios-form
+      *ngIf="!loading || data.mode === 'login' || data.mode === 'register'"
+      [mode]="currentMode"
+      [user]="data.user"
+      [currentUserRole]="data.currentUserRole"
+      [loading]="loading"
+      (formSubmit)="onFormSubmit($event)"
+      (formCancel)="close()"
+      (modeChange)="onModeChange($event)">
+    </app-usuarios-form>
+  </mat-dialog-content>
+
+  <!-- Footer opcional -->
+  <mat-dialog-actions *ngIf="showFooter()" class="modal-footer">
+    <div class="footer-content">
+      <p class="footer-text">{{getFooterText()}}</p>
+      <div class="footer-actions" *ngIf="data.mode === 'login' || data.mode === 'register'">
+        <button 
+          *ngIf="data.mode === 'login'" 
+          mat-button 
+          color="primary" 
+          (click)="switchMode('register')"
+          [disabled]="loading">
+          ¿No tienes cuenta? Regístrate
+        </button>
+        
+        <button 
+          *ngIf="data.mode === 'register'" 
+          mat-button 
+          color="primary" 
+          (click)="switchMode('login')"
+          [disabled]="loading">
+          ¿Ya tienes cuenta? Inicia sesión
+        </button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+</div>

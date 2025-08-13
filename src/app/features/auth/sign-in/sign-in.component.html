@@ -1,0 +1,45 @@
+<div class="sign-in-container">
+  <div class="sign-in-content">
+    <mat-card class="welcome-card">
+      <mat-card-header>
+        <div mat-card-avatar class="header-image">
+          <mat-icon>sports_soccer</mat-icon>
+        </div>
+        <mat-card-title>La Canchita de los Pibes</mat-card-title>
+        <mat-card-subtitle>Sistema de Gestión de Club</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="description">
+          <p>
+            Bienvenido al sistema de gestión del club. 
+            Aquí podrás administrar reservas, canchas y usuarios de manera fácil y eficiente.
+          </p>
+          <p>
+            <strong>¿Ya tienes cuenta?</strong> Inicia sesión para continuar.
+          </p>
+          <p>
+            <strong>¿Eres nuevo?</strong> Regístrate y comienza a reservar canchas.
+          </p>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions class="action-buttons">
+        <button mat-raised-button color="primary" (click)="openLoginModal()" class="login-btn">
+          <mat-icon>login</mat-icon>
+          Iniciar Sesión
+        </button>
+        
+        <button mat-raised-button color="accent" (click)="openRegisterModal()" class="register-btn">
+          <mat-icon>person_add</mat-icon>
+          Registrarse
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Footer opcional -->
+  <div class="footer">
+    <p>&copy; 2025 La Canchita de los Pibes - Sistema de Gestión de Club</p>
+  </div>
+</div>

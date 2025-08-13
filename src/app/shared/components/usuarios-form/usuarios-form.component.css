@@ -1,0 +1,260 @@
+/* Contenedor principal del formulario */
+.usuarios-form {
+  padding: 1rem;
+  max-width: 500px;
+  width: 100%;
+}
+
+/* Secciones del formulario */
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section:last-of-type {
+  margin-bottom: 1rem;
+}
+
+/* Filas del formulario */
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Ancho de campos */
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  flex: 1;
+}
+
+/* Campos de formulario */
+mat-form-field {
+  margin-bottom: 1rem;
+}
+
+mat-form-field:last-child {
+  margin-bottom: 0;
+}
+
+/* Personalización de mat-form-field */
+.mat-mdc-form-field {
+  --mdc-filled-text-field-container-shape: 8px;
+  --mdc-outlined-text-field-container-shape: 8px;
+}
+
+/* Inputs */
+.mat-mdc-input-element {
+  padding: 12px;
+}
+
+/* Labels */
+.mat-mdc-form-field-label {
+  font-weight: 500;
+}
+
+/* Iconos en los campos */
+.mat-mdc-form-field-icon-suffix {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Botones de acción */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.form-actions button {
+  min-width: 100px;
+  height: 40px;
+}
+
+/* Botón de envío */
+.form-actions button[type="submit"] {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Botón de cancelar */
+.form-actions button[type="button"]:first-child {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.form-actions button[type="button"]:first-child:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Información adicional */
+.additional-info {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.additional-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.additional-info button {
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: none;
+}
+
+/* Estados de loading */
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-actions button[disabled] {
+  pointer-events: none;
+}
+
+/* Animación de loading */
+.mat-icon {
+  transition: transform 0.3s ease;
+}
+
+button[disabled] .mat-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Errores de validación */
+mat-error {
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+/* Personalización de select */
+.mat-mdc-select-panel {
+  border-radius: 8px;
+}
+
+/* Botón de mostrar/ocultar contraseña */
+.mat-mdc-icon-button {
+  --mdc-icon-button-state-layer-size: 40px;
+  --mdc-icon-button-icon-size: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .usuarios-form {
+    padding: 0.75rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .half-width {
+    width: 100%;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+  }
+
+  .form-actions button {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+/* Estados del formulario */
+.form-section.ng-invalid .mat-mdc-form-field {
+  --mdc-outlined-text-field-outline-color: #f44336;
+}
+
+.form-section.ng-valid .mat-mdc-form-field {
+  --mdc-outlined-text-field-outline-color: #4caf50;
+}
+
+/* Focus states */
+.mat-mdc-form-field.mat-focused {
+  --mdc-outlined-text-field-outline-width: 2px;
+}
+
+/* Placeholder */
+.mat-mdc-input-element::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+  font-style: italic;
+}
+
+/* Mejoras de accesibilidad */
+.usuarios-form:focus-within {
+  outline: none;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #2196f3;
+  outline-offset: 2px;
+}
+
+/* Tema oscuro (opcional) */
+@media (prefers-color-scheme: dark) {
+  .usuarios-form {
+    color: rgba(255, 255, 255, 0.87);
+  }
+
+  .form-actions {
+    border-top-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .additional-info {
+    border-top-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .additional-info p {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .mat-mdc-form-field-icon-suffix {
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* Animaciones de entrada */
+.usuarios-form {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Transiciones suaves */
+mat-form-field,
+button {
+  transition: all 0.3s ease;
+}
+
+/* Estados hover */
+button:hover:not([disabled]) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
