@@ -3,14 +3,13 @@ import { NavbarComponent } from '@layouts/navbar/navbar';
 import { SidenavComponent } from '@layouts/sidenav/sidenav';
 import { FooterComponent } from '@layouts/footer/footer';
 import { RouterOutlet } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NavbarComponent, SidenavComponent, FooterComponent, RouterOutlet, MatCardModule],
+  imports: [NavbarComponent, SidenavComponent, FooterComponent, RouterOutlet],
   templateUrl: './app.html',
-  styleUrls: ['./app.css'],
+  styleUrls: ['./app.css']
 })
 export class AppComponent {
   @ViewChild(SidenavComponent) sidenav!: SidenavComponent;
