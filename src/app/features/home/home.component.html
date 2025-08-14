@@ -1,0 +1,76 @@
+<div class="home-container">
+  <header class="hero-section">
+    <div class="hero-content">
+      <h1>Bienvenido a La Canchita de los Pibes</h1>
+      <p class="hero-subtitle">Sistema de gestión para clubes de barrio</p>
+      <div class="hero-actions">
+        <button mat-raised-button color="primary" routerLink="/auth/sign-in">
+          <mat-icon>login</mat-icon>
+          Iniciar Sesión
+        </button>
+        <button mat-outlined-button routerLink="/auth/sign-in">
+          <mat-icon>person_add</mat-icon>
+          Registrarse
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="features-section">
+    <div class="container">
+      <h2>¿Qué puedes hacer?</h2>
+      <div class="features-grid">
+        <mat-card class="feature-card">
+          <mat-icon mat-card-avatar>people</mat-icon>
+          <mat-card-header>
+            <mat-card-title>Gestión de Usuarios</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Administra miembros y empleados del club.</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="feature-card">
+          <mat-icon mat-card-avatar>sports_soccer</mat-icon>
+          <mat-card-header>
+            <mat-card-title>Gestión de Canchas</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Controla disponibilidad de las canchas.</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="feature-card">
+          <mat-icon mat-card-avatar>event</mat-icon>
+          <mat-card-header>
+            <mat-card-title>Sistema de Reservas</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Administra reservas con calendario.</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="feature-card">
+          <mat-icon mat-card-avatar>email</mat-icon>
+          <mat-card-header>
+            <mat-card-title>Notificaciones</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Confirmaciones automáticas por email.</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>¿Listo para comenzar?</h2>
+      <p>Únete y simplifica la gestión de tu club</p>
+      <button mat-raised-button color="accent" routerLink="/auth/sign-in">
+        <mat-icon>rocket_launch</mat-icon>
+        Empezar Ahora
+      </button>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,46 @@
+<div class="sign-up-container">
+  <div class="sign-up-content">
+    <mat-card class="welcome-card">
+      <mat-card-header>
+        <div mat-card-avatar class="header-image">
+          <mat-icon>person_add</mat-icon>
+        </div>
+        <mat-card-title>Crear Nueva Cuenta</mat-card-title>
+        <mat-card-subtitle>Únete a La Canchita de los Pibes</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="description">
+          <p>
+            ¡Bienvenido! Crea tu cuenta para comenzar a disfrutar de todos los servicios del club.
+          </p>
+          <p>
+            <strong>Podrás:</strong>
+          </p>
+          <ul>
+            <li>Reservar canchas</li>
+            <li>Ver horarios disponibles</li>
+            <li>Recibir notificaciones por email</li>
+            <li>Gestionar tus reservas</li>
+          </ul>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions class="action-buttons">
+        <button mat-raised-button color="accent" (click)="openRegisterModal()" class="register-btn">
+          <mat-icon>person_add</mat-icon>
+          Crear Cuenta
+        </button>
+        
+        <div class="signin-link">
+          <p>¿Ya tienes cuenta? <a routerLink="/auth/sign-in" mat-button color="primary">Inicia sesión aquí</a></p>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Footer opcional -->
+  <div class="footer">
+    <p>&copy; 2025 La Canchita de los Pibes - Sistema de Gestión de Club</p>
+  </div>
+</div>

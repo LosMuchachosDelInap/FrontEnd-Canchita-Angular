@@ -140,7 +140,20 @@ mat-card-subtitle {
   margin: 0;
 }
 
-/* Responsive Design */
+.register-link {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.register-link p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.register-link a {
+  font-weight: 500;
+}
 @media (max-width: 768px) {
   .sign-in-container {
     padding: 1rem;

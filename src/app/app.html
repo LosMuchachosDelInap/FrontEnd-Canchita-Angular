@@ -1,6 +1,35 @@
-<app-navbar (abrirSidenav)="onAbrirSidenav()"></app-navbar>
-<app-sidenav></app-sidenav>
-<main>
-  <router-outlet></router-outlet>
-</main>
-<app-footer></app-footer>
+<div class="app-container">
+  <!-- Navbar superior -->
+  <app-navbar (abrirSidenav)="onAbrirSidenav()"></app-navbar>
+  
+  <!-- Container de sidenav que incluye el contenido principal -->
+  <mat-sidenav-container class="sidenav-container">
+    <!-- Sidenav -->
+    <mat-sidenav #sidenav mode="over" class="sidenav">
+      <nav class="sidebar-nav">
+        <a mat-button routerLink="/home" (click)="sidenav.close()">
+          <mat-icon>home</mat-icon>
+          Inicio
+        </a>
+        <a mat-button routerLink="/auth/sign-in" (click)="sidenav.close()">
+          <mat-icon>login</mat-icon>
+          Iniciar Sesión
+        </a>
+        <a mat-button routerLink="/usuarios" (click)="sidenav.close()">
+          <mat-icon>people</mat-icon>
+          Usuarios
+        </a>
+        <a mat-button routerLink="/canchas" (click)="sidenav.close()">
+          <mat-icon>sports_soccer</mat-icon>
+          Canchas
+        </a>
+      </nav>
+    </mat-sidenav>
+    
+    <!-- Contenido principal -->
+    <mat-sidenav-content class="main-content">
+      <router-outlet></router-outlet>
+      <app-footer></app-footer>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

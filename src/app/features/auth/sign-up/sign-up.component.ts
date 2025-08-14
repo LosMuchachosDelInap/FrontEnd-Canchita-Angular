@@ -10,7 +10,7 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { UsuariosModalComponent } from '../../../shared/components/usuarios-modal/usuarios-modal.component';
 
 @Component({
-  selector: 'app-sign-in',
+  selector: 'app-sign-up',
   standalone: true,
   imports: [
     CommonModule,
@@ -20,10 +20,10 @@ import { UsuariosModalComponent } from '../../../shared/components/usuarios-moda
     MatIconModule,
     MatSnackBarModule
   ],
-  templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.css']
+  templateUrl: './sign-up.component.html',
+  styleUrls: ['./sign-up.component.css']
 })
-export class SignInComponent {
+export class SignUpComponent {
 
   constructor(
     private dialog: MatDialog,
@@ -33,26 +33,26 @@ export class SignInComponent {
   ) {}
 
   /**
-   * Abrir modal de login
+   * Abrir modal de registro
    */
-  openLoginModal() {
+  openRegisterModal() {
     const dialogRef = this.dialog.open(UsuariosModalComponent, {
       width: '400px',
       disableClose: false,
       data: {
-        mode: 'login',
-        title: 'Iniciar Sesión'
+        mode: 'register',
+        title: 'Crear Nueva Cuenta'
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.success) {
-        this.snackBar.open('¡Bienvenido!', 'Cerrar', {
-          duration: 3000,
+        this.snackBar.open('¡Cuenta creada exitosamente! Ya puedes iniciar sesión.', 'Cerrar', {
+          duration: 5000,
           panelClass: ['success-snackbar']
         });
-        // Redirigir al dashboard después del login exitoso
-        this.router.navigate(['/dashboard']);
+        // Redirigir al sign-in después del registro exitoso
+        this.router.navigate(['/auth/sign-in']);
       }
     });
   }

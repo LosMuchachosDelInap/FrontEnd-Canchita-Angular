@@ -1,0 +1,108 @@
+.sign-up-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.sign-up-content {
+  width: 100%;
+  max-width: 450px;
+}
+
+.welcome-card {
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.header-image {
+  background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+  color: white;
+}
+
+.header-image mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+.description {
+  margin: 16px 0;
+  text-align: left;
+  line-height: 1.6;
+}
+
+.description p {
+  margin-bottom: 12px;
+}
+
+.description ul {
+  margin: 12px 0;
+  padding-left: 20px;
+}
+
+.description li {
+  margin-bottom: 6px;
+  color: #666;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  align-items: center;
+}
+
+.register-btn {
+  width: 100%;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.register-btn mat-icon {
+  margin-right: 8px;
+}
+
+.signin-link {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.signin-link p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.signin-link a {
+  font-weight: 500;
+}
+
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  color: rgba(255,255,255,0.8);
+  font-size: 12px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .sign-up-container {
+    padding: 15px;
+  }
+  
+  .welcome-card {
+    border-radius: 12px;
+  }
+  
+  .action-buttons {
+    padding: 16px;
+  }
+}
