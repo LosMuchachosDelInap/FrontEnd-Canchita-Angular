@@ -11,10 +11,14 @@
           <mat-icon>home</mat-icon>
           Inicio
         </a>
-        <a mat-button routerLink="/auth/sign-in" (click)="sidenav.close()">
+        <button mat-button (click)="openLoginModal(); sidenav.close()">
           <mat-icon>login</mat-icon>
           Iniciar Sesión
-        </a>
+        </button>
+        <button mat-button (click)="openRegisterModal(); sidenav.close()">
+          <mat-icon>person_add</mat-icon>
+          Registrarse
+        </button>
         <a mat-button routerLink="/usuarios" (click)="sidenav.close()">
           <mat-icon>people</mat-icon>
           Usuarios

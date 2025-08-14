@@ -4,7 +4,7 @@
     <mat-icon>menu</mat-icon>
   </button>
   <div class="navbar-right">
-    <button mat-button routerLink="/sign-in">Sign In</button>
-    <button mat-button routerLink="/sign-up">Sign Up</button>
+    <button mat-button (click)="openLoginModal()">Sign In</button>
+    <button mat-button (click)="openRegisterModal()">Sign Up</button>
   </div>
 </header>
