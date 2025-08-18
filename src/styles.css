@@ -1,14 +1,50 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'material-override.css';
 
-
-body, html {
-
-  color: #222 !important;
-  min-height: 100vh;
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  line-height: 1.5;
+/* Sobrescribir variables problemáticas de Angular Material */
+:root {
+  --mat-sys-background: #ffffff !important;
+  --mat-sys-surface: #ffffff !important;
+  --mat-sys-surface-variant: #f5f5f5 !important;
+  --mat-sys-on-surface: #212121 !important;
+  --mat-sys-on-background: #212121 !important;
 }
 
+/* Tema oscuro */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mat-sys-background: #121212 !important;
+    --mat-sys-surface: #1e1e1e !important;
+    --mat-sys-surface-variant: #2d2d2d !important;
+    --mat-sys-on-surface: #ffffff !important;
+    --mat-sys-on-background: #ffffff !important;
+  }
+}
+
+html, body { 
+  height: 100%; 
+  margin: 0; 
+  padding: 0;
+  overflow-x: hidden; /* Evitar scroll horizontal */
+  background-color: #ffffff !important; /* Forzar fondo blanco */
+}
+
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  line-height: 1.5;
+  background-color: #ffffff !important; /* Forzar fondo blanco */
+  color: #212121 !important; /* Texto negro */
+}
+
+/* Remover márgenes y paddings por defecto */
 * {
   box-sizing: border-box;
+}
+
+/* Asegurar que el router-outlet no tenga márgenes */
+app-root {
+  display: block;
+  min-height: 100vh;
+  background-color: transparent;
 }

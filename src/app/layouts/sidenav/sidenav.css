@@ -1,9 +1,9 @@
 /* Sidenav Styles */
 .sidenav-container {
   position: fixed !important;
-  top: 0;
+  top: 64px; /* Debajo del navbar */
   left: 0;
-  height: 100vh;
+  height: calc(100vh - 64px);
   width: 100vw;
   z-index: 1100;
   pointer-events: none;
@@ -12,25 +12,136 @@
 .mat-sidenav {
   z-index: 1101 !important;
   pointer-events: auto;
-  width: auto; /* ancho automático según el contenido */
-  min-width: 180px;
-  max-width: 320px;
+  width: 280px;
+  background-color: #ffffff !important;
+  border-right: 1px solid #e0e0e0;
 }
 
 .sidebar-nav {
   display: flex;
   flex-direction: column;
- 
-/*  align-items: flex-start;*/
-gap: 0.1rem;
-  margin-top: 2rem;
-  padding-left: 1rem;
+  padding: 1rem 0;
+  background-color: #ffffff;
 }
 
-.sidebar-nav a {
+/* Sección de usuario */
+.user-section {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  margin: 0 1rem 1rem 1rem;
+  border-radius: 8px;
+  gap: 12px;
+}
+
+.user-avatar mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: #666666;
+}
+
+.user-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #333333;
+  font-size: 14px;
+}
+
+.user-role {
+  font-size: 12px;
+  color: #666666;
+  text-transform: capitalize;
+}
+
+.logout-button {
+  color: #dc3545 !important;
+}
+
+.logout-button:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Sección de autenticación */
+.auth-section {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-button {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.login-button {
+  background-color: #e3f2fd;
+  color: #1976d2 !important;
+}
+
+.login-button:hover {
+  background-color: #bbdefb;
+}
+
+.register-button {
+  background-color: #e8f5e8;
+  color: #2e7d32 !important;
+}
+
+.register-button:hover {
+  background-color: #c8e6c9;
+}
+
+/* Separador */
+mat-divider {
+  margin: 1rem 0;
+}
+
+/* Sección de navegación */
+.navigation-section {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-link,
+.sidebar-nav button {
   width: 100%;
   text-align: left;
-   align-items: flex-start;
+  align-items: flex-start;
+  color: #333333 !important;
+  background-color: transparent;
+  border: none;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 8px;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.nav-link:hover,
+.sidebar-nav button:hover {
+  background-color: #f5f5f5;
+}
+
+.nav-link mat-icon,
+.sidebar-nav button mat-icon {
+  color: #666666;
+  margin-right: 0;
 }
 
 /* Elimina .menu-btn si no usas el botón dentro del sidenav */

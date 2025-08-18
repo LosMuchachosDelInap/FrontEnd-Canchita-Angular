@@ -1,0 +1,93 @@
+/* Layout principal de la aplicación */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app-root {
+  width: 100vw;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Navbar fijo en la parte superior */
+app-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 64px;
+}
+
+/* Container del sidenav */
+.sidenav-container {
+  flex: 1;
+  margin-top: 64px; /* Espacio para el navbar fijo */
+}
+
+/* Estilos del sidenav */
+.sidenav {
+  width: 250px;
+}
+
+.sidebar-nav {
+  padding: 20px 0;
+}
+
+.sidebar-nav a,
+.sidebar-nav button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px 24px;
+  text-decoration: none;
+  color: #333;
+  border-radius: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav button:hover {
+  background-color: #f5f5f5;
+}
+
+.sidebar-nav mat-icon {
+  margin-right: 12px;
+}
+
+/* Contenido principal */
+.main-content {
+  margin-top: 64px;
+  width: 100vw;
+  min-height: calc(100vh - 64px);
+  box-sizing: border-box;
+  padding: 24px 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Footer */
+app-footer {
+  margin-top: auto;
+}
+
+/* Modal overlay centrado */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}

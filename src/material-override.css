@@ -1,0 +1,76 @@
+/* Override específico para variables problemáticas de Angular Material */
+:root {
+  /* Sobrescribir las variables del sistema de Material que están causando el problema */
+  --mat-sys-background: #ffffff !important;
+  --mat-sys-surface: #ffffff !important;
+  --mat-sys-surface-variant: #f8f9fa !important;
+  --mat-sys-surface-container: #ffffff !important;
+  --mat-sys-surface-container-low: #f8f9fa !important;
+  --mat-sys-surface-container-lowest: #ffffff !important;
+  --mat-sys-surface-container-high: #f0f0f0 !important;
+  --mat-sys-surface-container-highest: #e8e8e8 !important;
+  
+  /* Colores de texto */
+  --mat-sys-on-surface: #212121 !important;
+  --mat-sys-on-background: #212121 !important;
+  --mat-sys-on-surface-variant: #424242 !important;
+  
+  /* Colores primarios */
+  --mat-sys-primary: #1976d2 !important;
+  --mat-sys-on-primary: #ffffff !important;
+  --mat-sys-primary-container: #e3f2fd !important;
+  --mat-sys-on-primary-container: #0d47a1 !important;
+}
+
+/* Para tema oscuro si es necesario */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mat-sys-background: #121212 !important;
+    --mat-sys-surface: #1e1e1e !important;
+    --mat-sys-surface-variant: #2d2d2d !important;
+    --mat-sys-on-surface: #ffffff !important;
+    --mat-sys-on-background: #ffffff !important;
+  }
+}
+
+/* Forzar estilos base para evitar que Material oculte el contenido */
+html, body {
+  background-color: #ffffff !important;
+  color: #212121 !important;
+}
+
+/* Asegurar que todos los contenedores de Material tengan fondo visible */
+.mat-sidenav-container,
+.mat-sidenav-content,
+.mat-drawer-container,
+.mat-drawer-content {
+  background-color: transparent !important;
+}
+
+/* Componentes específicos de Material */
+.mat-sidenav {
+  background-color: #ffffff !important;
+  color: #212121 !important;
+}
+
+.mat-toolbar {
+  background-color: #ffffff !important;
+  color: #212121 !important;
+}
+
+.mat-card {
+  background-color: #ffffff !important;
+  color: #212121 !important;
+}
+
+/* Botones de Material */
+.mat-button,
+.mat-raised-button,
+.mat-flat-button,
+.mat-stroked-button {
+  color: #212121 !important;
+}
+
+.mat-icon-button {
+  color: #424242 !important;
+}

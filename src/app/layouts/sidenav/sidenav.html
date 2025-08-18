@@ -1,13 +1,51 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav [(opened)]="opened" mode="over">
     <nav class="sidebar-nav">
-      @for (link of [
-        { path: '/home', label: 'Inicio' },
-        { path: '/usuarios', label: 'Usuarios' },
-        { path: '/canchas', label: 'Canchas' }
-      ]; track link.path) {
-        <a mat-button [routerLink]="link.path" (click)="opened = false">{{ link.label }}</a>
+      <!-- Información del usuario o botones de autenticación -->
+      @if (isAuthenticated && currentUser) {
+        <div class="user-section">
+          <div class="user-avatar">
+            <mat-icon>account_circle</mat-icon>
+          </div>
+          <div class="user-details">
+            <span class="user-name">{{ getUserDisplayName() }}</span>
+            <span class="user-role">{{ getUserRole() }}</span>
+          </div>
+          <button mat-icon-button (click)="logout(); opened = false" class="logout-button">
+            <mat-icon>logout</mat-icon>
+          </button>
+        </div>
       }
+      
+      @if (!isAuthenticated) {
+        <div class="auth-section">
+          <button mat-button (click)="openLoginModal(); opened = false" class="auth-button login-button">
+            <mat-icon>login</mat-icon>
+            Iniciar Sesión
+          </button>
+          <button mat-button (click)="openRegisterModal(); opened = false" class="auth-button register-button">
+            <mat-icon>person_add</mat-icon>
+            Registrarse
+          </button>
+        </div>
+      }
+      
+      <!-- Separador -->
+      <mat-divider></mat-divider>
+      
+      <!-- Enlaces de navegación -->
+      <div class="navigation-section">
+        @for (link of [
+          { path: '/home', label: 'Inicio', icon: 'home' },
+          { path: '/usuarios', label: 'Usuarios', icon: 'people' },
+          { path: '/canchas', label: 'Canchas', icon: 'sports_soccer' }
+        ]; track link.path) {
+          <a mat-button [routerLink]="link.path" (click)="opened = false" class="nav-link">
+            <mat-icon>{{ link.icon }}</mat-icon>
+            {{ link.label }}
+          </a>
+        }
+      </div>
     </nav>
   </mat-sidenav>
   <mat-sidenav-content>

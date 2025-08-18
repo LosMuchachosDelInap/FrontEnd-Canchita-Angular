@@ -8,7 +8,7 @@ import {
   RegisterRequest, 
   RegisterResponse,
   UserRole 
-} from '../interfaces';
+} from '../interfaces/auth.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -104,32 +104,34 @@ export class AuthService {
    * Verificar si es administrador o dueño
    */
   isAdminOrOwner(): boolean {
-    return this.hasAnyRole(['administrador', 'dueno']);
+    return this.hasAnyRole(['Administrador', 'Dueño']);
   }
 
   /**
    * Verificar si es dueño
    */
   isOwner(): boolean {
-    return this.hasRole('dueno');
+    return this.hasRole('Dueño');
+  }
+
+  /**
+   * Limpiar usuario actual (método público)
+   */
+  clearCurrentUser(): void {
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
+    this.isAuthenticatedSubject.next(false);
   }
 
   /**
    * Establecer usuario actual
    */
   private setCurrentUser(user: User): void {
+    console.log('AuthService - setCurrentUser recibido:', user);
+    console.log('AuthService - campos disponibles:', Object.keys(user));
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
     this.isAuthenticatedSubject.next(true);
-  }
-
-  /**
-   * Limpiar usuario actual
-   */
-  private clearCurrentUser(): void {
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
-    this.isAuthenticatedSubject.next(false);
   }
 
   /**

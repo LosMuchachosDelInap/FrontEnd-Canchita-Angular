@@ -1,10 +1,6 @@
 <div class="app-root">
   <!-- Navbar superior -->
-  <app-navbar
-    (abrirSignIn)="abrirSignIn()"
-    (abrirSignUp)="abrirSignUp()"
-    (abrirSidenav)="toggleSidenav()"
-  ></app-navbar>
+  <app-navbar (abrirSidenav)="toggleSidenav()"></app-navbar>
 
   <!-- Sidenav -->
   <app-sidenav [opened]="opened()"></app-sidenav>
@@ -14,15 +10,4 @@
     <router-outlet></router-outlet>
     <app-footer></app-footer>
   </main>
-
-  <!-- Modal de usuarios -->
-  @if (mostrarModal()) {
-    <div class="modal-overlay">
-      <app-usuarios-modal
-        [tipo]="modalTipo()"
-        [usuario]="usuarioSeleccionado()"
-        (cerrar)="cerrarModal()"
-      ></app-usuarios-modal>
-    </div>
-  }
 </div>

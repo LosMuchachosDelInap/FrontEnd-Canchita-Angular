@@ -1,0 +1,14 @@
+
+
+body, html {
+
+  color: #222 !important;
+  min-height: 100vh;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  line-height: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+}

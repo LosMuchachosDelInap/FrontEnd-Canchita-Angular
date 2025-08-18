@@ -1,16 +1,21 @@
 // Interfaces para el sistema de autenticación
 export interface User {
   id?: number;
-  nombre: string;
-  apellido: string;
+  nombre?: string;
+  apellido?: string;
   email: string;
-  password?: string;
+  clave?: string;
   edad?: number;
   dni?: string;
   telefono?: string;
-  rol: UserRole;
+  rol?: UserRole;
   fechaCreacion?: string;
   fechaModificacion?: string;
+  
+  // Campos que realmente devuelve el backend
+  id_usuario?: number;
+  id_rol?: number;
+  nombre_rol?: string;
 }
 
 export interface Employee extends User {
@@ -20,7 +25,7 @@ export interface Employee extends User {
 
 export interface LoginRequest {
   email: string;
-  password: string;
+  clave: string;
 }
 
 export interface LoginResponse {
@@ -34,7 +39,7 @@ export interface RegisterRequest {
   nombre: string;
   apellido: string;
   email: string;
-  password: string;
+  clave: string;
   edad?: number;
   dni?: string;
   telefono?: string;
@@ -47,11 +52,11 @@ export interface RegisterResponse {
   user?: User;
 }
 
-export type UserRole = 'cliente' | 'empleado' | 'administrador' | 'dueno';
+export type UserRole = 'Cliente' | 'Empleado' | 'Administrador' | 'Dueño';
 
 export const USER_ROLES: Record<string, UserRole> = {
-  CLIENTE: 'cliente',
-  EMPLEADO: 'empleado',
-  ADMINISTRADOR: 'administrador',
-  DUENO: 'dueno'
+  CLIENTE: 'Cliente',
+  EMPLEADO: 'Empleado',
+  ADMINISTRADOR: 'Administrador',
+  DUEÑO: 'Dueño'
 } as const;

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -24,7 +24,7 @@ export type FormMode = 'login' | 'register' | 'create' | 'edit';
   templateUrl: './usuarios-form.component.html',
   styleUrls: ['./usuarios-form.component.css'],
 })
-export class UsuariosFormComponent implements OnInit {
+export class UsuariosFormComponent implements OnInit, OnChanges {
   @Input() tipo: 'sign-in' | 'sign-up' | 'editar' | 'detalle' = 'sign-in';
   @Input() usuario: any = null;
   @Input() usuarioLogueado: any = null;
@@ -45,21 +45,53 @@ export class UsuariosFormComponent implements OnInit {
   canSelectRole: boolean = false;
 
   constructor(private fb: FormBuilder) {
+    // Inicializar el formulario sin validaciones iniciales
     this.form = this.fb.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      nombre: [''],
+      apellido: [''],
+      email: [''],
+      password: [''],
       rol: ['']
     });
   }
 
   ngOnInit() {
+    this.setupFormValidations();
+    
     if (this.usuario) {
       this.form.patchValue(this.usuario);
     }
     if (this.usuarioLogueado && this.usuarioLogueado.rol === 'admin') {
       this.canSelectRole = true;
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['tipo'] && !changes['tipo'].firstChange) {
+      this.setupFormValidations();
+    }
+  }
+
+  private setupFormValidations() {
+    // Configurar validaciones según el tipo
+    if (this.tipo === 'sign-in') {
+      // Solo validar email y password para login
+      this.form = this.fb.group({
+        email: ['', [Validators.required, Validators.email]],
+        clave: ['', Validators.required],
+        nombre: [''],
+        apellido: [''],
+        rol: ['']
+      });
+    } else if (this.tipo === 'sign-up' || this.tipo === 'editar' || this.tipo === 'detalle') {
+      // Validar todos los campos para registro/edición
+      this.form = this.fb.group({
+        nombre: ['', Validators.required],
+        apellido: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        clave: ['', [Validators.required, Validators.minLength(6)]],
+        rol: ['user'] // Valor por defecto
+      });
     }
   }
 

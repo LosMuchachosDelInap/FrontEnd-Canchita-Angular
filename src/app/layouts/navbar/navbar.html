@@ -3,8 +3,30 @@
   <button mat-icon-button (click)="abrirSidenav.emit()" type="button">
     <mat-icon>menu</mat-icon>
   </button>
+  
   <div class="navbar-right">
-    <button mat-button (click)="abrirSignIn.emit()" type="button">Sign In</button>
-    <button mat-button (click)="abrirSignUp.emit()" type="button">Sign Up</button>
+    <!-- Botones cuando NO está logueado -->
+    @if (!isAuthenticated) {
+      <button mat-button (click)="openLoginModal()" type="button">
+        <mat-icon>login</mat-icon>
+        Sign In
+      </button>
+      <button mat-button (click)="openRegisterModal()" type="button">
+        <mat-icon>person_add</mat-icon>
+        Sign Up
+      </button>
+    }
+    
+    <!-- Información del usuario cuando está logueado -->
+    @if (isAuthenticated && currentUser) {
+      <span class="user-info">
+        <mat-icon>person</mat-icon>
+        {{ getUserDisplayName() }}
+      </span>
+      <button mat-button (click)="logout()" type="button" class="logout-btn">
+        <mat-icon>logout</mat-icon>
+        Salir
+      </button>
+    }
   </div>
 </header>
