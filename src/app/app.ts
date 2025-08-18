@@ -1,68 +1,46 @@
-import { Component, ViewChild } from '@angular/core';
-import { NavbarComponent } from '@layouts/navbar/navbar';
-import { FooterComponent } from '@layouts/footer/footer';
-import { RouterOutlet, RouterModule } from '@angular/router';
-import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
-import { UsuariosModalComponent } from '@shared/components/usuarios-modal/usuarios-modal.component';
+import { Component, signal } from '@angular/core';
+import { NavbarComponent } from './layouts/navbar/navbar';
+import { SidenavComponent } from './layouts/sidenav/sidenav';
+import { FooterComponent } from './layouts/footer/footer';
+import { UsuariosModalComponent } from './shared/components/usuarios-modal/usuarios-modal.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule,
-    RouterModule,
-    NavbarComponent, 
-    FooterComponent, 
-    RouterOutlet,
-    MatSidenavModule,
-    MatButtonModule,
-    MatIconModule
+    NavbarComponent,
+    SidenavComponent,
+    FooterComponent,
+    UsuariosModalComponent,
+    RouterOutlet
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
 export class AppComponent {
-  @ViewChild('sidenav') sidenav!: MatSidenav;
+  opened = signal(false);
+  mostrarModal = signal(false);
+  modalTipo = signal<'sign-in' | 'sign-up' | 'editar' | 'detalle'>('sign-in');
+  usuarioSeleccionado = signal<any>(null);
 
-  constructor(private dialog: MatDialog) {}
-
-  onAbrirSidenav() {
-    this.sidenav.toggle();
+  toggleSidenav() {
+    this.opened.update(v => !v);
   }
 
-  openLoginModal() {
-    const dialogRef = this.dialog.open(UsuariosModalComponent, {
-      width: '450px',
-      data: {
-        mode: 'login'
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Login exitoso:', result);
-        // Aquí puedes manejar la lógica después del login
-      }
-    });
+  abrirSignIn() {
+    this.modalTipo.set('sign-in');
+    this.usuarioSeleccionado.set(null);
+    this.mostrarModal.set(true);
   }
 
-  openRegisterModal() {
-    const dialogRef = this.dialog.open(UsuariosModalComponent, {
-      width: '450px',
-      data: {
-        mode: 'register'
-      }
-    });
+  abrirSignUp() {
+    this.modalTipo.set('sign-up');
+    this.usuarioSeleccionado.set(null);
+    this.mostrarModal.set(true);
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Registro exitoso:', result);
-        // Aquí puedes manejar la lógica después del registro
-      }
-    });
+  cerrarModal() {
+    this.mostrarModal.set(false);
   }
 }

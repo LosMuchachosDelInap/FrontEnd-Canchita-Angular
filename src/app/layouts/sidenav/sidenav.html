@@ -1,13 +1,16 @@
-<mat-sidenav-container>
-  <mat-sidenav #sidenav [(opened)]="opened" mode="side" (closedStart)="opened = false">
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav [(opened)]="opened" mode="over">
     <nav class="sidebar-nav">
-      <a mat-button routerLink="/home" (click)="sidenav.close()">Inicio</a>
-      <a mat-button routerLink="/usuarios" (click)="sidenav.close()">Usuarios</a>
-      <a mat-button routerLink="/canchas" (click)="sidenav.close()">Canchas</a>
-      <!-- ...otros links... -->
+      @for (link of [
+        { path: '/home', label: 'Inicio' },
+        { path: '/usuarios', label: 'Usuarios' },
+        { path: '/canchas', label: 'Canchas' }
+      ]; track link.path) {
+        <a mat-button [routerLink]="link.path" (click)="opened = false">{{ link.label }}</a>
+      }
     </nav>
   </mat-sidenav>
   <mat-sidenav-content>
-    <ng-content></ng-content>
+    <!-- vacío, el contenido está en main-content -->
   </mat-sidenav-content>
 </mat-sidenav-container>

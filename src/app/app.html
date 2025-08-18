@@ -1,39 +1,28 @@
-<div class="app-container">
+<div class="app-root">
   <!-- Navbar superior -->
-  <app-navbar (abrirSidenav)="onAbrirSidenav()"></app-navbar>
-  
-  <!-- Container de sidenav que incluye el contenido principal -->
-  <mat-sidenav-container class="sidenav-container">
-    <!-- Sidenav -->
-    <mat-sidenav #sidenav mode="over" class="sidenav">
-      <nav class="sidebar-nav">
-        <a mat-button routerLink="/home" (click)="sidenav.close()">
-          <mat-icon>home</mat-icon>
-          Inicio
-        </a>
-        <button mat-button (click)="openLoginModal(); sidenav.close()">
-          <mat-icon>login</mat-icon>
-          Iniciar Sesión
-        </button>
-        <button mat-button (click)="openRegisterModal(); sidenav.close()">
-          <mat-icon>person_add</mat-icon>
-          Registrarse
-        </button>
-        <a mat-button routerLink="/usuarios" (click)="sidenav.close()">
-          <mat-icon>people</mat-icon>
-          Usuarios
-        </a>
-        <a mat-button routerLink="/canchas" (click)="sidenav.close()">
-          <mat-icon>sports_soccer</mat-icon>
-          Canchas
-        </a>
-      </nav>
-    </mat-sidenav>
-    
-    <!-- Contenido principal -->
-    <mat-sidenav-content class="main-content">
-      <router-outlet></router-outlet>
-      <app-footer></app-footer>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+  <app-navbar
+    (abrirSignIn)="abrirSignIn()"
+    (abrirSignUp)="abrirSignUp()"
+    (abrirSidenav)="toggleSidenav()"
+  ></app-navbar>
+
+  <!-- Sidenav -->
+  <app-sidenav [opened]="opened()"></app-sidenav>
+
+  <!-- Contenido principal -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+  </main>
+
+  <!-- Modal de usuarios -->
+  @if (mostrarModal()) {
+    <div class="modal-overlay">
+      <app-usuarios-modal
+        [tipo]="modalTipo()"
+        [usuario]="usuarioSeleccionado()"
+        (cerrar)="cerrarModal()"
+      ></app-usuarios-modal>
+    </div>
+  }
 </div>

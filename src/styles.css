@@ -1,25 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
 
-html, body { 
-  height: 100%; 
-  margin: 0; 
-  padding: 0;
-  overflow-x: hidden; /* Evitar scroll horizontal */
-}
 
-body { 
-  margin: 0; 
+body, html {
+
+  color: #222 !important;
+  min-height: 100vh;
+  margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   line-height: 1.5;
 }
 
-/* Remover márgenes y paddings por defecto */
 * {
   box-sizing: border-box;
-}
-
-/* Asegurar que el router-outlet no tenga márgenes */
-app-root {
-  display: block;
-  min-height: 100vh;
 }

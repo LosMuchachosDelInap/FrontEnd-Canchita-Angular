@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,5 +12,5 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./sidenav.css']
 })
 export class SidenavComponent {
-  opened = false;
+  @Input() opened = false;
 }

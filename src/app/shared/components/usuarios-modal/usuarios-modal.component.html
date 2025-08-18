@@ -21,9 +21,9 @@
     <!-- Formulario de usuarios -->
     <app-usuarios-form
       *ngIf="!loading || data.mode === 'login' || data.mode === 'register'"
-      [mode]="currentMode"
-      [user]="data.user"
-      [currentUserRole]="data.currentUserRole"
+      [tipo]="mapFormMode(currentMode)"
+      [usuario]="data.user"
+      [usuarioLogueado]="data.currentUserRole"
       [loading]="loading"
       (formSubmit)="onFormSubmit($event)"
       (formCancel)="close()"

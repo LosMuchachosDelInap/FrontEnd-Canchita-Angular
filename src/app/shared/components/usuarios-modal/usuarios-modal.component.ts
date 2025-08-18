@@ -1,10 +1,24 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { UsuariosFormComponent, FormMode } from '../usuarios-form/usuarios-form.component';
+import {
+  UsuariosFormComponent,
+  FormMode,
+} from '../usuarios-form/usuarios-form.component';
 import { AuthService } from '../../services/auth.service';
 import { User, UserRole } from '../../interfaces';
 
@@ -24,12 +38,17 @@ export interface UsuariosModalData {
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    UsuariosFormComponent
+    UsuariosFormComponent,
   ],
   templateUrl: './usuarios-modal.component.html',
-  styleUrls: ['./usuarios-modal.component.css']
+  styleUrls: ['./usuarios-modal.component.css'],
 })
 export class UsuariosModalComponent implements OnInit {
+  @Input() tipo: 'sign-in' | 'sign-up' | 'editar' | 'detalle' = 'sign-in';
+  @Input() usuario: any = null;
+  @Output() cerrar = new EventEmitter<void>();
+  @Output() modeChange = new EventEmitter<FormMode>();
+
   loading = false;
   currentMode: FormMode;
 
@@ -48,6 +67,21 @@ export class UsuariosModalComponent implements OnInit {
   /**
    * Configurar el modal según el modo
    */
+  mapFormMode(mode: FormMode): 'sign-in' | 'sign-up' | 'editar' | 'detalle' {
+    switch (mode) {
+      case 'login':
+        return 'sign-in';
+      case 'register':
+        return 'sign-up';
+      case 'edit':
+        return 'editar';
+      case 'create':
+        return 'detalle';
+      default:
+        return 'sign-in';
+    }
+  }
+
   private setupModal() {
     // Configurar el tamaño del modal según el modo
     switch (this.data.mode) {
@@ -152,6 +186,7 @@ export class UsuariosModalComponent implements OnInit {
     this.currentMode = newMode;
     this.data.mode = newMode;
     this.setupModal();
+   // this.modeChange.emit(newMode);
   }
 
   /**
@@ -191,9 +226,8 @@ export class UsuariosModalComponent implements OnInit {
         action: 'submit',
         data: result,
         mode: this.currentMode,
-        success: result.success
+        success: result.success,
       });
-
     } catch (error) {
       console.error('Error en el formulario:', error);
       this.loading = false;
@@ -207,7 +241,11 @@ export class UsuariosModalComponent implements OnInit {
     return new Promise((resolve) => {
       this.authService.login(formData).subscribe({
         next: (response) => resolve(response),
-        error: (error) => resolve({ success: false, message: error.message || 'Error al iniciar sesión' })
+        error: (error) =>
+          resolve({
+            success: false,
+            message: error.message || 'Error al iniciar sesión',
+          }),
       });
     });
   }
@@ -219,7 +257,11 @@ export class UsuariosModalComponent implements OnInit {
     return new Promise((resolve) => {
       this.authService.register(formData).subscribe({
         next: (response) => resolve(response),
-        error: (error) => resolve({ success: false, message: error.message || 'Error al registrar usuario' })
+        error: (error) =>
+          resolve({
+            success: false,
+            message: error.message || 'Error al registrar usuario',
+          }),
       });
     });
   }
@@ -234,7 +276,7 @@ export class UsuariosModalComponent implements OnInit {
         resolve({
           success: true,
           message: 'Usuario creado exitosamente',
-          user: formData
+          user: formData,
         });
       }, 1000);
     });
@@ -250,7 +292,7 @@ export class UsuariosModalComponent implements OnInit {
         resolve({
           success: true,
           message: 'Usuario actualizado exitosamente',
-          user: formData
+          user: formData,
         });
       }, 1000);
     });
@@ -262,7 +304,7 @@ export class UsuariosModalComponent implements OnInit {
   close() {
     if (!this.loading) {
       this.dialogRef.close({
-        action: 'cancel'
+        action: 'cancel',
       });
     }
   }

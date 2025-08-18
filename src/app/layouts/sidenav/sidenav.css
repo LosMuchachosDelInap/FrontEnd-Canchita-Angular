@@ -1,11 +1,17 @@
 /* Sidenav Styles */
-mat-sidenav-container {
+.sidenav-container {
+  position: fixed !important;
+  top: 0;
+  left: 0;
   height: 100vh;
-  margin-top: 60px; /* Para no tapar el navbar horizontal */
-   background-color: antiquewhite;
+  width: 100vw;
+  z-index: 1100;
+  pointer-events: none;
 }
 
-mat-sidenav {
+.mat-sidenav {
+  z-index: 1101 !important;
+  pointer-events: auto;
   width: auto; /* ancho automático según el contenido */
   min-width: 180px;
   max-width: 320px;
