@@ -38,20 +38,28 @@ export class UsuariosFormComponent implements OnInit, OnChanges {
   form: any;
 
   availableRoles = [
-    { value: 'admin', label: 'Administrador' },
-    { value: 'user', label: 'Usuario' }
+    { value: 1, label: 'Dueño' },
+    { value: 2, label: 'Administrador' },
+    { value: 3, label: 'Bar' },
+    { value: 4, label: 'Alquiler' },
+    { value: 5, label: 'Estacionamiento' },
+    { value: 6, label: 'Cliente' }
   ];
 
   canSelectRole: boolean = false;
+  isOwnerRegistering: boolean = false;
 
   constructor(private fb: FormBuilder) {
-    // Inicializar el formulario sin validaciones iniciales
+    // Inicializar el formulario con todos los campos
     this.form = this.fb.group({
       nombre: [''],
       apellido: [''],
       email: [''],
-      password: [''],
-      rol: ['']
+      clave: [''],
+      dni: [''],
+      edad: [''],
+      telefono: [''],
+      rol: [6] // Cliente por defecto
     });
   }
 
@@ -61,7 +69,10 @@ export class UsuariosFormComponent implements OnInit, OnChanges {
     if (this.usuario) {
       this.form.patchValue(this.usuario);
     }
-    if (this.usuarioLogueado && this.usuarioLogueado.rol === 'admin') {
+    
+    // Verificar si el usuario logueado es dueño (id_rol = 1)
+    if (this.usuarioLogueado && this.usuarioLogueado.id_rol === 1) {
+      this.isOwnerRegistering = true;
       this.canSelectRole = true;
     }
   }
@@ -81,7 +92,10 @@ export class UsuariosFormComponent implements OnInit, OnChanges {
         clave: ['', Validators.required],
         nombre: [''],
         apellido: [''],
-        rol: ['']
+        dni: [''],
+        edad: [''],
+        telefono: [''],
+        rol: [6]
       });
     } else if (this.tipo === 'sign-up' || this.tipo === 'editar' || this.tipo === 'detalle') {
       // Validar todos los campos para registro/edición
@@ -90,7 +104,10 @@ export class UsuariosFormComponent implements OnInit, OnChanges {
         apellido: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         clave: ['', [Validators.required, Validators.minLength(6)]],
-        rol: ['user'] // Valor por defecto
+        dni: ['', [Validators.required, Validators.pattern(/^\d{7,8}$/)]],
+        edad: ['', [Validators.required, Validators.min(16), Validators.max(99)]],
+        telefono: ['', [Validators.required, Validators.pattern(/^\d{10,11}$/)]],
+        rol: [this.isOwnerRegistering ? '' : 6, this.isOwnerRegistering ? Validators.required : []]
       });
     }
   }

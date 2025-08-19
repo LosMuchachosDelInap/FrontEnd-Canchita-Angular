@@ -16,7 +16,7 @@
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Contraseña</mat-label>
-        <input matInput [type]="hidePassword ? 'clave' : 'text'" formControlName="clave" placeholder="Contraseña">
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="clave" placeholder="Contraseña">
         <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
@@ -67,7 +67,7 @@
       <!-- Contraseña -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Contraseña</mat-label>
-        <input matInput [type]="hidePassword ? 'clave' : 'text'" formControlName="clave" placeholder="Contraseña">
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="clave" placeholder="Contraseña">
         <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
@@ -79,49 +79,71 @@
         }
       </mat-form-field>
 
-      <!-- Datos adicionales (opcional para registro) -->
-      @if (tipo === 'editar') {
-        <div class="form-section">
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="half-width">
-              <mat-label>Edad</mat-label>
-              <input matInput type="number" formControlName="edad" placeholder="Edad">
-              <mat-icon matSuffix>cake</mat-icon>
-              @if (form.get('edad')?.hasError('min')) {
-                <mat-error>La edad debe ser mayor a 0</mat-error>
-              }
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="half-width">
-              <mat-label>DNI</mat-label>
-              <input matInput formControlName="dni" placeholder="12345678">
-              <mat-icon matSuffix>badge</mat-icon>
-            </mat-form-field>
-          </div>
-
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Teléfono</mat-label>
-            <input matInput formControlName="telefono" placeholder="11 1234-5678">
-            <mat-icon matSuffix>phone</mat-icon>
-          </mat-form-field>
-
-          <!-- Rol (solo para administradores) -->
-          @if (canSelectRole) {
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Rol</mat-label>
-              <mat-select formControlName="rol">
-                @for (role of availableRoles; track role.value) {
-                  <mat-option [value]="role.value">
-                    {{role.label}}
-                  </mat-option>
-                }
-              </mat-select>
-              <mat-icon matSuffix>admin_panel_settings</mat-icon>
-              @if (form.get('rol')?.hasError('required')) {
-                <mat-error>Seleccione un rol</mat-error>
-              }
-            </mat-form-field>
+      <!-- Campos adicionales para registro y edición -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>DNI</mat-label>
+          <input matInput formControlName="dni" placeholder="12345678" maxlength="8">
+          <mat-icon matSuffix>badge</mat-icon>
+          @if (form.get('dni')?.hasError('required')) {
+            <mat-error>El DNI es requerido</mat-error>
           }
+          @if (form.get('dni')?.hasError('pattern')) {
+            <mat-error>DNI debe tener 7 u 8 dígitos</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Edad</mat-label>
+          <input matInput type="number" formControlName="edad" placeholder="18" min="16" max="99">
+          <mat-icon matSuffix>cake</mat-icon>
+          @if (form.get('edad')?.hasError('required')) {
+            <mat-error>La edad es requerida</mat-error>
+          }
+          @if (form.get('edad')?.hasError('min')) {
+            <mat-error>La edad debe ser mayor a 15</mat-error>
+          }
+          @if (form.get('edad')?.hasError('max')) {
+            <mat-error>La edad debe ser menor a 100</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="telefono" placeholder="11 1234-5678" maxlength="11">
+        <mat-icon matSuffix>phone</mat-icon>
+        @if (form.get('telefono')?.hasError('required')) {
+          <mat-error>El teléfono es requerido</mat-error>
+        }
+        @if (form.get('telefono')?.hasError('pattern')) {
+          <mat-error>Teléfono debe tener 10 u 11 dígitos</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Rol (solo si el dueño está registrando usuarios) -->
+      @if (isOwnerRegistering && canSelectRole) {
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Rol del Usuario</mat-label>
+          <mat-select formControlName="rol">
+            @for (role of availableRoles; track role.value) {
+              <mat-option [value]="role.value">
+                {{role.label}}
+              </mat-option>
+            }
+          </mat-select>
+          <mat-icon matSuffix>admin_panel_settings</mat-icon>
+          @if (form.get('rol')?.hasError('required')) {
+            <mat-error>Seleccione un rol</mat-error>
+          }
+        </mat-form-field>
+      }
+
+      <!-- Información del rol cuando no es dueño -->
+      @if (!isOwnerRegistering) {
+        <div class="role-info">
+          <mat-icon>info</mat-icon>
+          <span>Te registrarás como Cliente. Un administrador puede cambiar tu rol después.</span>
         </div>
       }
     </div>

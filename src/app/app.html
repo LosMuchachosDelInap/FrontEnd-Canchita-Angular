@@ -1,13 +1,20 @@
 <div class="app-root">
   <!-- Navbar superior -->
-  <app-navbar (abrirSidenav)="toggleSidenav()"></app-navbar>
+  <app-navbar></app-navbar>
 
-  <!-- Sidenav -->
-  <app-sidenav [opened]="opened()"></app-sidenav>
-
-  <!-- Contenido principal -->
-  <main class="main-content">
-    <router-outlet></router-outlet>
-    <app-footer></app-footer>
-  </main>
+  <!-- Sidenav Container -->
+  <mat-sidenav-container class="sidenav-container">
+    <!-- Sidenav -->
+    <mat-sidenav [opened]="sidenavService.isOpen()" mode="over" (backdropClick)="sidenavService.close()">
+      <app-sidenav></app-sidenav>
+    </mat-sidenav>
+    
+    <!-- Contenido principal -->
+    <mat-sidenav-content>
+      <main class="main-content">
+        <router-outlet></router-outlet>
+        <app-footer></app-footer>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

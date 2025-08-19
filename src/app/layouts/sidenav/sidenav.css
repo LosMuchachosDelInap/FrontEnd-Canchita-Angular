@@ -1,17 +1,5 @@
 /* Sidenav Styles */
-.sidenav-container {
-  position: fixed !important;
-  top: 64px; /* Debajo del navbar */
-  left: 0;
-  height: calc(100vh - 64px);
-  width: 100vw;
-  z-index: 1100;
-  pointer-events: none;
-}
-
 .mat-sidenav {
-  z-index: 1101 !important;
-  pointer-events: auto;
   width: 280px;
   background-color: #ffffff !important;
   border-right: 1px solid #e0e0e0;

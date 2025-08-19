@@ -258,3 +258,23 @@ button:hover:not([disabled]) {
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
+
+/* Información del rol */
+.role-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background-color: #e3f2fd;
+  border: 1px solid #2196f3;
+  border-radius: 8px;
+  margin: 16px 0;
+  font-size: 14px;
+  color: #1976d2;
+}
+
+.role-info mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}

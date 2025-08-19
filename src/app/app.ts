@@ -1,8 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavbarComponent } from './layouts/navbar/navbar';
 import { SidenavComponent } from './layouts/sidenav/sidenav';
 import { FooterComponent } from './layouts/footer/footer';
 import { RouterOutlet } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { SidenavService } from './shared/services/sidenav.service';
 
 @Component({
   selector: 'app-root',
@@ -11,15 +13,12 @@ import { RouterOutlet } from '@angular/router';
     NavbarComponent,
     SidenavComponent,
     FooterComponent,
-    RouterOutlet
+    RouterOutlet,
+    MatSidenavModule
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
 export class AppComponent {
-  opened = signal(false);
-
-  toggleSidenav() {
-    this.opened.update(v => !v);
-  }
+  constructor(public sidenavService: SidenavService) {}
 }

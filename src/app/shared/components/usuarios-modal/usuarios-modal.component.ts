@@ -26,6 +26,7 @@ export interface UsuariosModalData {
   mode: FormMode;
   user?: User;
   title?: string;
+  currentUser?: User;
   currentUserRole?: UserRole;
 }
 

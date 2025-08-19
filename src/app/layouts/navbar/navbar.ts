@@ -1,23 +1,22 @@
-import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { UsuariosModalComponent } from '../../shared/components/usuarios-modal/usuarios-modal.component';
 import { AuthService } from '../../shared/services/auth.service';
+import { SidenavService } from '../../shared/services/sidenav.service';
 import { User } from '../../shared/interfaces/auth.interface';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, RouterLink, CommonModule],
+  imports: [MatButtonModule, MatIconModule, CommonModule],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css']
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  @Output() abrirSidenav = new EventEmitter<void>();
 
   // Estado de autenticación
   currentUser: User | null = null;
@@ -27,8 +26,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   constructor(
     private dialog: MatDialog,
-    private authService: AuthService
+    private authService: AuthService,
+    private sidenavService: SidenavService
   ) {}
+
+  openSidenav() {
+    this.sidenavService.toggle();
+  }
 
   ngOnInit() {
     // Suscribirse al estado de autenticación
@@ -55,29 +59,23 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.success) {
-        console.log('Login exitoso:', result);
-        console.log('User data recibido:', result.data?.user);
-        // Verificar estructura del usuario
-        if (result.data?.user) {
-          console.log('Campos del usuario:', Object.keys(result.data.user));
-          console.log('Nombre:', result.data.user.nombre);
-          console.log('Apellido:', result.data.user.apellido);
-        }
+        // Login exitoso - el AuthService ya maneja la actualización del estado
       }
     });
   }
 
   openRegisterModal() {
     const dialogRef = this.dialog.open(UsuariosModalComponent, {
-      width: '450px',
+      width: '500px',
       data: {
-        mode: 'register'
+        mode: 'register',
+        currentUser: this.currentUser
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Registro exitoso:', result);
+      if (result && result.success) {
+        // Registro exitoso
       }
     });
   }

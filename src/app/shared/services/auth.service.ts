@@ -127,8 +127,6 @@ export class AuthService {
    * Establecer usuario actual
    */
   private setCurrentUser(user: User): void {
-    console.log('AuthService - setCurrentUser recibido:', user);
-    console.log('AuthService - campos disponibles:', Object.keys(user));
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
     this.isAuthenticatedSubject.next(true);

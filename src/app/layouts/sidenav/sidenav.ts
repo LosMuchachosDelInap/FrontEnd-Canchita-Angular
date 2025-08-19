@@ -1,5 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -9,17 +8,17 @@ import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { UsuariosModalComponent } from '../../shared/components/usuarios-modal/usuarios-modal.component';
 import { AuthService } from '../../shared/services/auth.service';
+import { SidenavService } from '../../shared/services/sidenav.service';
 import { User } from '../../shared/interfaces/auth.interface';
 
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [MatSidenavModule, MatIconModule, MatButtonModule, MatDividerModule, RouterLink, CommonModule],
+  imports: [MatIconModule, MatButtonModule, MatDividerModule, RouterLink, CommonModule],
   templateUrl: './sidenav.html',
   styleUrls: ['./sidenav.css']
 })
 export class SidenavComponent implements OnInit, OnDestroy {
-  @Input() opened = false;
 
   // Estado de autenticación
   currentUser: User | null = null;
@@ -29,7 +28,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   constructor(
     private dialog: MatDialog,
-    private authService: AuthService
+    private authService: AuthService,
+    private sidenavService: SidenavService
   ) {}
 
   ngOnInit() {
@@ -58,9 +58,10 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   openRegisterModal() {
     const dialogRef = this.dialog.open(UsuariosModalComponent, {
-      width: '450px',
+      width: '500px',
       data: {
-        mode: 'register'
+        mode: 'register',
+        currentUser: this.currentUser
       }
     });
   }
@@ -76,6 +77,10 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.authService.clearCurrentUser();
       }
     });
+  }
+
+  closeSidenavPanel() {
+    this.sidenavService.close();
   }
 
   getUserDisplayName(): string {
