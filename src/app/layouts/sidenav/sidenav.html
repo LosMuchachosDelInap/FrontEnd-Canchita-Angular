@@ -33,15 +33,57 @@
   
   <!-- Enlaces de navegación -->
   <div class="navigation-section">
+    <!-- Enlaces para todos los usuarios -->
     @for (link of [
-      { path: '/home', label: 'Inicio', icon: 'home' },
-      { path: '/usuarios', label: 'Usuarios', icon: 'people' },
-      { path: '/canchas', label: 'Canchas', icon: 'sports_soccer' }
+      { path: '/home', label: 'Inicio', icon: 'home', requiredRole: null }
     ]; track link.path) {
       <a mat-button [routerLink]="link.path" (click)="closeSidenavPanel()" class="nav-link">
         <mat-icon>{{ link.icon }}</mat-icon>
         {{ link.label }}
       </a>
+    }
+    
+    <!-- Enlaces solo para usuarios autenticados -->
+    @if (isAuthenticated) {
+      <!-- Enlaces para administradores y dueños -->
+      @if (isAdmin() || isDueno()) {
+        @for (adminLink of [
+          { path: '/admin/usuarios', label: 'Gestión de Usuarios', icon: 'people' },
+          { path: '/admin/canchas', label: 'Gestión de Canchas', icon: 'sports_soccer' },
+          { path: '/admin/reservas', label: 'Gestión de Reservas', icon: 'event' }
+        ]; track adminLink.path) {
+          <a mat-button [routerLink]="adminLink.path" (click)="closeSidenavPanel()" class="nav-link admin-link">
+            <mat-icon>{{ adminLink.icon }}</mat-icon>
+            {{ adminLink.label }}
+          </a>
+        }
+      }
+      
+      <!-- Enlaces para empleados -->
+      @if (isEmpleado()) {
+        @for (employeeLink of [
+          { path: '/reservas', label: 'Reservas', icon: 'event' },
+          { path: '/canchas', label: 'Ver Canchas', icon: 'sports_soccer' }
+        ]; track employeeLink.path) {
+          <a mat-button [routerLink]="employeeLink.path" (click)="closeSidenavPanel()" class="nav-link employee-link">
+            <mat-icon>{{ employeeLink.icon }}</mat-icon>
+            {{ employeeLink.label }}
+          </a>
+        }
+      }
+      
+      <!-- Enlaces para clientes -->
+      @if (isCliente()) {
+        @for (clientLink of [
+          { path: '/reservas', label: 'Mis Reservas', icon: 'event' },
+          { path: '/canchas', label: 'Reservar Cancha', icon: 'sports_soccer' }
+        ]; track clientLink.path) {
+          <a mat-button [routerLink]="clientLink.path" (click)="closeSidenavPanel()" class="nav-link client-link">
+            <mat-icon>{{ clientLink.icon }}</mat-icon>
+            {{ clientLink.label }}
+          </a>
+        }
+      }
     }
   </div>
 </nav>

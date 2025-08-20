@@ -132,4 +132,44 @@ mat-divider {
   margin-right: 0;
 }
 
+/* Enlaces específicos por rol */
+.admin-link {
+  border-left: 3px solid #f44336;
+  background-color: rgba(244, 67, 54, 0.05);
+}
+
+.admin-link:hover {
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+.admin-link mat-icon {
+  color: #f44336 !important;
+}
+
+.employee-link {
+  border-left: 3px solid #ff9800;
+  background-color: rgba(255, 152, 0, 0.05);
+}
+
+.employee-link:hover {
+  background-color: rgba(255, 152, 0, 0.1);
+}
+
+.employee-link mat-icon {
+  color: #ff9800 !important;
+}
+
+.client-link {
+  border-left: 3px solid #4caf50;
+  background-color: rgba(76, 175, 80, 0.05);
+}
+
+.client-link:hover {
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.client-link mat-icon {
+  color: #4caf50 !important;
+}
+
 /* Elimina .menu-btn si no usas el botón dentro del sidenav */

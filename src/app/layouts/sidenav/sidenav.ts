@@ -104,4 +104,36 @@ export class SidenavComponent implements OnInit, OnDestroy {
   getUserRole(): string {
     return this.currentUser?.nombre_rol || 'Usuario';
   }
+
+  /**
+   * Verificar si el usuario es administrador
+   */
+  isAdmin(): boolean {
+    const role = this.currentUser?.nombre_rol?.toLowerCase();
+    return role === 'admin' || role === 'administrador';
+  }
+
+  /**
+   * Verificar si el usuario es dueño
+   */
+  isDueno(): boolean {
+    const role = this.currentUser?.nombre_rol?.toLowerCase();
+    return role === 'dueño' || role === 'dueno' || role === 'propietario';
+  }
+
+  /**
+   * Verificar si el usuario es empleado
+   */
+  isEmpleado(): boolean {
+    const role = this.currentUser?.nombre_rol?.toLowerCase();
+    return role === 'empleado' || role === 'staff';
+  }
+
+  /**
+   * Verificar si el usuario es cliente
+   */
+  isCliente(): boolean {
+    const role = this.currentUser?.nombre_rol?.toLowerCase();
+    return role === 'cliente' || role === 'usuario';
+  }
 }

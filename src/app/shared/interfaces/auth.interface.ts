@@ -16,6 +16,10 @@ export interface User {
   id_usuario?: number;
   id_rol?: number;
   nombre_rol?: string;
+  
+  // Campos adicionales para operaciones CRUD
+  id_persona?: number;
+  id_empleado?: number;
 }
 
 export interface Employee extends User {

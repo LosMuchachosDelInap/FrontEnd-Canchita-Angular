@@ -19,6 +19,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/sign-up/sign-up.component').then(m => m.SignUpComponent)
   },
   {
+    path: 'admin/usuarios',
+    loadComponent: () => import('./features/admin/usuarios/usuarios').then(m => m.UsuariosComponent)
+  },
+  {
     path: '**',
     redirectTo: '/home'
   }

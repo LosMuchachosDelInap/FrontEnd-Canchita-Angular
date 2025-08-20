@@ -20,6 +20,7 @@ import {
   FormMode,
 } from '../usuarios-form/usuarios-form.component';
 import { AuthService } from '../../services/auth.service';
+import { UsersService } from '../../services/users.service';
 import { User, UserRole } from '../../interfaces';
 
 export interface UsuariosModalData {
@@ -28,6 +29,7 @@ export interface UsuariosModalData {
   title?: string;
   currentUser?: User;
   currentUserRole?: UserRole;
+  rolId?: number; // ID del rol para el formulario
 }
 
 @Component({
@@ -53,10 +55,36 @@ export class UsuariosModalComponent implements OnInit {
   loading = false;
   currentMode: FormMode;
 
+  // Usuario preparado para el formulario con rol como número
+  get usuarioParaFormulario() {
+    if (!this.data.user) return null;
+    
+    return {
+      ...this.data.user,
+      // Convertir rol de string a number usando rolId si está disponible
+      rol: this.data.rolId || this.mapRoleNameToId(this.data.user.rol || 'Cliente')
+    };
+  }
+
+  // Mapeo de nombres de rol a IDs
+  private roleMap: { [key: string]: number } = {
+    'Dueño': 1,
+    'Administrador': 2,
+    'Bar': 3,
+    'Alquiler': 4,
+    'Estacionamiento': 5,
+    'Cliente': 6
+  };
+
+  private mapRoleNameToId(roleName: string): number {
+    return this.roleMap[roleName] || 6;
+  }
+
   constructor(
     public dialogRef: MatDialogRef<UsuariosModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: UsuariosModalData,
-    private authService: AuthService
+    private authService: AuthService,
+    private usersService: UsersService
   ) {
     this.currentMode = this.data.mode;
   }
@@ -68,7 +96,7 @@ export class UsuariosModalComponent implements OnInit {
   /**
    * Configurar el modal según el modo
    */
-  mapFormMode(mode: FormMode): 'sign-in' | 'sign-up' | 'editar' | 'detalle' {
+  mapFormMode(mode: FormMode): 'sign-in' | 'sign-up' | 'editar' | 'detalle' | 'crear' {
     switch (mode) {
       case 'login':
         return 'sign-in';
@@ -77,6 +105,8 @@ export class UsuariosModalComponent implements OnInit {
       case 'edit':
         return 'editar';
       case 'create':
+        return 'crear';
+      case 'view':
         return 'detalle';
       default:
         return 'sign-in';
@@ -92,6 +122,7 @@ export class UsuariosModalComponent implements OnInit {
       case 'register':
       case 'create':
       case 'edit':
+      case 'view':
         this.dialogRef.updateSize('600px');
         break;
     }
@@ -114,6 +145,8 @@ export class UsuariosModalComponent implements OnInit {
         return 'Crear Nuevo Usuario';
       case 'edit':
         return `Editar Usuario: ${this.data.user?.nombre} ${this.data.user?.apellido}`;
+      case 'view':
+        return `Detalles de Usuario: ${this.data.user?.nombre} ${this.data.user?.apellido}`;
       default:
         return 'Gestión de Usuario';
     }
@@ -225,9 +258,10 @@ export class UsuariosModalComponent implements OnInit {
 
       this.dialogRef.close({
         action: 'submit',
-        data: result,
+        data: result.success ? formData : result, // Devolver formData si es exitoso
         mode: this.currentMode,
         success: result.success,
+        refresh: !result.success, // Solo refresh si hay error (fallback)
       });
     } catch (error) {
       console.error('Error en el formulario:', error);
@@ -271,15 +305,15 @@ export class UsuariosModalComponent implements OnInit {
    * Manejar creación de usuario
    */
   private handleCreateUser(formData: any): Promise<any> {
-    // TODO: Implementar llamada a API para crear usuario
     return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          message: 'Usuario creado exitosamente',
-          user: formData,
-        });
-      }, 1000);
+      this.usersService.createUser(formData).subscribe({
+        next: (response) => resolve(response),
+        error: (error) =>
+          resolve({
+            success: false,
+            message: error.message || 'Error al crear usuario',
+          }),
+      });
     });
   }
 
@@ -287,15 +321,31 @@ export class UsuariosModalComponent implements OnInit {
    * Manejar edición de usuario
    */
   private handleEditUser(formData: any): Promise<any> {
-    // TODO: Implementar llamada a API para editar usuario
+    // Necesitamos agregar los IDs requeridos por el backend
+    const updateData = {
+      ...formData,
+      id_empleado: this.data.user?.id_usuario || this.data.user?.id_empleado,
+      id_persona: this.data.user?.id_persona,
+      id_usuario: this.data.user?.id_usuario,
+      usuario: formData.email, // El backend espera 'usuario' en lugar de 'email'
+    };
+
+    console.log('Enviando datos de actualización:', updateData);
+
     return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          message: 'Usuario actualizado exitosamente',
-          user: formData,
-        });
-      }, 1000);
+      this.usersService.updateUser(updateData).subscribe({
+        next: (response) => {
+          console.log('Respuesta del servidor:', response);
+          resolve(response);
+        },
+        error: (error) => {
+          console.error('Error al actualizar usuario:', error);
+          resolve({
+            success: false,
+            message: error.message || 'Error al actualizar usuario',
+          });
+        },
+      });
     });
   }
 

@@ -22,7 +22,7 @@
     <app-usuarios-form
       *ngIf="!loading || data.mode === 'login' || data.mode === 'register'"
       [tipo]="mapFormMode(currentMode)"
-      [usuario]="data.user"
+      [usuario]="usuarioParaFormulario"
       [usuarioLogueado]="data.currentUser"
       [loading]="loading"
       (formSubmit)="onFormSubmit($event)"

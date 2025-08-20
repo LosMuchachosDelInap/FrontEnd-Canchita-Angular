@@ -7,5 +7,10 @@ export interface Usuario {
   dni: string;
   telefono: string;
   rol: string;
+  // Campos adicionales para el backend
+  id_empleado?: number;
+  id_usuario?: number;
+  id_persona?: number;
+  id_rol?: number;
 }
 

@@ -278,3 +278,61 @@ button:hover:not([disabled]) {
   width: 20px;
   height: 20px;
 }
+
+/* Información de contraseña */
+.password-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background-color: #fff3e0;
+  border: 1px solid #ff9800;
+  border-radius: 8px;
+  margin: 16px 0;
+  font-size: 14px;
+  color: #f57c00;
+}
+
+.password-info mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Información de solo lectura */
+.readonly-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background-color: #f3e5f5;
+  border: 1px solid #9c27b0;
+  border-radius: 8px;
+  margin: 16px 0;
+  font-size: 14px;
+  color: #7b1fa2;
+}
+
+.readonly-info mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Estilos para campos de solo lectura */
+input[readonly] {
+  cursor: default;
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Mantener colores normales en campos readonly */
+.mat-mdc-form-field input[readonly] {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: transparent;
+}
+
+/* Estilos específicos para el modo detalle */
+.form-section input[readonly] {
+  background-color: rgba(158, 158, 158, 0.05);
+  border-radius: 4px;
+}

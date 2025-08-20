@@ -28,13 +28,13 @@
   }
 
   <!-- Campos para registro y crear/editar usuario -->
-  @if (tipo === 'sign-up' || tipo === 'editar' || tipo === 'detalle') {
+  @if (tipo === 'sign-up' || tipo === 'editar' || tipo === 'detalle' || tipo === 'crear') {
     <div class="form-section">
       <!-- Nombre y Apellido -->
       <div class="form-row">
         <mat-form-field appearance="outline" class="half-width">
           <mat-label>Nombre</mat-label>
-          <input matInput formControlName="nombre" placeholder="Nombre">
+          <input matInput formControlName="nombre" placeholder="Nombre" [readonly]="isReadOnlyMode()">
           <mat-icon matSuffix>person</mat-icon>
           @if (form.get('nombre')?.hasError('required')) {
             <mat-error>El nombre es requerido</mat-error>
@@ -43,7 +43,7 @@
 
         <mat-form-field appearance="outline" class="half-width">
           <mat-label>Apellido</mat-label>
-          <input matInput formControlName="apellido" placeholder="Apellido">
+          <input matInput formControlName="apellido" placeholder="Apellido" [readonly]="isReadOnlyMode()">
           <mat-icon matSuffix>person</mat-icon>
           @if (form.get('apellido')?.hasError('required')) {
             <mat-error>El apellido es requerido</mat-error>
@@ -54,7 +54,7 @@
       <!-- Email -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Email</mat-label>
-        <input matInput type="email" formControlName="email" placeholder="tu@email.com">
+        <input matInput type="email" formControlName="email" placeholder="tu@email.com" [readonly]="isReadOnlyMode()">
         <mat-icon matSuffix>email</mat-icon>
         @if (form.get('email')?.hasError('required')) {
           <mat-error>El email es requerido</mat-error>
@@ -64,26 +64,36 @@
         }
       </mat-form-field>
 
-      <!-- Contraseña -->
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Contraseña</mat-label>
-        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="clave" placeholder="Contraseña">
-        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
-          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-        @if (form.get('clave')?.hasError('required')) {
-          <mat-error>La contraseña es requerida</mat-error>
+      <!-- Contraseña (oculta en modo de solo lectura) -->
+      @if (!isReadOnlyMode()) {
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contraseña</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="clave" placeholder="Contraseña">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          @if (form.get('clave')?.hasError('required')) {
+            <mat-error>La contraseña es requerida</mat-error>
+          }
+          @if (form.get('clave')?.hasError('minlength')) {
+            <mat-error>La contraseña debe tener al menos 6 caracteres</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Mensaje informativo para edición -->
+        @if (tipo === 'editar') {
+          <div class="password-info">
+            <mat-icon>info</mat-icon>
+            <span>Deja en blanco la contraseña si no quieres cambiarla</span>
+          </div>
         }
-        @if (form.get('clave')?.hasError('minlength')) {
-          <mat-error>La contraseña debe tener al menos 6 caracteres</mat-error>
-        }
-      </mat-form-field>
+      }
 
       <!-- Campos adicionales para registro y edición -->
       <div class="form-row">
         <mat-form-field appearance="outline" class="half-width">
           <mat-label>DNI</mat-label>
-          <input matInput formControlName="dni" placeholder="12345678" maxlength="8">
+          <input matInput formControlName="dni" placeholder="12345678" maxlength="8" [readonly]="isReadOnlyMode()">
           <mat-icon matSuffix>badge</mat-icon>
           @if (form.get('dni')?.hasError('required')) {
             <mat-error>El DNI es requerido</mat-error>
@@ -95,7 +105,7 @@
 
         <mat-form-field appearance="outline" class="half-width">
           <mat-label>Edad</mat-label>
-          <input matInput type="number" formControlName="edad" placeholder="18" min="16" max="99">
+          <input matInput type="number" formControlName="edad" placeholder="18" min="16" max="99" [readonly]="isReadOnlyMode()">
           <mat-icon matSuffix>cake</mat-icon>
           @if (form.get('edad')?.hasError('required')) {
             <mat-error>La edad es requerida</mat-error>
@@ -111,7 +121,7 @@
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Teléfono</mat-label>
-        <input matInput formControlName="telefono" placeholder="11 1234-5678" maxlength="11">
+        <input matInput formControlName="telefono" placeholder="11 1234-5678" maxlength="11" [readonly]="isReadOnlyMode()">
         <mat-icon matSuffix>phone</mat-icon>
         @if (form.get('telefono')?.hasError('required')) {
           <mat-error>El teléfono es requerido</mat-error>
@@ -121,29 +131,47 @@
         }
       </mat-form-field>
 
-      <!-- Rol (solo si el dueño está registrando usuarios) -->
-      @if (isOwnerRegistering && canSelectRole) {
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Rol del Usuario</mat-label>
-          <mat-select formControlName="rol">
-            @for (role of availableRoles; track role.value) {
-              <mat-option [value]="role.value">
-                {{role.label}}
-              </mat-option>
+      <!-- Rol (para creación, edición y vista de usuarios desde admin) -->
+      @if (shouldShowRoleField()) {
+        @if (isReadOnlyMode()) {
+          <!-- Mostrar rol como campo de solo lectura -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Rol del Usuario</mat-label>
+            <input matInput [value]="getRoleText(form.get('rol')?.value)" readonly>
+            <mat-icon matSuffix>admin_panel_settings</mat-icon>
+          </mat-form-field>
+        } @else {
+          <!-- Mostrar rol como select editable -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Rol del Usuario</mat-label>
+            <mat-select formControlName="rol">
+              @for (role of availableRoles; track role.value) {
+                <mat-option [value]="role.value">
+                  {{role.label}}
+                </mat-option>
+              }
+            </mat-select>
+            <mat-icon matSuffix>admin_panel_settings</mat-icon>
+            @if (form.get('rol')?.hasError('required')) {
+              <mat-error>Seleccione un rol</mat-error>
             }
-          </mat-select>
-          <mat-icon matSuffix>admin_panel_settings</mat-icon>
-          @if (form.get('rol')?.hasError('required')) {
-            <mat-error>Seleccione un rol</mat-error>
-          }
-        </mat-form-field>
+          </mat-form-field>
+        }
       }
 
-      <!-- Información del rol cuando no es dueño -->
-      @if (!isOwnerRegistering) {
+      <!-- Información del rol cuando es registro público (no dueño) -->
+      @if (tipo === 'sign-up' && !isOwnerRegistering) {
         <div class="role-info">
           <mat-icon>info</mat-icon>
           <span>Te registrarás como Cliente. Un administrador puede cambiar tu rol después.</span>
+        </div>
+      }
+
+      <!-- Información para modo de solo lectura -->
+      @if (isReadOnlyMode()) {
+        <div class="readonly-info">
+          <mat-icon>visibility</mat-icon>
+          <span>Estás viendo los detalles del usuario. Para modificar, usa el botón de editar.</span>
         </div>
       }
     </div>
@@ -151,30 +179,43 @@
 
   <!-- Botones de acción -->
   <div class="form-actions">
-    <button 
-      mat-button 
-      type="button" 
-      (click)="onCancel()"
-      [disabled]="loading">
-      Cancelar
-    </button>
-    
-    <button 
-      mat-raised-button 
-      color="primary" 
-      type="submit"
-      [disabled]="form.invalid || loading">
+    @if (isReadOnlyMode()) {
+      <!-- Solo botón de cerrar para modo de solo lectura -->
+      <button 
+        mat-raised-button 
+        color="primary" 
+        type="button" 
+        (click)="onCancel()">
+        <mat-icon>close</mat-icon>
+        Cerrar
+      </button>
+    } @else {
+      <!-- Botones normales para modos de edición -->
+      <button 
+        mat-button 
+        type="button" 
+        (click)="onCancel()"
+        [disabled]="loading">
+        Cancelar
+      </button>
       
-      @if (loading) {
-        <ng-container>
-          <mat-icon>refresh</mat-icon>
-          <span>{{getLoadingText()}}</span>
-        </ng-container>
-      }
-      @else {
-        <span>{{getSubmitButtonText()}}</span>
-      }
-    </button>
+      <button 
+        mat-raised-button 
+        color="primary" 
+        type="submit"
+        [disabled]="form.invalid || loading">
+        
+        @if (loading) {
+          <ng-container>
+            <mat-icon>refresh</mat-icon>
+            <span>{{getLoadingText()}}</span>
+          </ng-container>
+        }
+        @else {
+          <span>{{getSubmitButtonText()}}</span>
+        }
+      </button>
+    }
   </div>
 
   <!-- Información adicional -->

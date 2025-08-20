@@ -1,5 +1,48 @@
-<app-tabla
-  [headers]="headers"
-  [data]="usuarios"
-  [actions]="usuarioActions">
-</app-tabla>
+<div class="usuarios-container">
+  <!-- Header con título y botones -->
+  <div class="usuarios-header">
+    <h2>Gestión de Usuarios</h2>
+    <div class="header-actions">
+      <button 
+        mat-icon-button 
+        color="accent" 
+        (click)="cargarUsuarios(true)"
+        matTooltip="Actualizar desde servidor"
+        class="btn-refresh">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button 
+        mat-raised-button 
+        color="primary" 
+        (click)="crearNuevoUsuario()"
+        class="btn-crear">
+        <mat-icon>person_add</mat-icon>
+        Nuevo Usuario
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading spinner -->
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Cargando usuarios...</p>
+  </div>
+
+  <!-- Tabla de usuarios -->
+  <div *ngIf="!isLoading" class="tabla-container">
+    <app-tabla
+      [headers]="headers"
+      [data]="usuarios"
+      [actions]="usuarioActions">
+    </app-tabla>
+
+    <!-- Mensaje cuando no hay usuarios -->
+    <div *ngIf="usuarios.length === 0" class="no-data">
+      <mat-icon>people_outline</mat-icon>
+      <p>No hay usuarios registrados</p>
+      <button mat-button color="primary" (click)="crearNuevoUsuario()">
+        Crear primer usuario
+      </button>
+    </div>
+  </div>
+</div>

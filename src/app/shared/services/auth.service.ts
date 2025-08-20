@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { 
   User, 
@@ -15,6 +16,7 @@ import {
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8000/src/Api';
+  private platformId = inject(PLATFORM_ID);
   
   // Estado del usuario actual
   private currentUserSubject = new BehaviorSubject<User | null>(null);
@@ -25,8 +27,30 @@ export class AuthService {
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    // Verificar si hay usuario guardado en localStorage
+    // Verificar si hay usuario guardado en localStorage (solo en el navegador)
     this.checkStoredUser();
+  }
+
+  /**
+   * Métodos seguros para localStorage que funcionan con SSR
+   */
+  private setItem(key: string, value: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(key, value);
+    }
+  }
+
+  private getItem(key: string): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(key);
+    }
+    return null;
+  }
+
+  private removeItem(key: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(key);
+    }
   }
 
   /**
@@ -118,7 +142,7 @@ export class AuthService {
    * Limpiar usuario actual (método público)
    */
   clearCurrentUser(): void {
-    localStorage.removeItem('currentUser');
+    this.removeItem('currentUser');
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
   }
@@ -127,16 +151,16 @@ export class AuthService {
    * Establecer usuario actual
    */
   private setCurrentUser(user: User): void {
-    localStorage.setItem('currentUser', JSON.stringify(user));
+    this.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
     this.isAuthenticatedSubject.next(true);
   }
 
   /**
-   * Verificar usuario almacenado en localStorage
+   * Verificar usuario almacenado en localStorage (solo en el navegador)
    */
   private checkStoredUser(): void {
-    const storedUser = localStorage.getItem('currentUser');
+    const storedUser = this.getItem('currentUser');
     if (storedUser) {
       try {
         const user: User = JSON.parse(storedUser);
@@ -144,7 +168,7 @@ export class AuthService {
         this.isAuthenticatedSubject.next(true);
       } catch (error) {
         console.error('Error parsing stored user:', error);
-        localStorage.removeItem('currentUser');
+        this.removeItem('currentUser');
       }
     }
   }

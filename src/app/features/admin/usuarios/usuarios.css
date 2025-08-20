@@ -1,0 +1,180 @@
+/* Contenedor principal */
+.usuarios-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header con título y botón */
+.usuarios-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn-refresh {
+  background: rgba(255, 193, 7, 0.1) !important;
+  border: 1px solid #ffc107 !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-refresh:hover {
+  background: rgba(255, 193, 7, 0.2) !important;
+  transform: rotate(180deg);
+}
+
+.usuarios-header h2 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.btn-crear {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  text-transform: none;
+  padding: 8px 16px;
+}
+
+/* Container de loading */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  gap: 20px;
+  text-align: center;
+}
+
+.loading-container p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+/* Container de la tabla */
+.tabla-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Mensaje de no datos */
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  gap: 16px;
+  text-align: center;
+  background: white;
+}
+
+.no-data mat-icon {
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+  color: #ccc;
+}
+
+.no-data p {
+  margin: 0;
+  color: #666;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .usuarios-container {
+    padding: 16px;
+  }
+
+  .usuarios-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .usuarios-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .btn-crear {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .loading-container,
+  .no-data {
+    padding: 40px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .usuarios-container {
+    padding: 12px;
+  }
+
+  .usuarios-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .btn-crear {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Animaciones suaves */
+.tabla-container {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estados hover para mejor UX */
+.btn-crear:hover:not([disabled]) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-crear {
+  transition: all 0.3s ease;
+}
+
+/* Estilos para snackbar */
+::ng-deep .success-snackbar {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+::ng-deep .error-snackbar {
+  background-color: #f44336 !important;
+  color: white !important;
+}

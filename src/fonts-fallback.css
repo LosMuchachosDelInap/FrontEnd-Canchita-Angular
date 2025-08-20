@@ -1,0 +1,38 @@
+/* Fuentes de respaldo sin dependencias externas */
+/* Use system fonts as fallback */
+
+/* Roboto font stack with system fallbacks */
+.roboto-font, 
+body, 
+.mat-typography {
+  font-family: 
+    "Roboto", 
+    -apple-system, 
+    BlinkMacSystemFont, 
+    "Segoe UI", 
+    "Helvetica Neue", 
+    Arial, 
+    sans-serif, 
+    "Apple Color Emoji", 
+    "Segoe UI Emoji", 
+    "Segoe UI Symbol" !important;
+}
+
+/* Material Icons fallback using Unicode symbols */
+.material-icons-fallback {
+  font-family: inherit;
+}
+
+/* Common icon replacements */
+.material-icons-fallback.visibility::before { content: "👁"; }
+.material-icons-fallback.edit::before { content: "✏️"; }
+.material-icons-fallback.delete::before { content: "🗑️"; }
+.material-icons-fallback.person_add::before { content: "➕👤"; }
+.material-icons-fallback.refresh::before { content: "🔄"; }
+.material-icons-fallback.close::before { content: "❌"; }
+.material-icons-fallback.search::before { content: "🔍"; }
+.material-icons-fallback.menu::before { content: "☰"; }
+.material-icons-fallback.home::before { content: "🏠"; }
+.material-icons-fallback.logout::before { content: "🚪"; }
+
+/* Para usar: <mat-icon class="material-icons-fallback visibility">visibility</mat-icon> */
