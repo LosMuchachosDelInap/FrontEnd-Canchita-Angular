@@ -23,13 +23,16 @@
   </div>
 
   <!-- Loading spinner -->
-  <div *ngIf="isLoading" class="loading-container">
-    <mat-spinner diameter="50"></mat-spinner>
-    <p>Cargando usuarios...</p>
-  </div>
+  @if (isLoading) {
+    <div class="loading-container">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Cargando usuarios...</p>
+    </div>
+  }
 
   <!-- Tabla de usuarios -->
-  <div *ngIf="!isLoading" class="tabla-container">
+  @if (!isLoading) {
+    <div class="tabla-container">
     <app-tabla
       [headers]="headers"
       [data]="usuarios"
@@ -37,12 +40,15 @@
     </app-tabla>
 
     <!-- Mensaje cuando no hay usuarios -->
-    <div *ngIf="usuarios.length === 0" class="no-data">
-      <mat-icon>people_outline</mat-icon>
-      <p>No hay usuarios registrados</p>
-      <button mat-button color="primary" (click)="crearNuevoUsuario()">
-        Crear primer usuario
-      </button>
+    @if (usuarios.length === 0) {
+      <div class="no-data">
+        <mat-icon>people_outline</mat-icon>
+        <p>No hay usuarios registrados</p>
+        <button mat-button color="primary" (click)="crearNuevoUsuario()">
+          Crear primer usuario
+        </button>
+      </div>
+    }
     </div>
-  </div>
+  }
 </div>

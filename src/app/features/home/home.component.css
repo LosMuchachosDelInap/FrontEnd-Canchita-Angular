@@ -56,6 +56,11 @@
   padding: 40px 20px;
 }
 
+.canchas-section {
+  background: #f8f9fa;
+  padding: 40px 20px;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -66,6 +71,71 @@
   font-size: 2rem;
   margin-bottom: 2rem;
   color: #333;
+}
+
+.canchas-section h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.features-grid,
+.canchas-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.cancha-preview-card {
+  padding: 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  height: fit-content;
+  overflow: hidden;
+}
+
+.cancha-preview-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.cancha-preview-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.cancha-preview-card mat-card-header,
+.cancha-preview-card mat-card-content {
+  padding: 16px;
+}
+
+.cancha-preview-card mat-card-content {
+  padding-top: 0;
+}
+
+.precio {
+  text-align: center;
+  font-size: 1.4rem;
+  color: #2e7d32;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+.ver-todas-canchas {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.ver-todas-canchas button {
+  min-width: 200px;
+  height: 48px;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .features-grid {
@@ -134,7 +204,15 @@
   opacity: 0.9;
 }
 
-.cta-section button {
+.cta-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-section button,
+.cta-actions button {
   min-width: 200px;
   height: 48px;
   font-size: 1rem;
@@ -165,6 +243,11 @@
   }
   
   .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .canchas-preview {
     grid-template-columns: 1fr;
     gap: 1rem;
   }

@@ -1,0 +1,45 @@
+<!-- Placeholder para cancha2.jpg -->
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grass2" x="0" y="0" width="15" height="15" patternUnits="userSpaceOnUse">
+      <rect fill="#1b5e20" width="15" height="15"/>
+      <rect fill="#2e7d32" width="7" height="7"/>
+      <rect fill="#2e7d32" x="8" y="8" width="7" height="7"/>
+    </pattern>
+  </defs>
+  
+  <!-- Campo de fútbol -->
+  <rect fill="url(#grass2)" width="400" height="300"/>
+  
+  <!-- Líneas del campo -->
+  <g stroke="white" stroke-width="2" fill="none">
+    <!-- Borde del campo -->
+    <rect x="15" y="15" width="370" height="270"/>
+    
+    <!-- Línea central -->
+    <line x1="200" y1="15" x2="200" y2="285"/>
+    
+    <!-- Círculo central -->
+    <circle cx="200" cy="150" r="35"/>
+    
+    <!-- Áreas grandes -->
+    <rect x="15" y="85" width="50" height="130"/>
+    <rect x="335" y="85" width="50" height="130"/>
+    
+    <!-- Áreas pequeñas -->
+    <rect x="15" y="115" width="20" height="70"/>
+    <rect x="365" y="115" width="20" height="70"/>
+    
+    <!-- Arcos -->
+    <path d="M 15 105 Q 5 150 15 195"/>
+    <path d="M 385 105 Q 395 150 385 195"/>
+    
+    <!-- Graderías -->
+    <rect x="5" y="50" width="5" height="200" fill="#666" opacity="0.7"/>
+    <rect x="390" y="50" width="5" height="200" fill="#666" opacity="0.7"/>
+  </g>
+  
+  <!-- Texto -->
+  <text x="200" y="35" text-anchor="middle" fill="white" font-family="Arial" font-size="16" font-weight="bold">CANCHA 2 - FÚTBOL 7</text>
+  <text x="200" y="285" text-anchor="middle" fill="white" font-family="Arial" font-size="12">Césped Natural + Graderías</text>
+</svg>

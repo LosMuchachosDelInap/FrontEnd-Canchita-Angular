@@ -62,8 +62,8 @@
       <!-- Enlaces para empleados -->
       @if (isEmpleado()) {
         @for (employeeLink of [
-          { path: '/reservas', label: 'Reservas', icon: 'event' },
-          { path: '/canchas', label: 'Ver Canchas', icon: 'sports_soccer' }
+          { path: '/admin/reservas', label: 'Gestionar Reservas', icon: 'event' },
+          { path: '/reservas', label: 'Ver Canchas', icon: 'sports_soccer' }
         ]; track employeeLink.path) {
           <a mat-button [routerLink]="employeeLink.path" (click)="closeSidenavPanel()" class="nav-link employee-link">
             <mat-icon>{{ employeeLink.icon }}</mat-icon>
@@ -75,8 +75,8 @@
       <!-- Enlaces para clientes -->
       @if (isCliente()) {
         @for (clientLink of [
-          { path: '/reservas', label: 'Mis Reservas', icon: 'event' },
-          { path: '/canchas', label: 'Reservar Cancha', icon: 'sports_soccer' }
+          { path: '/dashboard/mis-reservas', label: 'Mis Reservas', icon: 'event_note' },
+          { path: '/reservas', label: 'Reservar Canchas', icon: 'sports_soccer' }
         ]; track clientLink.path) {
           <a mat-button [routerLink]="clientLink.path" (click)="closeSidenavPanel()" class="nav-link client-link">
             <mat-icon>{{ clientLink.icon }}</mat-icon>

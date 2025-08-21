@@ -1,0 +1,41 @@
+<!-- Placeholder para cancha1.jpg -->
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grass" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect fill="#2e7d32" width="20" height="20"/>
+      <rect fill="#388e3c" width="10" height="10"/>
+      <rect fill="#388e3c" x="10" y="10" width="10" height="10"/>
+    </pattern>
+  </defs>
+  
+  <!-- Campo de fútbol -->
+  <rect fill="url(#grass)" width="400" height="300"/>
+  
+  <!-- Líneas del campo -->
+  <g stroke="white" stroke-width="2" fill="none">
+    <!-- Borde del campo -->
+    <rect x="20" y="20" width="360" height="260"/>
+    
+    <!-- Línea central -->
+    <line x1="200" y1="20" x2="200" y2="280"/>
+    
+    <!-- Círculo central -->
+    <circle cx="200" cy="150" r="30"/>
+    
+    <!-- Áreas -->
+    <rect x="20" y="100" width="40" height="100"/>
+    <rect x="340" y="100" width="40" height="100"/>
+    
+    <!-- Áreas pequeñas -->
+    <rect x="20" y="125" width="15" height="50"/>
+    <rect x="365" y="125" width="15" height="50"/>
+    
+    <!-- Arcos -->
+    <path d="M 20 130 Q 10 150 20 170"/>
+    <path d="M 380 130 Q 390 150 380 170"/>
+  </g>
+  
+  <!-- Texto -->
+  <text x="200" y="40" text-anchor="middle" fill="white" font-family="Arial" font-size="16" font-weight="bold">CANCHA 1 - FÚTBOL 5</text>
+  <text x="200" y="290" text-anchor="middle" fill="white" font-family="Arial" font-size="12">Césped Sintético</text>
+</svg>

@@ -2,15 +2,15 @@
   <header class="hero-section">
     <div class="hero-content">
       <h1>Bienvenido a La Canchita de los Pibes</h1>
-      <p class="hero-subtitle">Sistema de gestión para clubes de barrio</p>
+      <p class="hero-subtitle">El mejor lugar para jugar fútbol en el barrio</p>
       <div class="hero-actions">
-        <button mat-raised-button color="primary" routerLink="/auth/sign-in">
-          <mat-icon>login</mat-icon>
-          Iniciar Sesión
+        <button mat-raised-button color="primary" routerLink="/reservas">
+          <mat-icon>sports_soccer</mat-icon>
+          Ver Canchas
         </button>
         <button mat-outlined-button routerLink="/auth/sign-in">
-          <mat-icon>person_add</mat-icon>
-          Registrarse
+          <mat-icon>login</mat-icon>
+          Iniciar Sesión
         </button>
       </div>
     </div>
@@ -18,59 +18,116 @@
 
   <section class="features-section">
     <div class="container">
-      <h2>¿Qué puedes hacer?</h2>
+      <h2>¿Por qué elegir La Canchita?</h2>
       <div class="features-grid">
         <mat-card class="feature-card">
-          <mat-icon mat-card-avatar>people</mat-icon>
+          <mat-icon mat-card-avatar>grass</mat-icon>
           <mat-card-header>
-            <mat-card-title>Gestión de Usuarios</mat-card-title>
+            <mat-card-title>Canchas de Calidad</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p>Administra miembros y empleados del club.</p>
+            <p>Césped sintético y natural en perfecto estado.</p>
           </mat-card-content>
         </mat-card>
 
         <mat-card class="feature-card">
-          <mat-icon mat-card-avatar>sports_soccer</mat-icon>
+          <mat-icon mat-card-avatar>wb_sunny</mat-icon>
           <mat-card-header>
-            <mat-card-title>Gestión de Canchas</mat-card-title>
+            <mat-card-title>Iluminación LED</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p>Controla disponibilidad de las canchas.</p>
+            <p>Juega hasta tarde con nuestra iluminación profesional.</p>
           </mat-card-content>
         </mat-card>
 
         <mat-card class="feature-card">
-          <mat-icon mat-card-avatar>event</mat-icon>
+          <mat-icon mat-card-avatar>event_available</mat-icon>
           <mat-card-header>
-            <mat-card-title>Sistema de Reservas</mat-card-title>
+            <mat-card-title>Reservas Online</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p>Administra reservas con calendario.</p>
+            <p>Reserva tu cancha fácil y rápido desde cualquier lugar.</p>
           </mat-card-content>
         </mat-card>
 
         <mat-card class="feature-card">
-          <mat-icon mat-card-avatar>email</mat-icon>
+          <mat-icon mat-card-avatar>local_parking</mat-icon>
           <mat-card-header>
-            <mat-card-title>Notificaciones</mat-card-title>
+            <mat-card-title>Comodidades</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p>Confirmaciones automáticas por email.</p>
+            <p>Estacionamiento, vestuarios y bar disponibles.</p>
           </mat-card-content>
         </mat-card>
       </div>
     </div>
   </section>
 
+  <!-- Sección de canchas destacadas -->
+  <section class="canchas-section">
+    <div class="container">
+      <h2>Nuestras Canchas</h2>
+      <div class="canchas-preview">
+        <mat-card class="cancha-preview-card">
+          <img mat-card-image src="assets/images/cancha1.svg" alt="Cancha 1">
+          <mat-card-header>
+            <mat-card-title>Cancha 1 - Fútbol 5</mat-card-title>
+            <mat-card-subtitle>Césped sintético</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Perfecta para partidos de 5 vs 5. Iluminación LED y vestuarios.</p>
+            <div class="precio">$2.500/hora</div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="cancha-preview-card">
+          <img mat-card-image src="assets/images/cancha2.svg" alt="Cancha 2">
+          <mat-card-header>
+            <mat-card-title>Cancha 2 - Fútbol 7</mat-card-title>
+            <mat-card-subtitle>Césped natural</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Ideal para equipos más grandes. Con graderías para espectadores.</p>
+            <div class="precio">$3.500/hora</div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="cancha-preview-card">
+          <img mat-card-image src="assets/images/cancha3.svg" alt="Cancha 3">
+          <mat-card-header>
+            <mat-card-title>Cancha 3 - Fútbol 11</mat-card-title>
+            <mat-card-subtitle>Césped mixto</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Cancha reglamentaria para torneos oficiales.</p>
+            <div class="precio">$5.000/hora</div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      
+      <div class="ver-todas-canchas">
+        <button mat-raised-button color="primary" routerLink="/reservas">
+          <mat-icon>sports_soccer</mat-icon>
+          Ver Todas las Canchas
+        </button>
+      </div>
+    </div>
+  </section>
+
   <section class="cta-section">
     <div class="container">
-      <h2>¿Listo para comenzar?</h2>
-      <p>Únete y simplifica la gestión de tu club</p>
-      <button mat-raised-button color="accent" routerLink="/auth/sign-in">
-        <mat-icon>rocket_launch</mat-icon>
-        Empezar Ahora
-      </button>
+      <h2>¿Listo para jugar?</h2>
+      <p>Reserva tu cancha ahora y disfruta del mejor fútbol</p>
+      <div class="cta-actions">
+        <button mat-raised-button color="primary" routerLink="/reservas">
+          <mat-icon>sports_soccer</mat-icon>
+          Reservar Ahora
+        </button>
+        <button mat-outlined-button routerLink="/auth/sign-up">
+          <mat-icon>person_add</mat-icon>
+          Crear Cuenta
+        </button>
+      </div>
     </div>
   </section>
 </div>

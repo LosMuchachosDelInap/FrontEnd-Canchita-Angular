@@ -1,0 +1,53 @@
+<!-- Placeholder para cancha3.jpg -->
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grass3" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse">
+      <rect fill="#1b5e20" width="25" height="25"/>
+      <rect fill="#2e7d32" width="12" height="12"/>
+      <rect fill="#2e7d32" x="13" y="13" width="12" height="12"/>
+      <rect fill="#388e3c" x="6" y="6" width="6" height="6"/>
+      <rect fill="#388e3c" x="19" y="19" width="6" height="6"/>
+    </pattern>
+  </defs>
+  
+  <!-- Campo de fútbol -->
+  <rect fill="url(#grass3)" width="400" height="300"/>
+  
+  <!-- Líneas del campo -->
+  <g stroke="white" stroke-width="3" fill="none">
+    <!-- Borde del campo -->
+    <rect x="10" y="10" width="380" height="280"/>
+    
+    <!-- Línea central -->
+    <line x1="200" y1="10" x2="200" y2="290"/>
+    
+    <!-- Círculo central -->
+    <circle cx="200" cy="150" r="40"/>
+    
+    <!-- Áreas grandes -->
+    <rect x="10" y="75" width="60" height="150"/>
+    <rect x="330" y="75" width="60" height="150"/>
+    
+    <!-- Áreas pequeñas -->
+    <rect x="10" y="110" width="25" height="80"/>
+    <rect x="365" y="110" width="25" height="80"/>
+    
+    <!-- Arcos -->
+    <path d="M 10 120 Q 0 150 10 180"/>
+    <path d="M 390 120 Q 400 150 390 180"/>
+    
+    <!-- Punto de penalti -->
+    <circle cx="45" cy="150" r="1" fill="white"/>
+    <circle cx="355" cy="150" r="1" fill="white"/>
+    
+    <!-- Graderías VIP -->
+    <rect x="2" y="30" width="8" height="240" fill="#444" opacity="0.8"/>
+    <rect x="390" y="30" width="8" height="240" fill="#444" opacity="0.8"/>
+    <rect x="50" y="2" width="300" height="8" fill="#444" opacity="0.8"/>
+    <rect x="50" y="290" width="300" height="8" fill="#444" opacity="0.8"/>
+  </g>
+  
+  <!-- Texto -->
+  <text x="200" y="30" text-anchor="middle" fill="white" font-family="Arial" font-size="18" font-weight="bold">CANCHA 3 - FÚTBOL 11</text>
+  <text x="200" y="280" text-anchor="middle" fill="white" font-family="Arial" font-size="14">Reglamentaria - Césped Mixto</text>
+</svg>
