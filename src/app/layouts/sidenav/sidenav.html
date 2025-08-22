@@ -45,44 +45,82 @@
     
     <!-- Enlaces solo para usuarios autenticados -->
     @if (isAuthenticated) {
-      <!-- Enlaces para administradores y dueños -->
-      @if (isAdmin() || isDueno()) {
-        @for (adminLink of [
-          { path: '/admin/usuarios', label: 'Gestión de Usuarios', icon: 'people' },
-          { path: '/admin/canchas', label: 'Gestión de Canchas', icon: 'sports_soccer' },
-          { path: '/admin/reservas', label: 'Gestión de Reservas', icon: 'event' }
-        ]; track adminLink.path) {
-          <a mat-button [routerLink]="adminLink.path" (click)="closeSidenavPanel()" class="nav-link admin-link">
-            <mat-icon>{{ adminLink.icon }}</mat-icon>
-            {{ adminLink.label }}
-          </a>
-        }
+      <!-- Enlaces para reservas (disponible para todos los usuarios autenticados) -->
+      @if (canReserveCancha()) {
+        <a mat-button routerLink="/reservas" (click)="closeSidenavPanel()" class="nav-link">
+          <mat-icon>sports_soccer</mat-icon>
+          Reservar Canchas
+        </a>
       }
-      
-      <!-- Enlaces para empleados -->
-      @if (isEmpleado()) {
-        @for (employeeLink of [
-          { path: '/admin/reservas', label: 'Gestionar Reservas', icon: 'event' },
-          { path: '/reservas', label: 'Ver Canchas', icon: 'sports_soccer' }
-        ]; track employeeLink.path) {
-          <a mat-button [routerLink]="employeeLink.path" (click)="closeSidenavPanel()" class="nav-link employee-link">
-            <mat-icon>{{ employeeLink.icon }}</mat-icon>
-            {{ employeeLink.label }}
-          </a>
-        }
+
+      <!-- Ver mis reservas (disponible para todos los usuarios autenticados) -->
+      @if (canViewReservations()) {
+        <a mat-button routerLink="/dashboard/mis-reservas" (click)="closeSidenavPanel()" class="nav-link">
+          <mat-icon>event_note</mat-icon>
+          Mis Reservas
+        </a>
       }
-      
-      <!-- Enlaces para clientes -->
-      @if (isCliente()) {
-        @for (clientLink of [
-          { path: '/dashboard/mis-reservas', label: 'Mis Reservas', icon: 'event_note' },
-          { path: '/reservas', label: 'Reservar Canchas', icon: 'sports_soccer' }
-        ]; track clientLink.path) {
-          <a mat-button [routerLink]="clientLink.path" (click)="closeSidenavPanel()" class="nav-link client-link">
-            <mat-icon>{{ clientLink.icon }}</mat-icon>
-            {{ clientLink.label }}
-          </a>
-        }
+
+      <!-- Enlaces para administración (solo Dueño y Administrador) -->
+      @if (canAccessAdmin()) {
+        <mat-divider></mat-divider>
+        <div class="section-header">
+          <mat-icon>admin_panel_settings</mat-icon>
+          Administración
+        </div>
+        
+        <a mat-button routerLink="/admin/usuarios" (click)="closeSidenavPanel()" class="nav-link admin-link">
+          <mat-icon>people</mat-icon>
+          Gestión de Usuarios
+        </a>
+        
+        <a mat-button routerLink="/admin/canchas" (click)="closeSidenavPanel()" class="nav-link admin-link">
+          <mat-icon>sports_soccer</mat-icon>
+          Gestión de Canchas
+        </a>
+        
+        <a mat-button routerLink="/admin/reservas" (click)="closeSidenavPanel()" class="nav-link admin-link">
+          <mat-icon>event</mat-icon>
+          Gestión de Reservas
+        </a>
+      }
+
+      <!-- Enlaces específicos para roles de Bar -->
+      @if (canAccessBar()) {
+        <mat-divider></mat-divider>
+        <div class="section-header">
+          <mat-icon>local_bar</mat-icon>
+          Gestión de Bar
+        </div>
+        
+        <a mat-button routerLink="/bar/productos" (click)="closeSidenavPanel()" class="nav-link bar-link">
+          <mat-icon>inventory</mat-icon>
+          Productos
+        </a>
+        
+        <a mat-button routerLink="/bar/ventas" (click)="closeSidenavPanel()" class="nav-link bar-link">
+          <mat-icon>point_of_sale</mat-icon>
+          Ventas
+        </a>
+      }
+
+      <!-- Enlaces específicos para roles de Estacionamiento -->
+      @if (canAccessEstacionamiento()) {
+        <mat-divider></mat-divider>
+        <div class="section-header">
+          <mat-icon>local_parking</mat-icon>
+          Gestión de Estacionamiento
+        </div>
+        
+        <a mat-button routerLink="/estacionamiento/espacios" (click)="closeSidenavPanel()" class="nav-link parking-link">
+          <mat-icon>garage</mat-icon>
+          Espacios
+        </a>
+        
+        <a mat-button routerLink="/estacionamiento/reservas" (click)="closeSidenavPanel()" class="nav-link parking-link">
+          <mat-icon>event_available</mat-icon>
+          Reservas de Estacionamiento
+        </a>
       }
     }
   </div>

@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { UsuariosModalComponent } from '../../shared/components/usuarios-modal/usuarios-modal.component';
 import { AuthService } from '../../shared/services/auth.service';
+import { PermissionsService } from '../../shared/services/permissions.service';
 import { SidenavService } from '../../shared/services/sidenav.service';
 import { User } from '../../shared/interfaces/auth.interface';
 
@@ -29,6 +30,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   constructor(
     private dialog: MatDialog,
     private authService: AuthService,
+    private permissionsService: PermissionsService,
     private sidenavService: SidenavService
   ) {}
 
@@ -106,34 +108,85 @@ export class SidenavComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Verificar si el usuario puede acceder a la sección de administración
+   */
+  canAccessAdmin(): boolean {
+    return this.permissionsService.canAccessSection('admin');
+  }
+
+  /**
+   * Verificar si el usuario puede acceder a la sección de bar
+   */
+  canAccessBar(): boolean {
+    return this.permissionsService.canAccessSection('bar');
+  }
+
+  /**
+   * Verificar si el usuario puede acceder a la sección de estacionamiento
+   */
+  canAccessEstacionamiento(): boolean {
+    return this.permissionsService.canAccessSection('estacionamiento');
+  }
+
+  /**
+   * Verificar si el usuario puede reservar canchas
+   */
+  canReserveCancha(): boolean {
+    return this.permissionsService.canReserveCancha();
+  }
+
+  /**
+   * Verificar si el usuario puede ver sus reservas
+   */
+  canViewReservations(): boolean {
+    return this.permissionsService.canViewOwnReservations();
+  }
+
+  /**
    * Verificar si el usuario es administrador
    */
   isAdmin(): boolean {
-    const role = this.currentUser?.nombre_rol?.toLowerCase();
-    return role === 'admin' || role === 'administrador';
+    const role = this.currentUser?.nombre_rol;
+    return role === 'Administrador';
   }
 
   /**
    * Verificar si el usuario es dueño
    */
   isDueno(): boolean {
-    const role = this.currentUser?.nombre_rol?.toLowerCase();
-    return role === 'dueño' || role === 'dueno' || role === 'propietario';
+    const role = this.currentUser?.nombre_rol;
+    return role === 'Dueño';
   }
 
   /**
    * Verificar si el usuario es empleado
    */
   isEmpleado(): boolean {
-    const role = this.currentUser?.nombre_rol?.toLowerCase();
-    return role === 'empleado' || role === 'staff';
+    const role = this.currentUser?.nombre_rol;
+    return role === 'Empleado';
   }
 
   /**
    * Verificar si el usuario es cliente
    */
   isCliente(): boolean {
-    const role = this.currentUser?.nombre_rol?.toLowerCase();
-    return role === 'cliente' || role === 'usuario';
+    const role = this.currentUser?.nombre_rol;
+    return role === 'Cliente';
+  }
+
+  /**
+   * Verificar si el usuario tiene rol de Bar
+   */
+  isBar(): boolean {
+    const role = this.currentUser?.nombre_rol;
+    return role === 'Bar';
+  }
+
+  /**
+   * Verificar si el usuario tiene rol de Estacionamiento
+   */
+  isEstacionamiento(): boolean {
+    const role = this.currentUser?.nombre_rol;
+    return role === 'Estacionamiento';
   }
 }

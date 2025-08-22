@@ -132,6 +132,27 @@ mat-divider {
   margin-right: 0;
 }
 
+/* Estilos para encabezados de sección */
+.section-header {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  margin: 8px 0 4px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  gap: 8px;
+}
+
+.section-header mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  color: #666666;
+}
+
 /* Enlaces específicos por rol */
 .admin-link {
   border-left: 3px solid #f44336;
@@ -144,6 +165,32 @@ mat-divider {
 
 .admin-link mat-icon {
   color: #f44336 !important;
+}
+
+.bar-link {
+  border-left: 3px solid #9c27b0;
+  background-color: rgba(156, 39, 176, 0.05);
+}
+
+.bar-link:hover {
+  background-color: rgba(156, 39, 176, 0.1);
+}
+
+.bar-link mat-icon {
+  color: #9c27b0 !important;
+}
+
+.parking-link {
+  border-left: 3px solid #607d8b;
+  background-color: rgba(96, 125, 139, 0.05);
+}
+
+.parking-link:hover {
+  background-color: rgba(96, 125, 139, 0.1);
+}
+
+.parking-link mat-icon {
+  color: #607d8b !important;
 }
 
 .employee-link {

@@ -56,11 +56,13 @@ export interface RegisterResponse {
   user?: User;
 }
 
-export type UserRole = 'Cliente' | 'Empleado' | 'Administrador' | 'Dueño';
+export type UserRole = 'Cliente' | 'Empleado' | 'Administrador' | 'Dueño' | 'Bar' | 'Estacionamiento';
 
 export const USER_ROLES: Record<string, UserRole> = {
   CLIENTE: 'Cliente',
   EMPLEADO: 'Empleado',
   ADMINISTRADOR: 'Administrador',
-  DUEÑO: 'Dueño'
+  DUEÑO: 'Dueño',
+  BAR: 'Bar',
+  ESTACIONAMIENTO: 'Estacionamiento'
 } as const;

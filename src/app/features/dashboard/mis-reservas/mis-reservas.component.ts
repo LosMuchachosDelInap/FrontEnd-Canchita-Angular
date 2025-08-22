@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -13,22 +13,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../../shared/services/auth.service';
+import { ReservaService, Reserva } from '../../../shared/services/reserva.service';
 import { Router } from '@angular/router';
-
-interface Reserva {
-  id: number;
-  fecha: Date;
-  hora: string;
-  duracion: number;
-  cancha: {
-    nombre: string;
-    tipo: string;
-  };
-  estado: 'confirmada' | 'pendiente' | 'cancelada' | 'completada';
-  total: number;
-  fechaCreacion: Date;
-}
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-mis-reservas',
@@ -320,67 +309,67 @@ interface Reserva {
     }
   `]
 })
-export class MisReservasComponent implements OnInit {
+export class MisReservasComponent implements OnInit, OnDestroy {
   private authService = inject(AuthService);
+  private reservaService = inject(ReservaService);
   private router = inject(Router);
+  private snackBar = inject(MatSnackBar);
+  private destroy$ = new Subject<void>();
 
-  displayedColumns: string[] = ['id', 'fecha', 'cancha', 'estado', 'total', 'acciones'];
+  displayedColumns: string[] = ['fecha', 'cancha', 'estado', 'total', 'acciones'];
+  cargando = false;
   
   filtros = {
     fechaDesde: null as Date | null,
     fechaHasta: null as Date | null
   };
 
-  // Datos mock - después conectar al backend
-  reservas: Reserva[] = [
-    {
-      id: 1,
-      fecha: new Date('2025-08-25'),
-      hora: '18:00',
-      duracion: 2,
-      cancha: { nombre: 'Cancha 1', tipo: 'Fútbol 5' },
-      estado: 'confirmada',
-      total: 5000,
-      fechaCreacion: new Date('2025-08-20')
-    },
-    {
-      id: 2,
-      fecha: new Date('2025-08-20'),
-      hora: '20:00',
-      duracion: 1.5,
-      cancha: { nombre: 'Cancha 2', tipo: 'Fútbol 7' },
-      estado: 'completada',
-      total: 5250,
-      fechaCreacion: new Date('2025-08-15')
-    },
-    {
-      id: 3,
-      fecha: new Date('2025-08-30'),
-      hora: '19:00',
-      duracion: 1,
-      cancha: { nombre: 'Cancha 3', tipo: 'Fútbol 11' },
-      estado: 'pendiente',
-      total: 5000,
-      fechaCreacion: new Date('2025-08-21')
-    }
-  ];
-
+  reservas: Reserva[] = [];
   reservasFiltradas: Reserva[] = [];
 
   ngOnInit() {
-    this.aplicarFiltros();
+    this.cargarReservas();
+    
+    // Suscribirse a cambios en las reservas del servicio
+    this.reservaService.reservas$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(reservas => {
+        this.reservas = reservas;
+        this.aplicarFiltros();
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  cargarReservas() {
+    try {
+      this.cargando = true;
+      // El servicio maneja la carga y actualiza el observable automáticamente
+      this.reservaService.cargarMisReservas();
+    } catch (error) {
+      console.error('Error al cargar reservas:', error);
+      this.snackBar.open('Error al cargar las reservas', 'Cerrar', {
+        duration: 3000
+      });
+    } finally {
+      this.cargando = false;
+    }
   }
 
   aplicarFiltros() {
     this.reservasFiltradas = this.reservas.filter(reserva => {
-      if (this.filtros.fechaDesde && reserva.fecha < this.filtros.fechaDesde) {
+      if (this.filtros.fechaDesde && new Date(reserva.fecha) < this.filtros.fechaDesde) {
         return false;
       }
-      if (this.filtros.fechaHasta && reserva.fecha > this.filtros.fechaHasta) {
+      if (this.filtros.fechaHasta && new Date(reserva.fecha) > this.filtros.fechaHasta) {
         return false;
       }
       return true;
     });
+  }
   }
 
   limpiarFiltros() {
@@ -418,21 +407,36 @@ export class MisReservasComponent implements OnInit {
   }
 
   nuevaReserva() {
-    this.router.navigate(['/reservas']);
+    this.router.navigate(['/reservas/nueva-reserva']);
   }
 
   verDetalle(reserva: Reserva) {
     console.log('Ver detalle de reserva:', reserva);
-    // Implementar modal o navegación a detalle
+    // TODO: Implementar modal o navegación a detalle
   }
 
   modificarReserva(reserva: Reserva) {
     console.log('Modificar reserva:', reserva);
-    // Implementar lógica de modificación
+    // TODO: Implementar lógica de modificación
   }
 
-  cancelarReserva(reserva: Reserva) {
-    console.log('Cancelar reserva:', reserva);
-    // Implementar lógica de cancelación
+  async cancelarReserva(reserva: Reserva) {
+    if (confirm('¿Estás seguro de que deseas cancelar esta reserva?')) {
+      try {
+        await this.reservaService.cancelarReserva(reserva.id!).toPromise();
+        this.snackBar.open('Reserva cancelada exitosamente', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+        // Recargar reservas
+        this.reservaService.cargarMisReservas();
+      } catch (error) {
+        console.error('Error al cancelar reserva:', error);
+        this.snackBar.open('Error al cancelar la reserva. Intenta de nuevo.', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    }
   }
 }

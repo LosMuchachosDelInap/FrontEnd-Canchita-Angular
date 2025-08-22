@@ -13,6 +13,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../shared/services/auth.service';
+import { ReservaService, CrearReservaRequest } from '../../shared/services/reserva.service';
+import { CanchaHorarioService, CanchaDB, HorarioDB } from '../../shared/services/cancha-horario.service';
 
 @Component({
   selector: 'app-nueva-reserva',
@@ -427,6 +429,8 @@ export class NuevaReservaComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private reservaService = inject(ReservaService);
+  private canchaHorarioService = inject(CanchaHorarioService);
   private snackBar = inject(MatSnackBar);
 
   canchaForm!: FormGroup;
@@ -437,54 +441,14 @@ export class NuevaReservaComponent implements OnInit {
   fechaMinima = new Date();
   procesandoReserva = false;
 
-  // Datos mock - después conectar al backend
-  canchasDisponibles = [
-    {
-      id: 1,
-      nombre: 'Cancha 1',
-      tipo: 'Fútbol 5',
-      descripcion: 'Cancha de césped sintético con iluminación LED',
-      precio: 2500,
-      imagen: 'assets/images/cancha1.svg'
-    },
-    {
-      id: 2,
-      nombre: 'Cancha 2',
-      tipo: 'Fútbol 7',
-      descripcion: 'Cancha de césped natural con graderías',
-      precio: 3500,
-      imagen: 'assets/images/cancha2.svg'
-    },
-    {
-      id: 3,
-      nombre: 'Cancha 3',
-      tipo: 'Fútbol 11',
-      descripción: 'Cancha reglamentaria con todas las comodidades',
-      precio: 5000,
-      imagen: 'assets/images/cancha3.svg'
-    }
-  ];
-
-  horariosDisponibles = [
-    { hora: '08:00', disponible: true },
-    { hora: '09:00', disponible: true },
-    { hora: '10:00', disponible: false },
-    { hora: '11:00', disponible: true },
-    { hora: '12:00', disponible: true },
-    { hora: '13:00', disponible: false },
-    { hora: '14:00', disponible: true },
-    { hora: '15:00', disponible: true },
-    { hora: '16:00', disponible: true },
-    { hora: '17:00', disponible: false },
-    { hora: '18:00', disponible: true },
-    { hora: '19:00', disponible: true },
-    { hora: '20:00', disponible: true },
-    { hora: '21:00', disponible: true },
-    { hora: '22:00', disponible: true }
-  ];
+  // Datos reales desde la base de datos
+  canchasDisponibles: any[] = [];
+  horariosDisponibles: any[] = [];
 
   ngOnInit() {
     this.initializeForms();
+    this.loadCanchas();
+    this.loadHorarios();
     this.checkCanchaFromParams();
     this.loadUserData();
   }
@@ -506,6 +470,58 @@ export class NuevaReservaComponent implements OnInit {
       telefono: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       comentarios: ['']
+    });
+  }
+
+  loadCanchas() {
+    this.canchaHorarioService.getCanchas().subscribe({
+      next: (canchas: CanchaDB[]) => {
+        this.canchasDisponibles = canchas.map(cancha => ({
+          id: cancha.id_cancha,
+          nombre: cancha.nombreCancha,
+          tipo: 'Fútbol', // Se puede determinar desde el nombre
+          descripcion: `Cancha ${cancha.nombreCancha}`,
+          precio: cancha.precio,
+          imagen: 'assets/images/cancha-default.svg'
+        }));
+      },
+      error: (error: any) => {
+        console.error('Error al cargar canchas:', error);
+        this.snackBar.open('Error al cargar las canchas disponibles', 'Cerrar', {
+          duration: 3000
+        });
+      }
+    });
+  }
+
+  loadHorarios() {
+    this.canchaHorarioService.getHorarios().subscribe({
+      next: (horarios: HorarioDB[]) => {
+        this.horariosDisponibles = horarios.map(horario => ({
+          hora: this.canchaHorarioService.formatearHorario(horario.horario),
+          disponible: true // Inicialmente todos disponibles, se puede verificar disponibilidad después
+        }));
+      },
+      error: (error: any) => {
+        console.error('Error al cargar horarios:', error);
+        // Mantener horarios por defecto si hay error
+        this.horariosDisponibles = [
+          { hora: '08:00', disponible: true },
+          { hora: '09:00', disponible: true },
+          { hora: '10:00', disponible: true },
+          { hora: '11:00', disponible: true },
+          { hora: '12:00', disponible: true },
+          { hora: '13:00', disponible: true },
+          { hora: '14:00', disponible: true },
+          { hora: '15:00', disponible: true },
+          { hora: '16:00', disponible: true },
+          { hora: '17:00', disponible: true },
+          { hora: '18:00', disponible: true },
+          { hora: '19:00', disponible: true },
+          { hora: '20:00', disponible: true },
+          { hora: '21:00', disponible: true }
+        ];
+      }
     });
   }
 
@@ -556,32 +572,42 @@ export class NuevaReservaComponent implements OnInit {
     this.procesandoReserva = true;
 
     try {
-      // Aquí iría la llamada al backend
-      const reservaData = {
-        canchaId: this.canchaForm.value.canchaId,
-        fecha: this.fechaForm.value.fecha,
+      // Preparar datos para enviar al backend
+      const reservaData: CrearReservaRequest = {
+        cancha_id: this.canchaForm.value.canchaId,
+        fecha: this.fechaForm.value.fecha.toISOString().split('T')[0], // YYYY-MM-DD
         hora: this.fechaForm.value.hora,
-        duracion: this.fechaForm.value.duracion,
-        cliente: this.clienteForm.value,
-        total: this.calcularTotal()
+        comentarios: this.clienteForm.value.comentarios
       };
 
-      console.log('Datos de reserva:', reservaData);
+      console.log('Enviando reserva:', reservaData);
 
-      // Simular llamada al backend
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Llamar al servicio para crear la reserva
+      await this.reservaService.crearReserva(reservaData).toPromise();
 
       this.snackBar.open('¡Reserva confirmada exitosamente!', 'Cerrar', {
         duration: 5000,
         panelClass: ['success-snackbar']
       });
 
+      // Recargar las reservas del usuario
+      this.reservaService.cargarMisReservas();
+
       // Redirigir a la lista de reservas del usuario
       this.router.navigate(['/dashboard/mis-reservas']);
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error al confirmar reserva:', error);
-      this.snackBar.open('Error al procesar la reserva. Intenta nuevamente.', 'Cerrar', {
+      
+      let mensaje = 'Error al procesar la reserva. Intenta nuevamente.';
+      
+      if (error?.error?.message) {
+        mensaje = error.error.message;
+      } else if (error?.message) {
+        mensaje = error.message;
+      }
+
+      this.snackBar.open(mensaje, 'Cerrar', {
         duration: 5000,
         panelClass: ['error-snackbar']
       });

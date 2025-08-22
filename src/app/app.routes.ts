@@ -22,7 +22,7 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/sign-up/sign-up.component').then(m => m.SignUpComponent),
     canActivate: [GuestGuard] // Solo para usuarios no autenticados
   },
-  // Ruta de reservas - acceso público, pero reservar requiere autenticación
+  // Rutas de reservas - TODOS los usuarios autenticados pueden reservar
   {
     path: 'reservas',
     children: [
@@ -34,11 +34,11 @@ export const routes: Routes = [
       {
         path: 'nueva',
         loadComponent: () => import('./features/reservas/nueva-reserva.component').then(m => m.NuevaReservaComponent),
-        canActivate: [AuthGuard] // Requiere autenticación para reservar
+        canActivate: [AuthGuard] // TODOS los usuarios autenticados pueden reservar
       }
     ]
   },
-  // Rutas de dashboard para usuarios autenticados
+  // Rutas de dashboard - TODOS los usuarios autenticados
   {
     path: 'dashboard',
     canActivate: [AuthGuard],
@@ -46,6 +46,7 @@ export const routes: Routes = [
       {
         path: 'mis-reservas',
         loadComponent: () => import('./features/dashboard/mis-reservas/mis-reservas.component').then(m => m.MisReservasComponent)
+        // TODOS los usuarios autenticados pueden ver sus reservas
       },
       {
         path: '',
@@ -54,21 +55,31 @@ export const routes: Routes = [
       }
     ]
   },
-  // Rutas de administración
+  // Rutas de administración - Solo Dueño y Administrador
   {
     path: 'admin',
-    canActivate: [AuthGuard, AdminGuard], // Requiere autenticación y permisos de admin
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['Dueño', 'Administrador'] },
     children: [
       {
         path: 'usuarios',
-        loadComponent: () => import('./features/admin/usuarios/usuarios').then(m => m.UsuariosComponent),
-        data: { roles: ['Dueño', 'Administrador'] } // Roles específicos permitidos
+        loadComponent: () => import('./features/admin/usuarios/usuarios').then(m => m.UsuariosComponent)
+        // Dueño: puede crear cualquier rol incluyendo Administrador
+        // Administrador: puede crear cualquier rol EXCEPTO Dueño y Administrador
       },
       {
         path: 'empleados',
-        loadComponent: () => import('./features/admin/usuarios/usuarios').then(m => m.UsuariosComponent),
-        canActivate: [RoleGuard],
-        data: { roles: ['Dueño', 'Administrador'] }
+        loadComponent: () => import('./features/admin/usuarios/usuarios').then(m => m.UsuariosComponent)
+      },
+      {
+        path: 'canchas',
+        loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
+        // TODO: Crear componente de gestión de canchas
+      },
+      {
+        path: 'reservas',
+        loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
+        // TODO: Crear componente de gestión de reservas admin
       },
       {
         path: '',
@@ -83,10 +94,10 @@ export const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { roles: ['Dueño', 'Administrador', 'Bar'] },
     children: [
-      // Aquí irán las rutas específicas para el personal del bar
       {
         path: '',
         loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
+        // TODO: Crear componente específico para Bar
       }
     ]
   },
@@ -95,10 +106,10 @@ export const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { roles: ['Dueño', 'Administrador', 'Estacionamiento'] },
     children: [
-      // Aquí irán las rutas específicas para estacionamiento
       {
         path: '',
         loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
+        // TODO: Crear componente específico para Estacionamiento
       }
     ]
   },
