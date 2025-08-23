@@ -66,13 +66,13 @@ export class ReservaService {
   crearReserva(reservaData: CrearReservaRequest): Observable<any> {
     const currentUser = this.authService.getCurrentUser();
     
-    if (!currentUser?.id) {
+    if (!currentUser?.id_usuario) {
       throw new Error('Usuario no autenticado');
     }
 
     // Usar el controlador existente que ya maneja la estructura normalizada
     const payload = {
-      id_usuario: currentUser.id,
+      id_usuario: currentUser.id_usuario,
       cancha: reservaData.cancha_id,
       fecha: reservaData.fecha,
       horario: reservaData.hora,
@@ -89,13 +89,15 @@ export class ReservaService {
   cargarMisReservas(): void {
     const currentUser = this.authService.getCurrentUser();
     
-    if (!currentUser?.id) {
+    if (!currentUser?.id_usuario) {
       this.reservasSubject.next([]);
       return;
     }
 
     // Usaremos un endpoint que aproveche Reserva::listarTodas() filtrado por usuario
-    this.http.get<any[]>(`${this.baseUrl}/reservas.php?id_usuario=${currentUser.id}`)
+    const url = `${this.baseUrl}/reservas.php?id_usuario=${currentUser.id_usuario}`;
+    
+    this.http.get<any[]>(url)
       .pipe(
         map(reservasDB => this.convertirReservasAFrontend(reservasDB))
       )

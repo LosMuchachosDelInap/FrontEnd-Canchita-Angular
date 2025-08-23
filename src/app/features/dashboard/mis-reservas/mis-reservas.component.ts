@@ -370,13 +370,13 @@ export class MisReservasComponent implements OnInit, OnDestroy {
       return true;
     });
   }
-  }
 
   limpiarFiltros() {
     this.filtros.fechaDesde = null;
     this.filtros.fechaHasta = null;
     this.aplicarFiltros();
   }
+
 
   getEstadoColor(estado: string): 'primary' | 'accent' | 'warn' | undefined {
     switch (estado) {

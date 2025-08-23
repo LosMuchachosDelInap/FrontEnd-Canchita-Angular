@@ -581,6 +581,17 @@ export class NuevaReservaComponent implements OnInit {
       };
 
       console.log('Enviando reserva:', reservaData);
+      
+      // Validar que el usuario esté autenticado
+      const currentUser = this.authService.getCurrentUser();
+      if (!currentUser) {
+        this.snackBar.open('Debes iniciar sesión para hacer una reserva', 'Cerrar', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
+        this.router.navigate(['/auth/login']);
+        return;
+      }
 
       // Llamar al servicio para crear la reserva
       await this.reservaService.crearReserva(reservaData).toPromise();
