@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { UsuariosModalComponent } from '../../shared/components/usuarios-modal/usuarios-modal.component';
@@ -27,7 +28,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     private dialog: MatDialog,
     private authService: AuthService,
-    private sidenavService: SidenavService
+    private sidenavService: SidenavService,
+    private snackBar: MatSnackBar
   ) {}
 
   openSidenav() {
@@ -75,7 +77,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.success) {
-        // Registro exitoso
+        if (result.autoLogin) {
+          // Si el auto-login fue exitoso, mostrar mensaje de bienvenida
+          this.snackBar.open(result.message, 'Cerrar', {
+            duration: 5000,
+            panelClass: ['success-snackbar']
+          });
+          // El navbar se actualizará automáticamente por el observable del authService
+        } else {
+          // Si el registro fue exitoso pero no se pudo hacer auto-login
+          this.snackBar.open(result.message, 'Cerrar', {
+            duration: 5000,
+            panelClass: ['success-snackbar']
+          });
+        }
       }
     });
   }

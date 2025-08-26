@@ -79,7 +79,18 @@ export class ReservaService {
       comentarios: reservaData.comentarios || ''
     };
 
-    return this.http.post(`${this.baseUrl}/reservarCancha.php`, payload);
+    return this.http.post(`${this.baseUrl}/reservarCancha.php`, payload).pipe(
+      map((response: any) => {
+        console.log('📧 Respuesta completa del servidor:', response);
+        if (response.email_status) {
+          console.log('📧 Estado del email:', response.email_status);
+          if (response.debug_info) {
+            console.log('🔍 Info de debug:', response.debug_info);
+          }
+        }
+        return response;
+      })
+    );
   }
 
   /**

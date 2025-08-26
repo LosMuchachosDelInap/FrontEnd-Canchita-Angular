@@ -291,7 +291,42 @@ export class UsuariosModalComponent implements OnInit {
   private handleRegister(formData: any): Promise<any> {
     return new Promise((resolve) => {
       this.authService.register(formData).subscribe({
-        next: (response) => resolve(response),
+        next: (response) => {
+          if (response.success) {
+            // Auto-login después del registro exitoso
+            const loginData = {
+              email: formData.email,
+              clave: formData.password
+            };
+            
+            this.authService.login(loginData).subscribe({
+              next: (loginResponse) => {
+                if (loginResponse.success) {
+                  resolve({
+                    success: true,
+                    message: 'Cuenta creada exitosamente. ¡Ya estás logueado!',
+                    autoLogin: true
+                  });
+                } else {
+                  resolve({
+                    success: true,
+                    message: 'Cuenta creada exitosamente. Puedes iniciar sesión ahora.',
+                    autoLogin: false
+                  });
+                }
+              },
+              error: () => {
+                resolve({
+                  success: true,
+                  message: 'Cuenta creada exitosamente. Puedes iniciar sesión ahora.',
+                  autoLogin: false
+                });
+              }
+            });
+          } else {
+            resolve(response);
+          }
+        },
         error: (error) =>
           resolve({
             success: false,

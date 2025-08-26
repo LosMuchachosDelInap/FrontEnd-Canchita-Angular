@@ -61,12 +61,21 @@ export class SignUpComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.success) {
-        this.snackBar.open('¡Cuenta creada exitosamente! Ya puedes iniciar sesión.', 'Cerrar', {
-          duration: 5000,
-          panelClass: ['success-snackbar']
-        });
-        // Redirigir al sign-in después del registro exitoso
-        this.router.navigate(['/auth/sign-in']);
+        if (result.autoLogin) {
+          // Si el auto-login fue exitoso, redirigir al dashboard
+          this.snackBar.open(result.message, 'Cerrar', {
+            duration: 5000,
+            panelClass: ['success-snackbar']
+          });
+          this.router.navigate(['/dashboard']);
+        } else {
+          // Si el registro fue exitoso pero no se pudo hacer auto-login
+          this.snackBar.open(result.message, 'Cerrar', {
+            duration: 5000,
+            panelClass: ['success-snackbar']
+          });
+          this.router.navigate(['/auth/sign-in']);
+        }
       }
     });
   }
