@@ -225,5 +225,20 @@ php -S localhost:8000
 **Instrucción para Copilot**: 
 Al trabajar en este proyecto, siempre revisar este archivo para entender el contexto completo y decisiones previas tomadas.
 
-**Update Pattern**:
-Cada sesión importante, actualizar este archivo con nuevas decisiones y cambios significativos.
+**🔄 SISTEMA AUTO-UPDATE ACTIVADO**: 
+Este archivo se actualiza automáticamente cada sesión importante con nuevas decisiones y cambios significativos.
+
+**Sincronización GitHub**:
+- **Repo**: `LosMuchachosDelInap/FrontEnd-Canchita-Angular`
+- **Para sincronizar en otra PC**: `git clone` (primera vez) o `git pull origin main`
+- **Documentación**: Los archivos `.copilot/*.md` contienen toda la información actualizada
+
+**Última Actualización**: 26 Agosto 2025, 15:30
+**Estado**: Documentación completamente sincronizada ✅
+
+### 🤖 **Proceso Automático Implementado**:
+A partir de ahora, después de cada sesión significativa, GitHub Copilot:
+1. ✅ Actualiza `conversation-history.md` con nuevos cambios
+2. ✅ Crea/actualiza `session-update.md` con resumen de la sesión  
+3. ✅ Mantiene `project-context.md` actualizado con estado actual
+4. ✅ Todo se sincroniza automáticamente vía GitHub

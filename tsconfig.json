@@ -21,11 +21,24 @@
     "paths": {
       "@app/*": ["app/*"],
       "@features/*": ["app/features/*"],
-      "@shared/*": ["app/shared/*"],
-      "@core/*": ["app/core/*"],
+      /*layouts --------------------------*/
       "@layouts/*": ["app/layouts/*"],
+      "@footer/*": ["app/footer/*"],
+      "@header/*": ["app/header/*"],
+      "@navbar/*": ["app/navbar/*"],
+      "@sidenav/*": ["app/sidenav/*"],
+      /*layouts --------------------------*/
+      /*shared --------------------------*/
+      "@shared/*": ["app/shared/*"],
+      "@services/*": ["app/shared/services/*"],
+      "@guards/*": ["app/shared/guards/*"],
+      "@components/*": ["app/shared/components/*"],
+      "@interfaces/*": ["app/shared/interfaces/*"],
+      /*shared --------------------------*/
+      "@core/*": ["app/core/*"],
       "@public/*": ["public/*"],
-      "@interfaces/*": ["app/shared/interfaces/*"]
+      "@environments/*": ["environments/*"]
+      
     }
   },
   "angularCompilerOptions": {

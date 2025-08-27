@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { ConfigService } from './config.service';
 
 // Interface simplificada basada en la BD existente
 export interface Reserva {
@@ -43,7 +44,7 @@ export interface CrearReservaRequest {
 export class ReservaService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
-  private readonly baseUrl = 'http://localhost/Mis_Proyectos/LaCanchitaDeLosPibes/BackEnd-Canchita/src/Api';
+  private configService = inject(ConfigService);
 
   // Estado local para las reservas del usuario
   private reservasSubject = new BehaviorSubject<Reserva[]>([]);
@@ -79,15 +80,8 @@ export class ReservaService {
       comentarios: reservaData.comentarios || ''
     };
 
-    return this.http.post(`${this.baseUrl}/reservarCancha.php`, payload).pipe(
+    return this.http.post(this.configService.getApiEndpoint('reservarCancha'), payload).pipe(
       map((response: any) => {
-        console.log('📧 Respuesta completa del servidor:', response);
-        if (response.email_status) {
-          console.log('📧 Estado del email:', response.email_status);
-          if (response.debug_info) {
-            console.log('🔍 Info de debug:', response.debug_info);
-          }
-        }
         return response;
       })
     );
@@ -106,7 +100,7 @@ export class ReservaService {
     }
 
     // Usaremos un endpoint que aproveche Reserva::listarTodas() filtrado por usuario
-    const url = `${this.baseUrl}/reservas.php?id_usuario=${currentUser.id_usuario}`;
+    const url = `${this.configService.apiUrl}/reservas.php?id_usuario=${currentUser.id_usuario}`;
     
     this.http.get<any[]>(url)
       .pipe(
@@ -117,7 +111,6 @@ export class ReservaService {
           this.reservasSubject.next(reservas);
         },
         error: (error) => {
-          console.error('Error al cargar reservas:', error);
           this.reservasSubject.next([]);
         }
       });
@@ -154,7 +147,7 @@ export class ReservaService {
    */
   cancelarReserva(id: number, motivo?: string): Observable<any> {
     // Usaremos un endpoint simple para cancelar
-    return this.http.put(`${this.baseUrl}/cancelar-reserva.php`, { 
+    return this.http.put(this.configService.getApiEndpoint('cancelar-reserva'), { 
       id_reserva: id,
       motivo 
     });

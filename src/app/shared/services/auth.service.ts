@@ -10,12 +10,12 @@ import {
   RegisterResponse,
   UserRole 
 } from '../interfaces/auth.interface';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/src/Api';
   private platformId = inject(PLATFORM_ID);
   
   // Estado del usuario actual
@@ -26,7 +26,10 @@ export class AuthService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService
+  ) {
     // Verificar si hay usuario guardado en localStorage (solo en el navegador)
     this.checkStoredUser();
   }
@@ -57,7 +60,7 @@ export class AuthService {
    * Iniciar sesión
    */
   login(loginData: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/loguin.php`, loginData)
+    return this.http.post<LoginResponse>(this.configService.getApiEndpoint('loguin'), loginData)
       .pipe(
         tap(response => {
           if (response.success && response.user) {
@@ -71,14 +74,14 @@ export class AuthService {
    * Registrar nuevo usuario
    */
   register(registerData: RegisterRequest): Observable<RegisterResponse> {
-    return this.http.post<RegisterResponse>(`${this.apiUrl}/register.php`, registerData);
+    return this.http.post<RegisterResponse>(this.configService.getApiEndpoint('register'), registerData);
   }
 
   /**
    * Cerrar sesión
    */
   logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/cerrarSesion.php`, {})
+    return this.http.post(this.configService.getApiEndpoint('cerrarSesion'), {})
       .pipe(
         tap(() => {
           this.clearCurrentUser();

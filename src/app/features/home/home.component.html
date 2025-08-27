@@ -3,16 +3,6 @@
     <div class="hero-content">
       <h1>Bienvenido a La Canchita de los Pibes</h1>
       <p class="hero-subtitle">El mejor lugar para jugar fútbol en el barrio</p>
-      <div class="hero-actions">
-        <button mat-raised-button color="primary" routerLink="/reservas">
-          <mat-icon>sports_soccer</mat-icon>
-          Ver Canchas
-        </button>
-        <button mat-outlined-button routerLink="/auth/sign-in">
-          <mat-icon>login</mat-icon>
-          Iniciar Sesión
-        </button>
-      </div>
     </div>
   </header>
 
@@ -67,65 +57,103 @@
   <section class="canchas-section">
     <div class="container">
       <h2>Nuestras Canchas</h2>
-      <div class="canchas-preview">
-        <mat-card class="cancha-preview-card">
-          <img mat-card-image src="assets/images/cancha1.svg" alt="Cancha 1">
-          <mat-card-header>
-            <mat-card-title>Cancha 1 - Fútbol 5</mat-card-title>
-            <mat-card-subtitle>Césped sintético</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <p>Perfecta para partidos de 5 vs 5. Iluminación LED y vestuarios.</p>
-            <div class="precio">$2.500/hora</div>
-          </mat-card-content>
-        </mat-card>
-
-        <mat-card class="cancha-preview-card">
-          <img mat-card-image src="assets/images/cancha2.svg" alt="Cancha 2">
-          <mat-card-header>
-            <mat-card-title>Cancha 2 - Fútbol 7</mat-card-title>
-            <mat-card-subtitle>Césped natural</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <p>Ideal para equipos más grandes. Con graderías para espectadores.</p>
-            <div class="precio">$3.500/hora</div>
-          </mat-card-content>
-        </mat-card>
-
-        <mat-card class="cancha-preview-card">
-          <img mat-card-image src="assets/images/cancha3.svg" alt="Cancha 3">
-          <mat-card-header>
-            <mat-card-title>Cancha 3 - Fútbol 11</mat-card-title>
-            <mat-card-subtitle>Césped mixto</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <p>Cancha reglamentaria para torneos oficiales.</p>
-            <div class="precio">$5.000/hora</div>
-          </mat-card-content>
-        </mat-card>
-      </div>
+      
+      <!-- Loading State -->
+      @if (loading) {
+        <div class="loading-container">
+          <mat-spinner diameter="50"></mat-spinner>
+          <p>Cargando canchas...</p>
+        </div>
+      }
+      
+      <!-- Error State -->
+      @else if (error && canchas.length === 0) {
+        <div class="error-container">
+          <mat-icon class="error-icon">error_outline</mat-icon>
+          <p class="error-message">{{ error }}</p>
+          <button mat-raised-button color="primary" (click)="reintentar()">
+            <mat-icon>refresh</mat-icon>
+            Reintentar
+          </button>
+        </div>
+      }
+      
+      <!-- Canchas dinámicas -->
+      @else if (canchas.length > 0) {
+        <div class="canchas-preview">
+          @for (cancha of canchas; track cancha.id) {
+            <mat-card class="cancha-preview-card">
+              <div class="cancha-image-container">
+                <img 
+                  mat-card-image 
+                  [src]="cancha.imagen" 
+                  [alt]="cancha.nombre"
+                  loading="lazy"
+                  (error)="onImageError($event)"
+                >
+                <div class="cancha-badge">{{ cancha.tipo }}</div>
+              </div>
+              
+              <mat-card-header>
+                <mat-card-title>{{ cancha.nombre }}</mat-card-title>
+                <mat-card-subtitle>{{ cancha.descripcion }}</mat-card-subtitle>
+              </mat-card-header>
+              
+              <mat-card-content>
+                <!-- Características -->
+                @if (cancha.caracteristicas && cancha.caracteristicas.length > 0) {
+                  <div class="caracteristicas">
+                    @for (caracteristica of cancha.caracteristicas; track caracteristica.nombre) {
+                      <mat-chip-option class="caracteristica-chip">
+                        <mat-icon>{{ caracteristica.icon }}</mat-icon>
+                        {{ caracteristica.nombre }}
+                      </mat-chip-option>
+                    }
+                  </div>
+                }
+                
+                <!-- Precio -->
+                <div class="precio-container">
+                  <span class="precio">${{ cancha.precio | number:'1.0-0' }}</span>
+                  <span class="precio-unidad">/hora</span>
+                </div>
+              </mat-card-content>
+              
+              <mat-card-actions>
+                <button 
+                  mat-raised-button 
+                  color="primary" 
+                  routerLink="/reservas"
+                  [queryParams]="{cancha: cancha.id}"
+                >
+                  <mat-icon>sports_soccer</mat-icon>
+                  Reservar
+                </button>
+                <button mat-button routerLink="/reservas">
+                  Ver Detalles
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          }
+        </div>
+      }
+      
+      <!-- Fallback: No hay canchas -->
+      @else {
+        <div class="no-canchas">
+          <mat-icon class="no-canchas-icon">sports_soccer</mat-icon>
+          <p>No hay canchas disponibles en este momento.</p>
+          <button mat-raised-button color="primary" (click)="reintentar()">
+            <mat-icon>refresh</mat-icon>
+            Actualizar
+          </button>
+        </div>
+      }
       
       <div class="ver-todas-canchas">
-        <button mat-raised-button color="primary" routerLink="/reservas">
+        <button mat-raised-button color="accent" routerLink="/reservas">
           <mat-icon>sports_soccer</mat-icon>
-          Ver Todas las Canchas
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <section class="cta-section">
-    <div class="container">
-      <h2>¿Listo para jugar?</h2>
-      <p>Reserva tu cancha ahora y disfruta del mejor fútbol</p>
-      <div class="cta-actions">
-        <button mat-raised-button color="primary" routerLink="/reservas">
-          <mat-icon>sports_soccer</mat-icon>
-          Reservar Ahora
-        </button>
-        <button mat-outlined-button routerLink="/auth/sign-up">
-          <mat-icon>person_add</mat-icon>
-          Crear Cuenta
+          Ver Todas las Canchas ({{ canchas.length }}+)
         </button>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ConfigService } from './config.service';
 
 export interface Cancha {
   id_cancha: number;
@@ -29,18 +30,19 @@ export interface CanchaDisplay {
   providedIn: 'root'
 })
 export class CanchasService {
-  private readonly API_URL = 'http://localhost/Mis_Proyectos/LaCanchitaDeLosPibes/BackEnd-Canchita/src/Api';
-  
   private canchasSubject = new BehaviorSubject<CanchaDisplay[]>([]);
   public canchas$ = this.canchasSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService
+  ) {}
 
   /**
    * Obtiene todas las canchas desde el backend
    */
   getCanchas(): Observable<CanchaDisplay[]> {
-    return this.http.get<Cancha[]>(`${this.API_URL}/canchas.php`).pipe(
+    return this.http.get<Cancha[]>(this.configService.getApiEndpoint('canchas')).pipe(
       map(response => {
         const canchasFormateadas = this.formatearCanchas(response || []);
         this.canchasSubject.next(canchasFormateadas);

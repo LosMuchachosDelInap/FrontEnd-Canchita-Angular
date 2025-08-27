@@ -1,5 +1,19 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
+# ===================================
+# 🔐 ARCHIVOS SENSIBLES - NO SUBIR A GIT
+# ===================================
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+*.env
+
+# Archivos de configuración locales
+config/local.json
+src/environments/environment.local.ts
+
 # Compiled output
 /dist
 /tmp

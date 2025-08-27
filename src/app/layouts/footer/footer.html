@@ -1,1 +1,64 @@
-<p>footer works!</p>
+<footer class="app-footer">
+  <!-- Sección CTA movida desde home -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>¿Listo para jugar?</h2>
+      <p>Reserva tu cancha ahora y disfruta del mejor fútbol</p>
+      <div class="cta-actions">
+        <button mat-raised-button color="primary" routerLink="/reservas">
+          <mat-icon>sports_soccer</mat-icon>
+          Reservar Ahora
+        </button>
+        <button mat-outlined-button routerLink="/auth/sign-up">
+          <mat-icon>person_add</mat-icon>
+          Crear Cuenta
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer info -->
+  <div class="footer-content">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Información de contacto -->
+        <div class="footer-section">
+          <h3>La Canchita de los Pibes</h3>
+          <p>El mejor lugar para jugar fútbol en el barrio</p>
+          <div class="contact-info">
+            <p><mat-icon>location_on</mat-icon> Av. Ejemplo 123, Buenos Aires</p>
+            <p><mat-icon>phone</mat-icon> (011) 1234-5678</p>
+            <p><mat-icon>email</mat-icon> info@lacanchita.com</p>
+          </div>
+        </div>
+
+        <!-- Links rápidos -->
+        <div class="footer-section">
+          <h3>Enlaces Rápidos</h3>
+          <ul class="footer-links">
+            <li><a routerLink="/reservas">Reservar Cancha</a></li>
+            <li><a routerLink="/auth/sign-up">Crear Cuenta</a></li>
+            <li><a routerLink="/auth/sign-in">Iniciar Sesión</a></li>
+          </ul>
+        </div>
+
+        <!-- Horarios -->
+        <div class="footer-section">
+          <h3>Horarios</h3>
+          <ul class="horarios-list">
+            <li>Lunes a Viernes: 08:00 - 23:00</li>
+            <li>Sábados: 08:00 - 24:00</li>
+            <li>Domingos: 09:00 - 22:00</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Copyright -->
+  <div class="footer-bottom">
+    <div class="container">
+      <p>&copy; 2025 La Canchita de los Pibes. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>

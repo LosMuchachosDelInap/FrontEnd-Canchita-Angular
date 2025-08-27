@@ -34,23 +34,6 @@
   max-width: 600px;
 }
 
-.hero-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.hero-actions button {
-  min-width: 160px;
-  height: 48px;
-  font-size: 1rem;
-}
-
-.hero-actions mat-icon {
-  margin-right: 8px;
-}
-
 .features-section {
   background: white;
   padding: 40px 20px;
@@ -185,44 +168,6 @@
   font-size: 0.9rem;
 }
 
-.cta-section {
-  padding: 40px 20px;
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-  text-align: center;
-  color: white;
-}
-
-.cta-section h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  font-weight: 700;
-}
-
-.cta-section p {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  opacity: 0.9;
-}
-
-.cta-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.cta-section button,
-.cta-actions button {
-  min-width: 200px;
-  height: 48px;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.cta-section button mat-icon {
-  margin-right: 8px;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .hero-section {
@@ -237,11 +182,6 @@
     font-size: 1.1rem;
   }
   
-  .hero-actions {
-    flex-direction: column;
-    align-items: center;
-  }
-  
   .features-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
@@ -253,13 +193,46 @@
   }
   
   .features-section,
-  .cta-section {
+  .canchas-section {
     padding: 30px 15px;
   }
   
   .features-section h2,
-  .cta-section h2 {
+  .canchas-section h2 {
     font-size: 1.75rem;
+  }
+
+  /* Características en móvil */
+  .caracteristicas {
+    justify-content: center;
+  }
+
+  /* Cards más compactas en móvil */
+  .cancha-preview-card mat-card-actions {
+    flex-direction: column;
+  }
+
+  .cancha-preview-card mat-card-actions button {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  /* Loading y error states */
+  .loading-container,
+  .error-container,
+  .no-canchas {
+    padding: 30px 20px;
+  }
+
+  .error-icon,
+  .no-canchas-icon {
+    font-size: 40px;
+  }
+
+  /* Botón "Ver todas" más pequeño */
+  .ver-todas-canchas button {
+    min-width: 200px;
+    font-size: 0.9rem;
   }
 }
 
@@ -267,10 +240,26 @@
   .hero-content h1 {
     font-size: 1.75rem;
   }
-  
-  .hero-actions button {
-    width: 100%;
-    max-width: 280px;
+
+  /* Precio más compacto */
+  .precio {
+    font-size: 1.25rem;
+  }
+
+  /* Características stack vertical */
+  .caracteristicas {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .caracteristica-chip {
+    min-width: 120px;
+    justify-content: center;
+  }
+
+  /* Imagen más alta en móviles pequeños */
+  .cancha-image-container img {
+    height: 160px;
   }
 }
 
@@ -281,4 +270,234 @@
 
 body {
   overflow-x: hidden;
+}
+
+/* ===========================================
+   ESTILOS PARA CANCHAS DINÁMICAS
+   =========================================== */
+
+/* Loading State */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.loading-container p {
+  margin-top: 16px;
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Error State */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.error-icon {
+  font-size: 48px;
+  color: #e17055;
+  margin-bottom: 16px;
+}
+
+.error-message {
+  color: #856404;
+  margin-bottom: 16px;
+  font-size: 1rem;
+}
+
+/* No canchas disponibles */
+.no-canchas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.no-canchas-icon {
+  font-size: 64px;
+  color: #6c757d;
+  margin-bottom: 16px;
+}
+
+.no-canchas p {
+  color: #6c757d;
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+}
+
+/* Cancha Card Mejorada */
+.cancha-preview-card {
+  padding: 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  height: fit-content;
+  overflow: hidden;
+  background: white;
+}
+
+.cancha-preview-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+/* Imagen Container */
+.cancha-image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.cancha-image-container img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.cancha-preview-card:hover .cancha-image-container img {
+  transform: scale(1.05);
+}
+
+/* Badge de tipo de cancha */
+.cancha-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Header de la card */
+.cancha-preview-card mat-card-header {
+  padding: 16px 16px 8px;
+}
+
+.cancha-preview-card mat-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.cancha-preview-card mat-card-subtitle {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Contenido de la card */
+.cancha-preview-card mat-card-content {
+  padding: 8px 16px 16px;
+}
+
+/* Características */
+.caracteristicas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.caracteristica-chip {
+  background: #f0f8ff;
+  border: 1px solid #e3f2fd;
+  color: #1976d2;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.caracteristica-chip mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+/* Precio Container */
+.precio-container {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.precio {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2e7d32;
+  line-height: 1;
+}
+
+.precio-unidad {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Acciones de la card */
+.cancha-preview-card mat-card-actions {
+  padding: 0 16px 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.cancha-preview-card mat-card-actions button {
+  flex: 1;
+}
+
+/* Botón "Ver todas las canchas" */
+.ver-todas-canchas {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+}
+
+.ver-todas-canchas button {
+  min-width: 250px;
+  height: 48px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 24px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.ver-todas-canchas button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.ver-todas-canchas button mat-icon {
+  margin-right: 8px;
 }
