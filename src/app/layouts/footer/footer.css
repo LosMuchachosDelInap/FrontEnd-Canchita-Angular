@@ -4,52 +4,12 @@
 
 .app-footer {
   margin-top: auto; /* Para que se pegue al fondo */
-  background: #333;
-  color: white;
-}
-
-/* Sección CTA movida desde home */
-.cta-section {
-  padding: 40px 20px;
   background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-  text-align: center;
   color: white;
-}
-
-.cta-section h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  font-weight: 700;
-}
-
-.cta-section p {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  opacity: 0.9;
-}
-
-.cta-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.cta-section button,
-.cta-actions button {
-  min-width: 200px;
-  height: 48px;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.cta-section button mat-icon {
-  margin-right: 8px;
 }
 
 /* Footer content */
 .footer-content {
-  background: #2c3e50;
   padding: 40px 20px;
 }
 
@@ -65,14 +25,14 @@
 }
 
 .footer-section h3 {
-  color: #ecf0f1;
+  color: white;
   margin-bottom: 1rem;
   font-size: 1.25rem;
   font-weight: 600;
 }
 
 .footer-section p {
-  color: #bdc3c7;
+  color: rgba(255, 255, 255, 0.8);
   line-height: 1.6;
   margin-bottom: 1rem;
 }
@@ -83,12 +43,12 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 8px;
-  color: #bdc3c7;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .contact-info mat-icon {
   font-size: 18px;
-  color: #3498db;
+  color: #f1c40f;
 }
 
 /* Footer links */
@@ -103,13 +63,13 @@
 }
 
 .footer-links a {
-  color: #bdc3c7;
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
-  color: #3498db;
+  color: #f1c40f;
 }
 
 /* Horarios */
@@ -120,58 +80,278 @@
 }
 
 .horarios-list li {
-  color: #bdc3c7;
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 8px;
   padding: 4px 0;
 }
 
+/* Redes Sociales */
+.social-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  background: #f1c40f;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(241, 196, 15, 0.3);
+}
+
+.social-links mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Botón de contacto */
+.contact-action {
+  text-align: center;
+}
+
+.contact-action button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.contact-action button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.contact-action mat-icon {
+  margin-right: 8px;
+}
+
+/* ===========================================
+   MODAL DE CONTACTO
+   =========================================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  color: white;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.close-button {
+  color: white !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.close-button:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 24px;
+  max-height: calc(90vh - 140px);
+  overflow-y: auto;
+}
+
+/* Form Styles */
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.half-width {
+  flex: 1;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Form Field Customizations */
+::ng-deep .modal-content .mat-mdc-form-field {
+  margin-bottom: 16px;
+}
+
+::ng-deep .modal-content .mat-mdc-form-field .mat-mdc-select-value {
+  color: #333;
+}
+
+::ng-deep .modal-content .mat-mdc-form-field .mat-mdc-input-element {
+  color: #333;
+}
+
+/* Button Styles */
+.modal-actions button {
+  min-width: 120px;
+}
+
+.modal-actions button mat-icon {
+  margin-right: 8px;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
 /* Footer bottom */
 .footer-bottom {
-  background: #1a252f;
+  background: rgba(0, 0, 0, 0.3);
   padding: 20px;
   text-align: center;
-  border-top: 1px solid #34495e;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer-bottom p {
   margin: 0;
-  color: #95a5a6;
+  color: rgba(255, 255, 255, 0.7);
   font-size: 0.9rem;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .cta-section,
   .footer-content {
     padding: 30px 15px;
   }
-  
-  .cta-section h2 {
-    font-size: 1.75rem;
-  }
-
-  .cta-actions {
-    flex-direction: column;
-    align-items: center;
-  }
 
   .footer-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
   }
 
   .footer-section {
     text-align: center;
   }
+
+  .social-links {
+    justify-content: center;
+  }
+
+  /* Modal Responsivo */
+  .modal-overlay {
+    padding: 10px;
+  }
+
+  .modal-content {
+    max-width: 100%;
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    padding: 16px 20px;
+  }
+
+  .modal-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .modal-body {
+    padding: 20px;
+    max-height: calc(95vh - 120px);
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .half-width {
+    flex: none;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  .modal-actions button {
+    width: 100%;
+    min-width: auto;
+  }
 }
 
 @media (max-width: 480px) {
-  .cta-actions button {
-    width: 100%;
-    max-width: 280px;
+  .footer-grid {
+    grid-template-columns: 1fr;
   }
 
   .contact-info p {
     justify-content: center;
+  }
+
+  .modal-header {
+    padding: 12px 16px;
+  }
+
+  .modal-body {
+    padding: 16px;
   }
 }

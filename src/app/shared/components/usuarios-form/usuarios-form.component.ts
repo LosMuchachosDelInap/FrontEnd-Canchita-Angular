@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 
-export type FormMode = 'login' | 'register' | 'create' | 'edit' | 'view';
+export type FormMode = 'login' | 'register' | 'create' | 'edit' | 'view' | 'contacto';
 
 @Component({
   selector: 'app-usuarios-form',
@@ -25,7 +25,7 @@ export type FormMode = 'login' | 'register' | 'create' | 'edit' | 'view';
   styleUrls: ['./usuarios-form.component.css'],
 })
 export class UsuariosFormComponent implements OnInit, OnChanges {
-  @Input() tipo: 'sign-in' | 'sign-up' | 'editar' | 'detalle' | 'crear' = 'sign-in';
+  @Input() tipo: 'sign-in' | 'sign-up' | 'editar' | 'detalle' | 'crear' | 'contacto' = 'sign-in';
   @Input() usuario: any = null;
   @Input() usuarioLogueado: any = null;
   @Input() loading: boolean = false;
@@ -59,6 +59,7 @@ export class UsuariosFormComponent implements OnInit, OnChanges {
       dni: [''],
       edad: [''],
       telefono: [''],
+      mensaje: [''],
       rol: [6] // Cliente por defecto
     });
   }
@@ -138,6 +139,19 @@ export class UsuariosFormComponent implements OnInit, OnChanges {
         telefono: [''],
         rol: [6]
       });
+    } else if (this.tipo === 'contacto') {
+      // Solo validar campos necesarios para contacto
+      this.form = this.fb.group({
+        nombre: ['', [Validators.required]],
+        apellido: ['', [Validators.required]],
+        email: ['', [Validators.required, Validators.email]],
+        telefono: ['', [Validators.required, Validators.pattern(/^\d{10,11}$/)]],
+        mensaje: ['', [Validators.required, Validators.minLength(10)]],
+        clave: [''],
+        dni: [''],
+        edad: [''],
+        rol: [6]
+      });
     } else if (this.tipo === 'sign-up' || this.tipo === 'editar' || this.tipo === 'detalle' || this.tipo === 'crear') {
       // Determinar si el rol es requerido
       const roleRequired = this.shouldShowRoleField() && !this.isReadOnlyMode();
@@ -195,6 +209,8 @@ export class UsuariosFormComponent implements OnInit, OnChanges {
         return 'Iniciando sesión...';
       case 'sign-up':
         return 'Registrando...';
+      case 'contacto':
+        return 'Enviando consulta...';
       case 'crear':
         return 'Creando usuario...';
       case 'editar':
@@ -210,6 +226,8 @@ export class UsuariosFormComponent implements OnInit, OnChanges {
         return 'Iniciar Sesión';
       case 'sign-up':
         return 'Registrarse';
+      case 'contacto':
+        return 'Enviar Consulta';
       case 'crear':
         return 'Crear Usuario';
       case 'editar':

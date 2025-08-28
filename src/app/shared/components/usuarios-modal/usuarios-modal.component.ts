@@ -15,12 +15,14 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HttpClient } from '@angular/common/http';
 import {
   UsuariosFormComponent,
   FormMode,
 } from '../usuarios-form/usuarios-form.component';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
+import { ConfigService } from '../../services/config.service';
 import { User, UserRole } from '../../interfaces';
 
 export interface UsuariosModalData {
@@ -47,7 +49,7 @@ export interface UsuariosModalData {
   styleUrls: ['./usuarios-modal.component.css'],
 })
 export class UsuariosModalComponent implements OnInit {
-  @Input() tipo: 'sign-in' | 'sign-up' | 'editar' | 'detalle' = 'sign-in';
+  @Input() tipo: 'sign-in' | 'sign-up' | 'editar' | 'detalle' | 'contacto' = 'sign-in';
   @Input() usuario: any = null;
   @Output() cerrar = new EventEmitter<void>();
   @Output() modeChange = new EventEmitter<FormMode>();
@@ -84,7 +86,9 @@ export class UsuariosModalComponent implements OnInit {
     public dialogRef: MatDialogRef<UsuariosModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: UsuariosModalData,
     private authService: AuthService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private http: HttpClient,
+    private configService: ConfigService
   ) {
     this.currentMode = this.data.mode;
   }
@@ -96,7 +100,7 @@ export class UsuariosModalComponent implements OnInit {
   /**
    * Configurar el modal según el modo
    */
-  mapFormMode(mode: FormMode): 'sign-in' | 'sign-up' | 'editar' | 'detalle' | 'crear' {
+  mapFormMode(mode: FormMode): 'sign-in' | 'sign-up' | 'editar' | 'detalle' | 'crear' | 'contacto' {
     switch (mode) {
       case 'login':
         return 'sign-in';
@@ -108,6 +112,8 @@ export class UsuariosModalComponent implements OnInit {
         return 'crear';
       case 'view':
         return 'detalle';
+      case 'contacto':
+        return 'contacto';
       default:
         return 'sign-in';
     }
@@ -118,6 +124,9 @@ export class UsuariosModalComponent implements OnInit {
     switch (this.data.mode) {
       case 'login':
         this.dialogRef.updateSize('400px');
+        break;
+      case 'contacto':
+        this.dialogRef.updateSize('500px');
         break;
       case 'register':
       case 'create':
@@ -141,6 +150,8 @@ export class UsuariosModalComponent implements OnInit {
         return 'Iniciar Sesión';
       case 'register':
         return 'Crear Cuenta Nueva';
+      case 'contacto':
+        return 'Hacenos una Consulta o Sugerencia';
       case 'create':
         return 'Crear Nuevo Usuario';
       case 'edit':
@@ -161,6 +172,8 @@ export class UsuariosModalComponent implements OnInit {
         return 'login';
       case 'register':
         return 'person_add';
+      case 'contacto':
+        return 'contact_support';
       case 'create':
         return 'group_add';
       case 'edit':
@@ -245,6 +258,9 @@ export class UsuariosModalComponent implements OnInit {
           break;
         case 'register':
           result = await this.handleRegister(formData);
+          break;
+        case 'contacto':
+          result = await this.handleContact(formData);
           break;
         case 'create':
           result = await this.handleCreateUser(formData);
@@ -381,6 +397,33 @@ export class UsuariosModalComponent implements OnInit {
           });
         },
       });
+    });
+  }
+
+  /**
+   * Manejar formulario de contacto
+   */
+  private handleContact(formData: any): Promise<any> {
+    return new Promise((resolve) => {
+      console.log('Enviando datos de contacto:', formData);
+      
+      this.http.post(this.configService.getApiEndpoint('contacto'), formData)
+        .subscribe({
+          next: (response: any) => {
+            console.log('✅ Consulta enviada exitosamente:', response);
+            resolve({
+              success: true,
+              message: '¡Gracias por tu consulta! Te contactaremos pronto.'
+            });
+          },
+          error: (error) => {
+            console.error('❌ Error al enviar consulta:', error);
+            resolve({
+              success: false,
+              message: 'Hubo un error al enviar tu consulta. Por favor, intenta nuevamente.'
+            });
+          }
+        });
     });
   }
 

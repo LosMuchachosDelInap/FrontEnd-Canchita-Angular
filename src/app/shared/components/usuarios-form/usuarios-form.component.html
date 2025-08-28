@@ -177,6 +177,77 @@
     </div>
   }
 
+  <!-- Campos para contacto -->
+  @if (tipo === 'contacto') {
+    <div class="form-section">
+      <!-- Nombre y Apellido -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre" placeholder="Nombre">
+          <mat-icon matSuffix>person</mat-icon>
+          @if (form.get('nombre')?.hasError('required')) {
+            <mat-error>El nombre es requerido</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Apellido</mat-label>
+          <input matInput formControlName="apellido" placeholder="Apellido">
+          <mat-icon matSuffix>person</mat-icon>
+          @if (form.get('apellido')?.hasError('required')) {
+            <mat-error>El apellido es requerido</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <!-- Email y Teléfono -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="tu@email.com">
+          <mat-icon matSuffix>email</mat-icon>
+          @if (form.get('email')?.hasError('required')) {
+            <mat-error>El email es requerido</mat-error>
+          }
+          @if (form.get('email')?.hasError('email')) {
+            <mat-error>Ingrese un email válido</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Teléfono</mat-label>
+          <input matInput formControlName="telefono" placeholder="11 1234-5678" maxlength="11">
+          <mat-icon matSuffix>phone</mat-icon>
+          @if (form.get('telefono')?.hasError('required')) {
+            <mat-error>El teléfono es requerido</mat-error>
+          }
+          @if (form.get('telefono')?.hasError('pattern')) {
+            <mat-error>Teléfono debe tener 10 u 11 dígitos</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <!-- Mensaje -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mensaje o Consulta</mat-label>
+        <textarea 
+          matInput 
+          formControlName="mensaje" 
+          placeholder="Escribe tu consulta o sugerencia aquí..."
+          rows="4">
+        </textarea>
+        <mat-icon matSuffix>message</mat-icon>
+        @if (form.get('mensaje')?.hasError('required')) {
+          <mat-error>El mensaje es requerido</mat-error>
+        }
+        @if (form.get('mensaje')?.hasError('minlength')) {
+          <mat-error>El mensaje debe tener al menos 10 caracteres</mat-error>
+        }
+      </mat-form-field>
+    </div>
+  }
+
   <!-- Botones de acción -->
   <div class="form-actions">
     @if (isReadOnlyMode()) {

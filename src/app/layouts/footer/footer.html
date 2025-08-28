@@ -1,22 +1,4 @@
 <footer class="app-footer">
-  <!-- Sección CTA movida desde home -->
-  <section class="cta-section">
-    <div class="container">
-      <h2>¿Listo para jugar?</h2>
-      <p>Reserva tu cancha ahora y disfruta del mejor fútbol</p>
-      <div class="cta-actions">
-        <button mat-raised-button color="primary" routerLink="/reservas">
-          <mat-icon>sports_soccer</mat-icon>
-          Reservar Ahora
-        </button>
-        <button mat-outlined-button routerLink="/auth/sign-up">
-          <mat-icon>person_add</mat-icon>
-          Crear Cuenta
-        </button>
-      </div>
-    </div>
-  </section>
-
   <!-- Footer info -->
   <div class="footer-content">
     <div class="container">
@@ -50,6 +32,28 @@
             <li>Sábados: 08:00 - 24:00</li>
             <li>Domingos: 09:00 - 22:00</li>
           </ul>
+        </div>
+
+        <!-- Redes Sociales y Contacto -->
+        <div class="footer-section">
+          <h3>Síguenos</h3>
+          <div class="social-links">
+            <a href="https://facebook.com/lacanchitadelospibes" target="_blank" aria-label="Facebook">
+              <mat-icon>facebook</mat-icon>
+            </a>
+            <a href="https://instagram.com/lacanchitadelospibes" target="_blank" aria-label="Instagram">
+              <mat-icon>camera_alt</mat-icon>
+            </a>
+            <a href="https://wa.me/5491123456789" target="_blank" aria-label="WhatsApp">
+              <mat-icon>chat</mat-icon>
+            </a>
+          </div>
+          <div class="contact-action">
+            <button mat-raised-button color="accent" (click)="openContactModal()">
+              <mat-icon>help_outline</mat-icon>
+              Hacenos una Consulta
+            </button>
+          </div>
         </div>
       </div>
     </div>
