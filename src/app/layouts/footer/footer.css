@@ -89,7 +89,7 @@
 .social-links {
   display: flex;
   gap: 1rem;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 1.5rem;
   flex-wrap: wrap;
 }
@@ -121,7 +121,7 @@
 
 /* Botón de contacto */
 .contact-action {
-  text-align: center;
+  text-align: start;
 }
 
 .contact-action button {
