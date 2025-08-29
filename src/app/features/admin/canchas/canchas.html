@@ -1,0 +1,54 @@
+<div class="canchas-container">
+  <!-- Header con título y botones -->
+  <div class="canchas-header">
+    <h2>Gestión de Canchas</h2>
+    <div class="header-actions">
+      <button 
+        mat-icon-button 
+        color="accent" 
+        (click)="cargarCanchas(true)"
+        matTooltip="Actualizar desde servidor"
+        class="btn-refresh">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button 
+        mat-raised-button 
+        color="primary" 
+        (click)="crearNuevaCancha()"
+        class="btn-crear">
+        <mat-icon>add_circle</mat-icon>
+        Nueva Cancha
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading spinner -->
+  @if (isLoading) {
+    <div class="loading-container">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Cargando canchas...</p>
+    </div>
+  }
+
+  <!-- Tabla de canchas -->
+  @if (!isLoading) {
+    <div class="tabla-container">
+    <app-tabla
+      [headers]="headers"
+      [data]="canchas"
+      [actions]="canchaActions">
+    </app-tabla>
+
+    <!-- Mensaje cuando no hay canchas -->
+    @if (canchas.length === 0) {
+      <div class="no-data">
+        <mat-icon>sports_soccer</mat-icon>
+        <p>No hay canchas registradas</p>
+        <button mat-button color="primary" (click)="crearNuevaCancha()">
+          Crear primera cancha
+        </button>
+      </div>
+    }
+    </div>
+  }
+</div>

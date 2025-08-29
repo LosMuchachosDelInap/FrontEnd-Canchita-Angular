@@ -7,7 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { Subscription } from 'rxjs';
-import { CanchasService, CanchaDisplay } from '@shared/services/canchas.service';
+import { CanchasService } from '@shared/services/canchas.service';
+import { CanchaDisplay } from '@shared/interfaces/cancha.interface';
 
 @Component({
   selector: 'app-home',

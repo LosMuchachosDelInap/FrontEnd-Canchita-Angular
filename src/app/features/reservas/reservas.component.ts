@@ -7,7 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../shared/services/auth.service';
-import { CanchasService, CanchaDisplay } from '../../shared/services/canchas.service';
+import { CanchasService } from '../../shared/services/canchas.service';
+import { CanchaDisplay } from '../../shared/interfaces/cancha.interface';
 
 @Component({
   selector: 'app-reservas',

@@ -73,8 +73,8 @@ export const routes: Routes = [
       },
       {
         path: 'canchas',
-        loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
-        // TODO: Crear componente de gestión de canchas
+        loadComponent: () => import('./features/admin/canchas/canchas').then(m => m.CanchasComponent)
+
       },
       {
         path: 'reservas',

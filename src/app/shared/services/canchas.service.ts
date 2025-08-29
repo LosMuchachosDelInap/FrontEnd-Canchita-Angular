@@ -3,28 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ConfigService } from './config.service';
-
-export interface Cancha {
-  id_cancha: number;
-  nombreCancha: string;
-  precio: number;
-  habilitado: number;
-  cancelado: number;
-  tipo?: string;
-  descripcion?: string;
-  imagen?: string;
-  caracteristicas?: Array<{icon: string, nombre: string}>;
-}
-
-export interface CanchaDisplay {
-  id: number;
-  nombre: string;
-  tipo: string;
-  descripcion: string;
-  precio: number;
-  imagen: string;
-  caracteristicas: Array<{icon: string, nombre: string}>;
-}
+import { Cancha, CanchaAdmin, CanchaDisplay } from '../interfaces/cancha.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -205,5 +184,71 @@ export class CanchasService {
    */
   recargarCanchas(): void {
     this.getCanchas().subscribe();
+  }
+
+  // ========== MÉTODOS PARA GESTIÓN ADMINISTRATIVA ==========
+
+  /**
+   * Obtiene todas las canchas para gestión administrativa (incluye deshabilitadas)
+   */
+  getCanchasAdmin(): Observable<CanchaAdmin[]> {
+    return this.http.get<Cancha[]>(this.configService.getApiEndpoint('canchas')).pipe(
+      map(response => {
+        const canchas = response || [];
+        return canchas.map(cancha => ({
+          idCancha: cancha.id_cancha,
+          nombre: cancha.nombreCancha,
+          precio: cancha.precio,
+          estado: this.mapearEstado(cancha.habilitado, cancha.cancelado),
+          tipo: this.obtenerTipoCancha(cancha.nombreCancha),
+          descripcion: this.obtenerDescripcion(cancha.nombreCancha),
+          // Campos adicionales para el backend
+          id_cancha: cancha.id_cancha,
+          nombreCancha: cancha.nombreCancha,
+          habilitado: cancha.habilitado,
+          cancelado: cancha.cancelado
+        }));
+      })
+    );
+  }
+
+  /**
+   * Mapea los valores de habilitado y cancelado a un estado legible
+   */
+  private mapearEstado(habilitado: number, cancelado: number): 'Habilitada' | 'Deshabilitada' | 'Cancelada' {
+    if (cancelado === 1) return 'Cancelada';
+    if (habilitado === 1) return 'Habilitada';
+    return 'Deshabilitada';
+  }
+
+  /**
+   * Crea una nueva cancha
+   */
+  createCancha(canchaData: any): Observable<any> {
+    return this.http.post(this.configService.getApiEndpoint('canchas'), canchaData);
+  }
+
+  /**
+   * Actualiza una cancha existente
+   */
+  updateCancha(canchaData: any): Observable<any> {
+    return this.http.put(this.configService.getApiEndpoint('canchas'), canchaData);
+  }
+
+  /**
+   * Elimina una cancha
+   */
+  deleteCancha(idCancha: number): Observable<any> {
+    return this.http.delete(`${this.configService.getApiEndpoint('canchas')}?id=${idCancha}`);
+  }
+
+  /**
+   * Habilita o deshabilita una cancha
+   */
+  toggleCanchaEstado(idCancha: number, habilitado: boolean): Observable<any> {
+    return this.http.patch(this.configService.getApiEndpoint('canchas'), {
+      id_cancha: idCancha,
+      habilitado: habilitado ? 1 : 0
+    });
   }
 }
