@@ -228,6 +228,16 @@
         </mat-form-field>
       </div>
 
+      <!-- Asunto -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Asunto</mat-label>
+        <input matInput formControlName="asunto" placeholder="¿Sobre qué quieres consultarnos?">
+        <mat-icon matSuffix>subject</mat-icon>
+        @if (form.get('asunto')?.hasError('required')) {
+          <mat-error>El asunto es requerido</mat-error>
+        }
+      </mat-form-field>
+
       <!-- Mensaje -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Mensaje o Consulta</mat-label>

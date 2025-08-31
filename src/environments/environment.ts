@@ -1,6 +1,7 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost/Mis_Proyectos/LaCanchitaDeLosPibes/BackEnd-Canchita/src/Api',
+  apiUrl: 'http://localhost:8000/src/Api',
+  //apiUrl: 'http://localhost/Mis_Proyectos/LaCanchitaDeLosPibes/BackEnd-Canchita/src/Api',
   
   // Firebase Configuration (si usas Firebase)
   firebase: {

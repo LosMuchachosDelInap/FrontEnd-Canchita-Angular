@@ -146,6 +146,7 @@ export class UsuariosFormComponent implements OnInit, OnChanges {
         apellido: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
         telefono: ['', [Validators.required, Validators.pattern(/^\d{10,11}$/)]],
+        asunto: ['', [Validators.required]],
         mensaje: ['', [Validators.required, Validators.minLength(10)]],
         clave: [''],
         dni: [''],
@@ -195,7 +196,32 @@ export class UsuariosFormComponent implements OnInit, OnChanges {
     }
 
     if (this.form.valid) {
-      this.formSubmit.emit(this.form.value);
+      const formData = this.form.value;
+      
+      // Filtrar datos según el tipo de formulario
+      if (this.tipo === 'contacto') {
+        // Para contacto, solo enviar campos necesarios
+        const contactoData = {
+          nombre: formData.nombre,
+          apellido: formData.apellido,
+          email: formData.email,
+          telefono: formData.telefono,
+          asunto: formData.asunto,
+          mensaje: formData.mensaje
+        };
+        console.log('Datos de contacto filtrados:', contactoData);
+        this.formSubmit.emit(contactoData);
+      } else if (this.tipo === 'sign-in') {
+        // Para login, solo email y password
+        const loginData = {
+          email: formData.email,
+          clave: formData.clave
+        };
+        this.formSubmit.emit(loginData);
+      } else {
+        // Para otros tipos (registro, crear, editar), enviar todo
+        this.formSubmit.emit(formData);
+      }
     }
   }
 
