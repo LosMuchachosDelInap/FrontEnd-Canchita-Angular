@@ -320,13 +320,13 @@ export class UsuariosModalComponent implements OnInit {
                 if (loginResponse.success) {
                   resolve({
                     success: true,
-                    message: 'Cuenta creada exitosamente. ¡Ya estás logueado!',
+                    message: '¡Cuenta creada exitosamente! Ya estás logueado. Revisa tu email para la confirmación de registro.',
                     autoLogin: true
                   });
                 } else {
                   resolve({
                     success: true,
-                    message: 'Cuenta creada exitosamente. Puedes iniciar sesión ahora.',
+                    message: 'Cuenta creada exitosamente. Revisa tu email para la confirmación y luego puedes iniciar sesión.',
                     autoLogin: false
                   });
                 }
@@ -334,7 +334,7 @@ export class UsuariosModalComponent implements OnInit {
               error: () => {
                 resolve({
                   success: true,
-                  message: 'Cuenta creada exitosamente. Puedes iniciar sesión ahora.',
+                  message: 'Cuenta creada exitosamente. Revisa tu email para la confirmación y luego puedes iniciar sesión.',
                   autoLogin: false
                 });
               }
