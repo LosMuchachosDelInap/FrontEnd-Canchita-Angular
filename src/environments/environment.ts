@@ -4,14 +4,15 @@ export const environment = {
   //apiUrl: 'http://localhost/Mis_Proyectos/LaCanchitaDeLosPibes/BackEnd-Canchita/src/Api',
   
   // Firebase Configuration (si usas Firebase)
-  firebase: {
-    apiKey: 'your-api-key-here',
-    authDomain: 'your-project.firebaseapp.com',
-    projectId: 'your-project-id',
-    storageBucket: 'your-project.appspot.com',
-    messagingSenderId: '123456789',
-    appId: 'your-app-id'
-  },
+  firebaseConfig : {
+  apiKey: "AIzaSyBCBx0208IfmpjeHD6hL1oGd8Qp4DcH6Iw",
+  authDomain: "lacanchitadelospibes.firebaseapp.com",
+  projectId: "lacanchitadelospibes",
+  storageBucket: "lacanchitadelospibes.firebasestorage.app",
+  messagingSenderId: "196298937978",
+  appId: "1:196298937978:web:2d609e7c2dafa807034dc3",
+  measurementId: "G-K8PJTQLPG8"
+};
   
   // Configuraciones de desarrollo
   debug: true,
