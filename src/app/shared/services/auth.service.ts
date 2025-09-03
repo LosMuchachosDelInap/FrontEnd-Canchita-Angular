@@ -151,6 +151,13 @@ export class AuthService {
   }
 
   /**
+   * Establecer usuario actual desde Firebase Auth (método público)
+   */
+  setUserFromFirebase(user: User): void {
+    this.setCurrentUser(user);
+  }
+
+  /**
    * Establecer usuario actual
    */
   private setCurrentUser(user: User): void {

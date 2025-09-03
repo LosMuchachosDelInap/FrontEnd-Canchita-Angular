@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FirebaseAuthService } from '../../services/firebase-auth.service';
 
 export type FormMode = 'login' | 'register' | 'create' | 'edit' | 'view' | 'contacto';
 
@@ -35,7 +37,11 @@ export class UsuariosFormComponent implements OnInit, OnChanges {
   @Output() modeChange = new EventEmitter<FormMode>();
 
   hidePassword = true;
+  googleLoading = false;
   form: any;
+
+  private firebaseAuth = inject(FirebaseAuthService);
+  private snackBar = inject(MatSnackBar);
 
   availableRoles = [
     { value: 1, label: 'Dueño' },
@@ -271,5 +277,54 @@ export class UsuariosFormComponent implements OnInit, OnChanges {
 
   switchToLogin() {
     this.modeChange.emit('login');
+  }
+
+  /**
+   * Maneja el login/registro con Google
+   */
+  async signWithGoogle() {
+    this.googleLoading = true;
+
+    try {
+      const result = await this.firebaseAuth.signInWithGoogle();
+      
+      console.log('🔥 Resultado Firebase Auth:', result);
+      
+      if (result.success) {
+        // Notificar éxito
+        const mensaje = this.tipo === 'sign-in' 
+          ? '¡Inicio de sesión exitoso con Google!' 
+          : '¡Registro exitoso con Google!';
+          
+        this.snackBar.open(mensaje, 'Cerrar', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+
+        // Emitir el resultado del formulario para cerrar el modal
+        this.formSubmit.emit({
+          success: true,
+          user: result.user,
+          message: mensaje,
+          provider: 'google',
+          autoLogin: true // Importante para que el modal sepa que se logueó automáticamente
+        });
+        
+      } else {
+        // Mostrar error
+        this.snackBar.open(result.message, 'Cerrar', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    } catch (error) {
+      console.error('💥 Error en autenticación con Google:', error);
+      this.snackBar.open('Error al autenticarse con Google. Intenta nuevamente.', 'Cerrar', {
+        duration: 5000,
+        panelClass: ['error-snackbar']
+      });
+    } finally {
+      this.googleLoading = false;
+    }
   }
 }

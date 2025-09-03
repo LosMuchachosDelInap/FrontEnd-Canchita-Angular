@@ -87,8 +87,8 @@
                 <img 
                   mat-card-image 
                   [src]="cancha.imagen" 
-                  [alt]="cancha.nombre || 'Imagen de la cancha'"
-                  [title]="cancha.nombre || 'Imagen de la cancha'"
+                  [alt]="'Imagen de la cancha ' + (cancha.nombre || 'de fútbol')"
+                  [title]="'Cancha ' + (cancha.nombre || 'de fútbol') + (cancha.tipo ? ' - ' + cancha.tipo : '')"
                   loading="lazy"
                   (error)="onImageError($event)"
                 >

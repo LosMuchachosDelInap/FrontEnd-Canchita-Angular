@@ -45,6 +45,25 @@
           Iniciar Sesión
         </button>
         
+        <!-- Separador -->
+        <div class="divider">
+          <span>o</span>
+        </div>
+        
+        <!-- Botón de Google Sign-In -->
+        <button 
+          mat-raised-button 
+          class="google-btn" 
+          (click)="signInWithGoogle()"
+          [disabled]="loading()">
+          <mat-icon>G</mat-icon>
+          @if (loading()) {
+            Iniciando sesión...
+          } @else {
+            Continuar con Google
+          }
+        </button>
+        
         <div class="register-link">
           <p>¿Eres nuevo? <a routerLink="/auth/sign-up" mat-button color="accent">Regístrate aquí</a></p>
         </div>

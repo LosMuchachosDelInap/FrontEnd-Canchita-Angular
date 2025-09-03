@@ -3,15 +3,15 @@ export const environment = {
   apiUrl: 'https://your-domain.com/api', // URL de producción
   
   // Firebase Configuration (producción)
-  firebaseConfig : {
-  apiKey: "AIzaSyBCBx0208IfmpjeHD6hL1oGd8Qp4DcH6Iw",
-  authDomain: "lacanchitadelospibes.firebaseapp.com",
-  projectId: "lacanchitadelospibes",
-  storageBucket: "lacanchitadelospibes.firebasestorage.app",
-  messagingSenderId: "196298937978",
-  appId: "1:196298937978:web:2d609e7c2dafa807034dc3",
-  measurementId: "G-K8PJTQLPG8"
-};
+  firebaseConfig: {
+    apiKey: "AIzaSyBCBx0208IfmpjeHD6hL1oGd8Qp4DcH6Iw",
+    authDomain: "lacanchitadelospibes.firebaseapp.com",
+    projectId: "lacanchitadelospibes",
+    storageBucket: "lacanchitadelospibes.firebasestorage.app",
+    messagingSenderId: "196298937978",
+    appId: "1:196298937978:web:2d609e7c2dafa807034dc3",
+    measurementId: "G-K8PJTQLPG8"
+  },
   
   // Configuraciones de producción
   debug: false,

@@ -79,4 +79,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     const target = event.target as HTMLImageElement;
     target.src = 'assets/images/cancha-default.svg';
   }
+
+  
 }

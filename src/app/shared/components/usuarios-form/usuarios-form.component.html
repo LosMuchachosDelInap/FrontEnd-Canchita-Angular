@@ -137,7 +137,7 @@
           <!-- Mostrar rol como campo de solo lectura -->
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Rol del Usuario</mat-label>
-            <input matInput [value]="getRoleText(form.get('rol')?.value)" readonly>
+            <input matInput [value]="getRoleText(form.get('rol')?.value)" readonly placeholder="Rol del Usuario" title="Rol del Usuario">
             <mat-icon matSuffix>admin_panel_settings</mat-icon>
           </mat-form-field>
         } @else {
@@ -262,40 +262,65 @@
   <div class="form-actions">
     @if (isReadOnlyMode()) {
       <!-- Solo botón de cerrar para modo de solo lectura -->
-      <button 
-        mat-raised-button 
-        color="primary" 
-        type="button" 
-        (click)="onCancel()">
-        <mat-icon>close</mat-icon>
-        Cerrar
-      </button>
+      <div>
+        <button 
+          mat-raised-button 
+          color="primary" 
+          type="button" 
+          (click)="onCancel()">
+          <mat-icon>close</mat-icon>
+          Cerrar
+        </button>
+      </div>
     } @else {
       <!-- Botones normales para modos de edición -->
-      <button 
-        mat-button 
-        type="button" 
-        (click)="onCancel()"
-        [disabled]="loading">
-        Cancelar
-      </button>
-      
-      <button 
-        mat-raised-button 
-        color="primary" 
-        type="submit"
-        [disabled]="form.invalid || loading">
+      <div>
+        <button 
+          mat-button 
+          type="button" 
+          (click)="onCancel()"
+          [disabled]="loading">
+          Cancelar
+        </button>
         
-        @if (loading) {
-          <ng-container>
-            <mat-icon>refresh</mat-icon>
-            <span>{{getLoadingText()}}</span>
-          </ng-container>
-        }
-        @else {
-          <span>{{getSubmitButtonText()}}</span>
-        }
-      </button>
+        <button 
+          mat-raised-button 
+          color="primary" 
+          type="submit"
+          [disabled]="form.invalid || loading">
+          
+          @if (loading) {
+            <ng-container>
+              <mat-icon>refresh</mat-icon>
+              <span>{{getLoadingText()}}</span>
+            </ng-container>
+          }
+          @else {
+            <span>{{getSubmitButtonText()}}</span>
+          }
+        </button>
+      </div>
+
+      <!-- Botón de Google para login y registro -->
+      @if ((tipo === 'sign-in' || tipo === 'sign-up') && !loading) {
+        <div class="divider">
+          <span>o</span>
+        </div>
+        
+        <button 
+          mat-raised-button 
+          type="button"
+          class="google-btn" 
+          (click)="signWithGoogle()"
+          [disabled]="googleLoading">
+          <mat-icon>G</mat-icon>
+          @if (googleLoading) {
+            {{tipo === 'sign-in' ? 'Iniciando...' : 'Registrando...'}}
+          } @else {
+            {{tipo === 'sign-in' ? 'Continuar con Google' : 'Registrarse con Google'}}
+          }
+        </button>
+      }
     }
   </div>
 

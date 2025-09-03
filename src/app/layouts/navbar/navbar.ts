@@ -60,8 +60,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log('🔐 Modal login cerrado con resultado:', result);
       if (result && result.success) {
         // Login exitoso - el AuthService ya maneja la actualización del estado
+        console.log('✅ Login exitoso desde modal');
       }
     });
   }
@@ -76,6 +78,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log('👤 Modal register cerrado con resultado:', result);
       if (result && result.success) {
         if (result.autoLogin) {
           // Si el auto-login fue exitoso, mostrar mensaje de bienvenida

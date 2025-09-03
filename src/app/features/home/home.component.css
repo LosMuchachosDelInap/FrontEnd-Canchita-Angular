@@ -1,503 +1,80 @@
-.home-container {
-  min-height: calc(100vh - 64px); /* Ajustar para el navbar */
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  position: relative;
-  z-index: 1;
-  margin: 0;
-  padding: 0;
+.home-container{min-height:calc(100vh - 64px);background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);display:flex;flex-direction:column;width:100%;position:relative;z-index:1;margin:0;padding:0;}
+
+.hero-section{flex:1;padding:60px 20px 40px;text-align:center;color:white;display:flex;align-items:center;justify-content:center;}
+
+.hero-content h1{font-size:2.5rem;margin-bottom:1rem;font-weight:700;text-shadow:2px 2px 4px rgba(0,0,0,0.3);}
+
+.hero-subtitle{font-size:1.2rem;margin-bottom:2rem;opacity:0.9;max-width:600px;}
+
+.features-section,.canchas-section{padding:40px 20px;}
+.features-section{background:white;}
+.canchas-section{background:#f8f9fa;}
+
+.container{max-width:1200px;margin:0 auto;}
+
+.features-section h2,.canchas-section h2{text-align:center;font-size:2rem;margin-bottom:2rem;color:#333;}
+
+.features-grid,.canchas-preview{display:grid;grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));gap:1.5rem;margin-bottom:1rem;}
+
+.cancha-preview-card,.feature-card{border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;cursor:pointer;height:fit-content;overflow:hidden;}
+
+.cancha-preview-card{padding:0;background:white;}
+.feature-card{padding:1.5rem;}
+
+.cancha-preview-card:hover,.feature-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.15);}
+
+.cancha-preview-card img{width:100%;height:200px;object-fit:cover;}
+
+.cancha-preview-card mat-card-header,.cancha-preview-card mat-card-content{padding:16px;}
+.cancha-preview-card mat-card-content{padding-top:0;}
+
+.precio{text-align:center;font-size:1.4rem;color:#2e7d32;font-weight:600;margin-top:12px;}
+
+.ver-todas-canchas{text-align:center;margin-top:2rem;}
+.ver-todas-canchas button{min-width:200px;height:48px;font-size:1rem;font-weight:600;}
+
+.feature-card mat-icon[mat-card-avatar]{font-size:32px;width:32px;height:32px;background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);color:white;display:flex;align-items:center;justify-content:center;border-radius:50%;margin-bottom:1rem;}
+
+.feature-card mat-card-title{font-size:1.1rem;font-weight:600;margin-bottom:0.5rem;color:#333;}
+.feature-card mat-card-content p{color:#666;line-height:1.4;font-size:0.9rem;}
+
+.loading-container,.error-container,.no-canchas{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center;}
+
+.loading-container p,.error-message,.no-canchas p{margin-top:16px;font-size:1rem;color:#666;}
+
+.error-container{background:#fff3cd;border:1px solid #ffeaa7;border-radius:8px;margin:20px 0;}
+.no-canchas{background:#f8f9fa;border-radius:8px;margin:20px 0;}
+
+.error-icon,.no-canchas-icon{font-size:48px;margin-bottom:16px;}
+.error-icon{color:#e17055;}
+.no-canchas-icon{color:#6c757d;font-size:64px;}
+
+.cancha-image-container{position:relative;overflow:hidden;}
+.cancha-image-container img{transition:transform 0.3s ease;}
+.cancha-preview-card:hover .cancha-image-container img{transform:scale(1.05);}
+
+.cancha-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.8);color:white;padding:4px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
+
+.caracteristicas{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.caracteristica-chip{background:#f0f8ff;border:1px solid #e3f2fd;color:#1976d2;font-size:0.75rem;padding:4px 8px;border-radius:16px;display:flex;align-items:center;gap:4px;}
+
+.precio-container{display:flex;align-items:baseline;gap:4px;margin-bottom:8px;}
+.precio-unidad{font-size:0.9rem;color:#666;font-weight:500;}
+
+@media (max-width: 768px){
+  .hero-section{padding:40px 15px 30px;}
+  .hero-content h1{font-size:2rem;}
+  .hero-subtitle{font-size:1.1rem;}
+  .features-grid,.canchas-preview{grid-template-columns:1fr;gap:1rem;}
+  .features-section,.canchas-section{padding:30px 15px;}
+  .features-section h2,.canchas-section h2{font-size:1.75rem;}
 }
 
-.hero-section {
-  flex: 1;
-  padding: 60px 20px 40px;
-  text-align: center;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media (max-width: 480px){
+  .hero-content h1{font-size:1.75rem;}
+  .precio{font-size:1.25rem;}
+  .cancha-image-container img{height:160px;}
 }
 
-.hero-content h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-}
-
-.hero-subtitle {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-  opacity: 0.9;
-  max-width: 600px;
-}
-
-.features-section {
-  background: white;
-  padding: 40px 20px;
-}
-
-.canchas-section {
-  background: #f8f9fa;
-  padding: 40px 20px;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.features-section h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #333;
-}
-
-.canchas-section h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #333;
-}
-
-.features-grid,
-.canchas-preview {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.cancha-preview-card {
-  padding: 0;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  height: fit-content;
-  overflow: hidden;
-}
-
-.cancha-preview-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-}
-
-.cancha-preview-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.cancha-preview-card mat-card-header,
-.cancha-preview-card mat-card-content {
-  padding: 16px;
-}
-
-.cancha-preview-card mat-card-content {
-  padding-top: 0;
-}
-
-.precio {
-  text-align: center;
-  font-size: 1.4rem;
-  color: #2e7d32;
-  font-weight: 600;
-  margin-top: 12px;
-}
-
-.ver-todas-canchas {
-  text-align: center;
-  margin-top: 2rem;
-}
-
-.ver-todas-canchas button {
-  min-width: 200px;
-  height: 48px;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.feature-card {
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  height: fit-content;
-}
-
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-}
-
-.feature-card mat-icon[mat-card-avatar] {
-  font-size: 32px;
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  margin-bottom: 1rem;
-}
-
-.feature-card mat-card-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #333;
-}
-
-.feature-card mat-card-content p {
-  color: #666;
-  line-height: 1.4;
-  font-size: 0.9rem;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .hero-section {
-    padding: 40px 15px 30px;
-  }
-  
-  .hero-content h1 {
-    font-size: 2rem;
-  }
-  
-  .hero-subtitle {
-    font-size: 1.1rem;
-  }
-  
-  .features-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  
-  .canchas-preview {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  
-  .features-section,
-  .canchas-section {
-    padding: 30px 15px;
-  }
-  
-  .features-section h2,
-  .canchas-section h2 {
-    font-size: 1.75rem;
-  }
-
-  /* Características en móvil */
-  .caracteristicas {
-    justify-content: center;
-  }
-
-  /* Cards más compactas en móvil */
-  .cancha-preview-card mat-card-actions {
-    flex-direction: column;
-  }
-
-  .cancha-preview-card mat-card-actions button {
-    width: 100%;
-    margin-bottom: 8px;
-  }
-
-  /* Loading y error states */
-  .loading-container,
-  .error-container,
-  .no-canchas {
-    padding: 30px 20px;
-  }
-
-  .error-icon,
-  .no-canchas-icon {
-    font-size: 40px;
-  }
-
-  /* Botón "Ver todas" más pequeño */
-  .ver-todas-canchas button {
-    min-width: 200px;
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-content h1 {
-    font-size: 1.75rem;
-  }
-
-  /* Precio más compacto */
-  .precio {
-    font-size: 1.25rem;
-  }
-
-  /* Características stack vertical */
-  .caracteristicas {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .caracteristica-chip {
-    min-width: 120px;
-    justify-content: center;
-  }
-
-  /* Imagen más alta en móviles pequeños */
-  .cancha-image-container img {
-    height: 160px;
-  }
-}
-
-/* Evitar scroll horizontal innecesario */
-* {
-  box-sizing: border-box;
-}
-
-body {
-  overflow-x: hidden;
-}
-
-/* ===========================================
-   ESTILOS PARA CANCHAS DINÁMICAS
-   =========================================== */
-
-/* Loading State */
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  text-align: center;
-}
-
-.loading-container p {
-  margin-top: 16px;
-  font-size: 1rem;
-  color: #666;
-}
-
-/* Error State */
-.error-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  text-align: center;
-  background: #fff3cd;
-  border: 1px solid #ffeaa7;
-  border-radius: 8px;
-  margin: 20px 0;
-}
-
-.error-icon {
-  font-size: 48px;
-  color: #e17055;
-  margin-bottom: 16px;
-}
-
-.error-message {
-  color: #856404;
-  margin-bottom: 16px;
-  font-size: 1rem;
-}
-
-/* No canchas disponibles */
-.no-canchas {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  text-align: center;
-  background: #f8f9fa;
-  border-radius: 8px;
-  margin: 20px 0;
-}
-
-.no-canchas-icon {
-  font-size: 64px;
-  color: #6c757d;
-  margin-bottom: 16px;
-}
-
-.no-canchas p {
-  color: #6c757d;
-  margin-bottom: 16px;
-  font-size: 1.1rem;
-}
-
-/* Cancha Card Mejorada */
-.cancha-preview-card {
-  padding: 0;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  height: fit-content;
-  overflow: hidden;
-  background: white;
-}
-
-.cancha-preview-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-}
-
-/* Imagen Container */
-.cancha-image-container {
-  position: relative;
-  overflow: hidden;
-}
-
-.cancha-image-container img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.cancha-preview-card:hover .cancha-image-container img {
-  transform: scale(1.05);
-}
-
-/* Badge de tipo de cancha */
-.cancha-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: rgba(0,0,0,0.8);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Header de la card */
-.cancha-preview-card mat-card-header {
-  padding: 16px 16px 8px;
-}
-
-.cancha-preview-card mat-card-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 4px;
-}
-
-.cancha-preview-card mat-card-subtitle {
-  font-size: 0.9rem;
-  color: #666;
-  line-height: 1.4;
-}
-
-/* Contenido de la card */
-.cancha-preview-card mat-card-content {
-  padding: 8px 16px 16px;
-}
-
-/* Características */
-.caracteristicas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 16px;
-}
-
-.caracteristica-chip {
-  background: #f0f8ff;
-  border: 1px solid #e3f2fd;
-  color: #1976d2;
-  font-size: 0.75rem;
-  padding: 4px 8px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.caracteristica-chip mat-icon {
-  font-size: 14px;
-  width: 14px;
-  height: 14px;
-}
-
-/* Precio Container */
-.precio-container {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-  margin-bottom: 8px;
-}
-
-.precio {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #2e7d32;
-  line-height: 1;
-}
-
-.precio-unidad {
-  font-size: 0.9rem;
-  color: #666;
-  font-weight: 500;
-}
-
-/* Acciones de la card */
-.cancha-preview-card mat-card-actions {
-  padding: 0 16px 16px;
-  display: flex;
-  gap: 8px;
-}
-
-.cancha-preview-card mat-card-actions button {
-  flex: 1;
-}
-
-/* Botón "Ver todas las canchas" */
-.ver-todas-canchas {
-  text-align: center;
-  margin-top: 40px;
-  padding: 20px;
-}
-
-.ver-todas-canchas button {
-  min-width: 250px;
-  height: 48px;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 24px;
-  background: linear-gradient(45deg, #667eea, #764ba2);
-  color: white;
-  border: none;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-  transition: all 0.3s ease;
-}
-
-.ver-todas-canchas button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-}
-
-.ver-todas-canchas button mat-icon {
-  margin-right: 8px;
-}
+*{box-sizing:border-box;}
+body{overflow-x:hidden;}

@@ -42,10 +42,35 @@
             <mat-label>Contraseña</mat-label>
             <input matInput type="password" formControlName="password" placeholder="Contraseña">
           </mat-form-field>
-          <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading()">Registrarse</button>
-          @if (loading()) {
-            <div>Cargando...</div>
-          }
+          
+          <div class="button-group">
+            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading()">
+              @if (loading()) {
+                Registrando...
+              } @else {
+                Registrarse
+              }
+            </button>
+
+            <div class="divider">
+              <span>o</span>
+            </div>
+
+            <button 
+              mat-raised-button 
+              type="button"
+              class="google-btn" 
+              (click)="signUpWithGoogle()"
+              [disabled]="googleLoading()">
+              <mat-icon>G</mat-icon>
+              @if (googleLoading()) {
+                Registrando...
+              } @else {
+                Registrarse con Google
+              }
+            </button>
+          </div>
+
           @if (error()) {
             <div class="error">{{ error() }}</div>
           }

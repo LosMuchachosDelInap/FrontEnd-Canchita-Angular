@@ -7,7 +7,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
 import { AuthService } from '@shared/services/auth.service';
+import { FirebaseAuthService } from '@shared/services/firebase-auth.service';
 import { UsuariosModalComponent } from '@shared/components/usuarios-modal/usuarios-modal.component';
 import { Router } from '@angular/router';
 
@@ -21,7 +23,8 @@ import { Router } from '@angular/router';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    RouterModule
   ],
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
@@ -29,12 +32,14 @@ import { Router } from '@angular/router';
 export class SignUpComponent {
   loading = signal(false);
   error = signal('');
+  googleLoading = signal(false);
   form: ReturnType<FormBuilder['group']>;
 
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
     private authService: AuthService,
+    private firebaseAuth: FirebaseAuthService,
     private router: Router,
     private snackBar: MatSnackBar
   ) {
@@ -88,6 +93,35 @@ export class SignUpComponent {
         this.loading.set(false);
         this.error.set('');
       }, 1000);
+    }
+  }
+
+  /**
+   * Registrarse con Google
+   */
+  async signUpWithGoogle() {
+    this.googleLoading.set(true);
+    this.error.set('');
+
+    try {
+      const result = await this.firebaseAuth.signInWithGoogle();
+      
+      if (result.success) {
+        this.snackBar.open('¡Registro exitoso con Google!', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+        
+        // Redirigir al dashboard o home
+        this.router.navigate(['/home']);
+      } else {
+        this.error.set(result.message);
+      }
+    } catch (error) {
+      console.error('Error en registro con Google:', error);
+      this.error.set('Error al registrarse con Google. Intenta nuevamente.');
+    } finally {
+      this.googleLoading.set(false);
     }
   }
 }

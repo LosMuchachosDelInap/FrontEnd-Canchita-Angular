@@ -19,7 +19,7 @@ export class ConfigService {
    * Configuración de Firebase
    */
   get firebaseConfig() {
-    return environment.firebase;
+    return environment.firebaseConfig;
   }
 
   /**

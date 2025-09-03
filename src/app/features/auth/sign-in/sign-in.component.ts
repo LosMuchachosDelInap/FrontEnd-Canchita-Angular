@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '@shared/services/auth.service';
+import { FirebaseAuthService } from '@shared/services/firebase-auth.service';
 import { UsuariosModalComponent } from '@shared/components/usuarios-modal/usuarios-modal.component';
 import { Router } from '@angular/router';
 
@@ -35,6 +36,7 @@ export class SignInComponent {
     private fb: FormBuilder,
     private dialog: MatDialog,
     private authService: AuthService,
+    private firebaseAuth: FirebaseAuthService,
     private router: Router,
     private snackBar: MatSnackBar
   ) {
@@ -77,6 +79,43 @@ export class SignInComponent {
         this.loading.set(false);
         this.error.set('');
       }, 1000);
+    }
+  }
+
+  /**
+   * Iniciar sesión con Google
+   */
+  async signInWithGoogle() {
+    try {
+      this.loading.set(true);
+      this.error.set('');
+
+      const result = await this.firebaseAuth.signInWithGoogle();
+
+      if (result.success) {
+        this.snackBar.open('¡Bienvenido! Inicio de sesión exitoso', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+
+        // Redirigir al dashboard o página principal
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.error.set(result.message);
+        this.snackBar.open(result.message, 'Cerrar', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    } catch (error) {
+      console.error('Error en Google Sign-In:', error);
+      this.error.set('Error inesperado al iniciar sesión');
+      this.snackBar.open('Error inesperado al iniciar sesión', 'Cerrar', {
+        duration: 5000,
+        panelClass: ['error-snackbar']
+      });
+    } finally {
+      this.loading.set(false);
     }
   }
 }
