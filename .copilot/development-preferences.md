@@ -10,8 +10,25 @@
   "standalone": true,
   "ssr": true,
   "controlFlow": "angular17+",
-  "materialDesign": "latest"
+  "materialDesign": "latest",
+  "firebaseAuth": "latest",
+  "googleLogin": "integrated"
 }
+```
+
+### Authentication Configuration:
+```typescript
+// Firebase Config (environment.ts)
+export const environment = {
+  firebaseConfig: {
+    // Firebase credentials
+  },
+  backendUrl: 'http://localhost:8000' // PHP embedded server
+};
+
+// Authentication Types
+type AuthProvider = 'email' | 'google';
+type UserRole = 'Dueño' | 'Administrador' | 'Empleado' | 'Cliente';
 ```
 
 ### Estructura de Archivos Preferida:
@@ -67,13 +84,34 @@ Dueño (Owner)
 └── Estacionamiento
 ```
 
+### Authentication Methods (UPDATED):
+```typescript
+// Hybrid Authentication System
+interface User {
+  id: number;
+  email: string;
+  firebase_uid?: string; // For Google users
+  rol: UserRole;
+  nombre: string;
+  apellido: string;
+}
+
+// Firebase Google Login
+const googleUser = await this.firebaseAuth.signInWithGoogle();
+// Backend sync
+const backendUser = await this.http.post('/google-auth.php', { firebaseUser });
+
+// Traditional email/password
+const user = await this.http.post('/validarUsuario.php', { email, password });
+```
+
 ### Route Protection:
 ```typescript
 // Público
 { path: '/home' }
 { path: '/reservas' }
 
-// Autenticado
+// Autenticado (email OR google)
 { path: '/dashboard/*', canActivate: [AuthGuard] }
 
 // Admin
@@ -127,6 +165,9 @@ export class ServiceName {
 # Desarrollo
 ng serve --host 0.0.0.0 --port 4200
 
+# Backend PHP (embedded server)
+php -S localhost:8000
+
 # Build
 ng build --configuration development
 
@@ -135,74 +176,20 @@ ng lint --fix
 
 # Tests
 ng test --watch=false
+
+# Firebase
+npm install firebase @angular/fire
 ```
 
-### Git Workflow:
+### Backend Connection (UPDATED):
 ```bash
-git add .
-git commit -m "feat: descripción del cambio"
-git push origin main
-```
+# PHP Embedded Server (recommended)
+cd BackEnd-Canchita
+php -S localhost:8000
 
-### Commit Message Convention:
-- `feat:` Nueva funcionalidad
-- `fix:` Corrección de bug
-- `refactor:` Refactorización sin cambios funcionales
-- `style:` Cambios de estilo/formato
-- `docs:` Documentación
-
-## 📊 Data Patterns
-
-### Mock Data Structure:
-```typescript
-interface Cancha {
-  id: number;
-  nombre: string;
-  tipo: string;
-  precio: number;
-  imagen: string;
-  caracteristicas: { icon: string; nombre: string }[];
-}
-
-interface Reserva {
-  id: number;
-  fecha: Date;
-  hora: string;
-  duracion: number;
-  cancha: Cancha;
-  estado: 'confirmada' | 'pendiente' | 'cancelada' | 'completada';
-  total: number;
-}
-```
-
-## 🐛 Common Issues & Solutions
-
-### SSR Issues:
-```typescript
-// ✅ USAR
-if (isPlatformBrowser(this.platformId)) {
-  localStorage.setItem(key, value);
-}
-
-// ❌ EVITAR
-localStorage.setItem(key, value);
-```
-
-### Material Icons Missing:
-```html
-<!-- En index.html -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-```
-
-### Control Flow Migration:
-```html
-<!-- ✅ USAR -->
-@if (condition) { <div>Content</div> }
-@for (item of items; track item.id) { <div>{{ item }}</div> }
-
-<!-- ❌ EVITAR -->
-<div *ngIf="condition">Content</div>
-<div *ngFor="let item of items">{{ item }}</div>
+# XAMPP (alternative)
+# Start Apache + MySQL in XAMPP Control Panel
+# URL: http://localhost/BackEnd-Canchita
 ```
 
 ---
@@ -211,3 +198,71 @@ localStorage.setItem(key, value);
 2. Mantener estos patrones establecidos
 3. Actualizar cuando se tomen nuevas decisiones técnicas
 4. Priorizar consistencia sobre innovación
+
+## 🔥 Firebase & Google Login Patterns (ACTUALIZADO - Sep 2025)
+
+### Firebase Service Pattern:
+```typescript
+@Injectable({ providedIn: 'root' })
+export class FirebaseAuthService {
+  constructor(
+    private auth: Auth,
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
+
+  async signInWithGoogle(): Promise<void> {
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(this.auth, provider);
+    await this.syncWithBackend(result.user);
+  }
+}
+```
+
+### Google Button Styling (Official):
+```scss
+.google-btn {
+  background-color: #dc4e41;
+  color: white;
+  border: none;
+  
+  .google-icon {
+    font-family: 'Material Icons';
+    font-weight: bold;
+  }
+}
+```
+
+### Backend Integration Pattern:
+```php
+// google-auth.php
+header('Content-Type: application/json; charset=utf-8');
+include 'cors.php';
+
+$data = json_decode(file_get_contents('php://input'), true);
+$firebase_uid = $data['firebase_uid'];
+$email = $data['email'];
+
+// Check existing user or create new
+$query = "SELECT * FROM usuario WHERE firebase_uid = ? OR email = ?";
+```
+
+### Advanced Error Handling:
+```typescript
+// Fallback user creation
+private async createFallbackUser(firebaseUser: User): Promise<void> {
+  const fallbackUser: User = {
+    id: Date.now(),
+    email: firebaseUser.email || 'google-user@example.com',
+    firebase_uid: firebaseUser.uid,
+    nombre: firebaseUser.displayName?.split(' ')[0] || 'Usuario',
+    apellido: firebaseUser.displayName?.split(' ')[1] || 'Google',
+    rol: 'Cliente' as UserRole
+  };
+  
+  this.authService.setUserFromFirebase(fallbackUser);
+}
+```
+
+**Última Actualización**: 3 Septiembre 2025
+**Firebase Integration**: ✅ Completamente funcional

@@ -1,23 +1,28 @@
 # GitHub Copilot - Contexto del Proyecto
 # La Canchita de los Pibes - Sistema de Reservas
 
-## 📋 Estado Actual del Proyecto (26 Agosto 2025) - ACTUALIZADO
+## 📋 Estado Actual del Proyecto (3 Septiembre 2025) - ACTUALIZADO
 
 ### Tecnologías Principales:
 - **Frontend**: Angular 18 SSR con Material Design
 - **Backend**: PHP con MySQL, PHPMailer para emails
-- **Base de Datos**: MySQL (lacanchitadelospibes.sql) - normalizada
-- **Servidor**: XAMPP local
-- **Email**: Gmail SMTP configurado
+- **Authentication**: Firebase Authentication con Google Login
+- **Base de Datos**: MySQL (lacanchitadelospibes.sql) - normalizada + firebase_uid
+- **Servidor**: XAMPP local + PHP embedded server (php -S localhost:8000)
+- **Email**: Gmail SMTP configurado + PHPMailer
 - **Carga de Datos**: Dinámica desde BD (no hardcodeada)
 
 ### Funcionalidades Completamente Implementadas:
-- ✅ **Sistema de autenticación completo** con auto-login post-registro
+- ✅ **Sistema de autenticación híbrido** con email/password + Google Login
+- ✅ **Firebase Google Authentication** con sincronización backend completa
 - ✅ **Email de confirmación** de reservas con PHPMailer
 - ✅ **Carga dinámica de canchas** desde base de datos MySQL
+- ✅ **CORS configuration** para comunicación cross-origin
 - ✅ **Manejo robusto de errores** con loading states y fallbacks
 - ✅ **SVG embebidos** para imágenes (sin errores 302)
 - ✅ **Código limpio** de producción (sin archivos test/debug)
+- ✅ **Modal integration** con Google login en navbar
+- ✅ **Fallback authentication** para garantizar login exitoso
 
 ### Arquitectura Implementada:
 - ✅ Sistema de Guards (AuthGuard, RoleGuard, AdminGuard, OwnerGuard, GuestGuard)
@@ -28,6 +33,33 @@
 - ✅ Sistema de reservas con componentes separados
 - ✅ **CanchasService** para carga dinámica desde BD
 - ✅ **Email service** integrado en reservas
+- ✅ **FirebaseAuthService** para Google authentication
+- ✅ **Database schema** con firebase_uid para usuarios Google
+
+### Últimas Implementaciones (Nueva Sesión):
+1. **Firebase Integration**: 
+   - Google popup authentication
+   - Backend synchronization con `google-auth.php`
+   - Database schema actualizada con `firebase_uid`
+   - CORS headers configurados para PHP embedded server
+   
+2. **Google Login UI**:
+   - Botones Google en modals navbar
+   - Styling oficial Google (rojo + icono G)
+   - Integración en páginas sign-in/sign-up
+   - Modal auto-close post-authentication
+   
+3. **Error Handling Avanzado**:
+   - Fallback user creation si backend falla
+   - TypeScript compatibility fixes
+   - Logging detallado para debugging
+   - Network error resilience
+
+4. **IFTS Project Analysis**:
+   - Análisis completo del sitio IFTS12 descargado
+   - Identificación de estructura Moodle + Theme Academi  
+   - Plan de transformación para IFTS15
+   - Roadmap de modificaciones step-by-step
 
 ### Estructura de Rutas Actual:
 ```
@@ -115,5 +147,5 @@ cd BackEnd-Canchita && php -S localhost:8000
 - `layouts/sidenav/` → Navegación por roles
 
 ---
-**Última Actualización**: 22 Agosto 2025
-**Estado**: ✅ Sistema base funcionando, listo para conectar backend
+**Última Actualización**: 3 Septiembre 2025, 16:50
+**Estado**: ✅ Firebase Google Login completamente funcional + IFTS15 project analysis
